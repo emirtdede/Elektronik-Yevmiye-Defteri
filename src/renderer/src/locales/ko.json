@@ -12,7 +12,11 @@
     "media": "미디어 갤러리",
     "help": "정보 및 도움말",
     "no_project_selected": "건설현장이 선택되지 않았습니다!",
-    "active_project": "활성 건설 현장"
+    "active_project": "활성 건설 현장",
+    "settings_genel": "일반 설정",
+    "settings_finance": "재무 및 운영",
+    "settings_security": "보안 및 백업",
+    "settings_logs": "시스템 로그"
   },
   "settings": {
     "title": "시스템 설정",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "이 연구 유형을 삭제하시겠습니까? 기존 스코어카드의 계산이 데이터베이스에 저장되므로 과거 데이터가 손상되지 않습니다.",
     "group_name_label": "그룹 이름",
     "delete_group_title": "작업자 그룹 삭제",
-    "delete_group_msg": "이 그룹을 삭제하시겠습니까? 그룹에 속한 작업자의 그룹 할당이 제거됩니다. (작업자는 삭제되지 않습니다.)"
+    "delete_group_msg": "이 그룹을 삭제하시겠습니까? 그룹에 속한 작업자의 그룹 할당이 제거됩니다. (작업자는 삭제되지 않습니다.)",
+    "backup_db_desc": "전체 시스템(.sqlite 데이터베이스 파일)을 로컬 디스크로 전송합니다. 컴퓨터 교체나 백업용으로 사용할 수 있습니다.",
+    "vacuum_db_desc": "비우거나 삭제된 레코드로 인해 생성된 데이터베이스 공간을 지우고 디스크 공간을 회수하며 쿼리 속도를 높입니다.",
+    "critical_system_actions": "중요한 시스템 작업",
+    "restore_db_label": "백업에서 복원(끌어서 놓기)",
+    "restore_db_title": "백업 데이터베이스 덮어쓰기",
+    "restore_db_desc": ".sqlite 파일을 여기에 끌어다 놓습니다. (애플리케이션이 자동으로 다시 시작됩니다.)",
+    "restore_confirm": "데이터베이스를 복원하시겠습니까? 기존 데이터가 모두 삭제됩니다!",
+    "restore_invalid_file": "유효한 SQLite(.sqlite 또는 .db) 데이터베이스 파일을 드래그하세요.",
+    "system_maintenance": "시스템 유지보수"
   },
   "dashboard": {
     "title": "인사 관리",

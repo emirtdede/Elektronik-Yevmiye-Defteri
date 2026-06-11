@@ -12,7 +12,11 @@
     "media": "Galeria de mídia",
     "help": "Sobre e Ajuda",
     "no_project_selected": "Canteiro de obras não selecionado!",
-    "active_project": "Canteiro de obras ativo"
+    "active_project": "Canteiro de obras ativo",
+    "settings_genel": "Configurações Gerais",
+    "settings_finance": "Finanças e Operações",
+    "settings_security": "Segurança e backup",
+    "settings_logs": "Registros do sistema"
   },
   "settings": {
     "title": "Configurações do Sistema",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Tem certeza de que deseja excluir este tipo de estudo? Como os cálculos dos scorecards antigos são salvos no banco de dados, seus dados históricos não serão corrompidos.",
     "group_name_label": "Nome do grupo",
     "delete_group_title": "Excluir grupo de trabalhadores",
-    "delete_group_msg": "Tem certeza de que deseja excluir este grupo? Os trabalhadores do grupo terão suas atribuições de grupo removidas (os trabalhadores não serão excluídos)."
+    "delete_group_msg": "Tem certeza de que deseja excluir este grupo? Os trabalhadores do grupo terão suas atribuições de grupo removidas (os trabalhadores não serão excluídos).",
+    "backup_db_desc": "Ele transfere todo o seu sistema (como um arquivo de banco de dados .sqlite) para o seu disco local. Você pode usá-lo para substituição ou backup do computador.",
+    "vacuum_db_desc": "Ele limpa espaços de banco de dados criados por registros esvaziados ou excluídos, recupera espaço em disco e aumenta a velocidade de consulta.",
+    "critical_system_actions": "Ações Críticas do Sistema",
+    "restore_db_label": "Restaurar do backup (arrastar e soltar)",
+    "restore_db_title": "Substituir banco de dados de backup",
+    "restore_db_desc": "Arraste e solte o arquivo .sqlite aqui (o aplicativo será reiniciado automaticamente)",
+    "restore_confirm": "Tem certeza de que deseja restaurar o banco de dados? Todos os seus dados existentes serão excluídos!",
+    "restore_invalid_file": "Arraste um arquivo de banco de dados SQLite válido (.sqlite ou .db).",
+    "system_maintenance": "Manutenção do Sistema"
   },
   "dashboard": {
     "title": "Gestão de Pessoal",

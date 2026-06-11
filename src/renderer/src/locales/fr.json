@@ -12,7 +12,11 @@
     "media": "Galerie Média",
     "help": "À propos et aide",
     "no_project_selected": "Chantier de construction non sélectionné !",
-    "active_project": "Chantier de construction actif"
+    "active_project": "Chantier de construction actif",
+    "settings_genel": "Paramètres généraux",
+    "settings_finance": "Finances et opérations",
+    "settings_security": "Sécurité et sauvegarde",
+    "settings_logs": "Journaux système"
   },
   "settings": {
     "title": "Paramètres du Système",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Êtes-vous sûr de vouloir supprimer ce type d'étude ? Étant donné que les calculs des anciennes cartes de pointage sont enregistrés dans la base de données, vos données historiques ne seront pas corrompues.",
     "group_name_label": "Nom du groupe",
     "delete_group_title": "Supprimer le groupe de travailleurs",
-    "delete_group_msg": "Êtes-vous sûr de vouloir supprimer ce groupe ? Les travailleurs du groupe verront leurs affectations de groupe supprimées (les travailleurs ne seront pas supprimés)."
+    "delete_group_msg": "Êtes-vous sûr de vouloir supprimer ce groupe ? Les travailleurs du groupe verront leurs affectations de groupe supprimées (les travailleurs ne seront pas supprimés).",
+    "backup_db_desc": "Il transfère l'intégralité de votre système (sous forme de fichier de base de données .sqlite) sur votre disque local. Vous pouvez l'utiliser pour le remplacement ou la sauvegarde d'un ordinateur.",
+    "vacuum_db_desc": "Il efface les espaces de base de données créés par les enregistrements vidés ou supprimés, récupère de l'espace disque et augmente la vitesse des requêtes.",
+    "critical_system_actions": "Actions système critiques",
+    "restore_db_label": "Restaurer à partir d'une sauvegarde (glisser-déposer)",
+    "restore_db_title": "Écraser la base de données de sauvegarde",
+    "restore_db_desc": "Faites glisser et déposez le fichier .sqlite ici (l'application redémarrera automatiquement)",
+    "restore_confirm": "Êtes-vous sûr de vouloir restaurer la base de données ? Toutes vos données existantes seront supprimées !",
+    "restore_invalid_file": "Veuillez faire glisser un fichier de base de données SQLite (.sqlite ou .db) valide.",
+    "system_maintenance": "Entretien du système"
   },
   "dashboard": {
     "title": "Gestion du Personnel",

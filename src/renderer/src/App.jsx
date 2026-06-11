@@ -272,11 +272,11 @@ function App() {
               margin: '0 1rem 1.5rem 1rem',
               fontSize: '0.8rem'
             }}>
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.7rem', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.05em' }}>Aktif Şantiye</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.7rem', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.05em' }}>{t('nav.active_project', 'Aktif Şantiye')}</div>
               <strong style={{ color: '#fff', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '0.15rem' }}>{activeProjectObj.name}</strong>
             </div>
           ) : (
-            <div style={{ color: 'var(--danger)', fontSize: '0.8rem', margin: '0 1rem 1.5rem 1rem', fontWeight: 'bold' }}>⚠️ Şantiye Seçilmedi!</div>
+            <div style={{ color: 'var(--danger)', fontSize: '0.8rem', margin: '0 1rem 1.5rem 1rem', fontWeight: 'bold' }}>⚠️ {t('nav.no_project_selected', 'Şantiye Seçilmedi!')}</div>
           )}
 
           <nav className="sidebar-nav">
@@ -341,28 +341,28 @@ function App() {
                   onClick={() => setView('settings_genel')}
                   style={{ fontSize: '0.825rem', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  ⚙️ Genel Ayarlar
+                  ⚙️ {t('nav.settings_genel', 'Genel Ayarlar')}
                 </div>
                 <div 
                   className={`sidebar-link ${view === 'settings_finance' ? 'active' : ''}`} 
                   onClick={() => setView('settings_finance')}
                   style={{ fontSize: '0.825rem', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  💼 Finans & Operasyon
+                  💼 {t('nav.settings_finance', 'Finans & Operasyon')}
                 </div>
                 <div 
                   className={`sidebar-link ${view === 'settings_security' ? 'active' : ''}`} 
                   onClick={() => setView('settings_security')}
                   style={{ fontSize: '0.825rem', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  🛡️ Güvenlik & Yedek
+                  🛡️ {t('nav.settings_security', 'Güvenlik & Yedek')}
                 </div>
                 <div 
                   className={`sidebar-link ${view === 'settings_logs' ? 'active' : ''}`} 
                   onClick={() => setView('settings_logs')}
                   style={{ fontSize: '0.825rem', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  📋 Sistem Kayıtları
+                  📋 {t('nav.settings_logs', 'Sistem Kayıtları')}
                 </div>
               </div>
             </div>

@@ -12,7 +12,11 @@
     "media": "メディアギャラリー",
     "help": "概要とヘルプ",
     "no_project_selected": "建設現場が選択されていません!",
-    "active_project": "活発な建設現場"
+    "active_project": "活発な建設現場",
+    "settings_genel": "一般設定",
+    "settings_finance": "財務と運営",
+    "settings_security": "セキュリティとバックアップ",
+    "settings_logs": "システムログ"
   },
   "settings": {
     "title": "システム設定",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "この研究タイプを削除してもよろしいですか?古いスコアカードの計算はデータベースに保存されるため、履歴データが破損することはありません。",
     "group_name_label": "グループ名",
     "delete_group_title": "ワーカーグループの削除",
-    "delete_group_msg": "このグループを削除してもよろしいですか?グループ内のワーカーのグループ割り当てが削除されます (ワーカーは削除されません)。"
+    "delete_group_msg": "このグループを削除してもよろしいですか?グループ内のワーカーのグループ割り当てが削除されます (ワーカーは削除されません)。",
+    "backup_db_desc": "システム全体を (.sqlite データベース ファイルとして) ローカル ディスクに転送します。パソコンの買い替えやバックアップなどにご利用いただけます。",
+    "vacuum_db_desc": "空にしたレコードまたは削除したレコードによって作成されたデータベース スペースをクリアし、ディスク スペースを再利用し、クエリ速度を向上させます。",
+    "critical_system_actions": "重要なシステムアクション",
+    "restore_db_label": "バックアップから復元（ドラッグ＆ドロップ）",
+    "restore_db_title": "バックアップデータベースを上書きする",
+    "restore_db_desc": ".sqlite ファイルをここにドラッグ アンド ドロップします (アプリケーションは自動的に再起動します)。",
+    "restore_confirm": "データベースを復元してもよろしいですか?既存のデータはすべて削除されます。",
+    "restore_invalid_file": "有効な SQLite (.sqlite または .db) データベース ファイルをドラッグしてください。",
+    "system_maintenance": "システムメンテナンス"
   },
   "dashboard": {
     "title": "人事管理",

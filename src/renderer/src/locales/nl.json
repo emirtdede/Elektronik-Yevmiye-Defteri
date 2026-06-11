@@ -12,7 +12,11 @@
     "media": "Mediagalerij",
     "help": "Over & Hulp",
     "no_project_selected": "Bouwplaats niet geselecteerd!",
-    "active_project": "Actieve bouwplaats"
+    "active_project": "Actieve bouwplaats",
+    "settings_genel": "Algemene instellingen",
+    "settings_finance": "Financiën en bedrijfsvoering",
+    "settings_security": "Beveiliging en back-up",
+    "settings_logs": "Systeemlogboeken"
   },
   "settings": {
     "title": "Systeeminstellingen",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Weet je zeker dat je dit studietype wilt verwijderen? Omdat de berekeningen in oude scorekaarten in de database worden opgeslagen, worden uw historische gegevens niet beschadigd.",
     "group_name_label": "Groepsnaam",
     "delete_group_title": "Werknemersgroep verwijderen",
-    "delete_group_msg": "Weet je zeker dat je deze groep wilt verwijderen? Van werknemers in de groep worden de groepstoewijzingen verwijderd (werknemers worden niet verwijderd)."
+    "delete_group_msg": "Weet je zeker dat je deze groep wilt verwijderen? Van werknemers in de groep worden de groepstoewijzingen verwijderd (werknemers worden niet verwijderd).",
+    "backup_db_desc": "Het brengt uw volledige systeem (als een .sqlite-databasebestand) over naar uw lokale schijf. U kunt het gebruiken voor computervervanging of back-up.",
+    "vacuum_db_desc": "Het maakt databaseruimte vrij die is ontstaan ​​door geleegde of verwijderde records, maakt schijfruimte vrij en verhoogt de querysnelheid.",
+    "critical_system_actions": "Kritieke systeemacties",
+    "restore_db_label": "Herstellen vanuit back-up (slepen en neerzetten)",
+    "restore_db_title": "Back-updatabase overschrijven",
+    "restore_db_desc": "Sleep het .sqlite-bestand hierheen (de applicatie wordt automatisch opnieuw opgestart)",
+    "restore_confirm": "Weet u zeker dat u de database wilt herstellen? Al uw bestaande gegevens worden verwijderd!",
+    "restore_invalid_file": "Sleep een geldig SQLite-databasebestand (.sqlite of .db).",
+    "system_maintenance": "Systeemonderhoud"
   },
   "dashboard": {
     "title": "Personeelsbeheer",

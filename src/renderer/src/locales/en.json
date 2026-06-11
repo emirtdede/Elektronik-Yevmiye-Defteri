@@ -12,7 +12,11 @@
     "media": "Media Gallery",
     "help": "About & Help",
     "no_project_selected": "Construction Site Not Selected!",
-    "active_project": "Active Construction Site"
+    "active_project": "Active Construction Site",
+    "settings_genel": "General Settings",
+    "settings_finance": "Finance & Operations",
+    "settings_security": "Security and Backup",
+    "settings_logs": "System Logs"
   },
   "settings": {
     "title": "System Settings",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Are you sure you want to delete this study type? Since the calculations in old scorecards are saved in the database, your historical data will not be corrupted.",
     "group_name_label": "Group Name",
     "delete_group_title": "Delete Worker Group",
-    "delete_group_msg": "Are you sure you want to delete this group? Workers in the group will have their group assignments removed (Workers will not be deleted)."
+    "delete_group_msg": "Are you sure you want to delete this group? Workers in the group will have their group assignments removed (Workers will not be deleted).",
+    "backup_db_desc": "It transfers your entire system (as a .sqlite database file) to your local disk. You can use it for computer replacement or backup.",
+    "vacuum_db_desc": "It clears database spaces created by emptied or deleted records, reclaims disk space and increases query speeds.",
+    "critical_system_actions": "Critical System Actions",
+    "restore_db_label": "Restore from Backup (Drag & Drop)",
+    "restore_db_title": "Overwrite Backup Database",
+    "restore_db_desc": "Drag and drop the .sqlite file here (Application will restart automatically)",
+    "restore_confirm": "Are you sure you want to restore the database? All your existing data will be deleted!",
+    "restore_invalid_file": "Please drag a valid SQLite (.sqlite or .db) database file.",
+    "system_maintenance": "System Maintenance"
   },
   "dashboard": {
     "title": "Personnel Management",

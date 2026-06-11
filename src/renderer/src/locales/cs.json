@@ -12,7 +12,11 @@
     "media": "Galerie médií",
     "help": "O a Nápověda",
     "no_project_selected": "Místo stavby není vybráno!",
-    "active_project": "Aktivní staveniště"
+    "active_project": "Aktivní staveniště",
+    "settings_genel": "Obecná nastavení",
+    "settings_finance": "Finance a provoz",
+    "settings_security": "Zabezpečení a zálohování",
+    "settings_logs": "Systémové protokoly"
   },
   "settings": {
     "title": "Nastavení systému",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Opravdu chcete smazat tento typ studie? Vzhledem k tomu, že výpočty ve starých skórovacích kartách jsou uloženy v databázi, vaše historická data nebudou poškozena.",
     "group_name_label": "Název skupiny",
     "delete_group_title": "Smazat skupinu pracovníků",
-    "delete_group_msg": "Opravdu chcete smazat tuto skupinu? Pracovníkům ve skupině budou odebrány jejich skupinové úkoly (pracovníci nebudou smazáni)."
+    "delete_group_msg": "Opravdu chcete smazat tuto skupinu? Pracovníkům ve skupině budou odebrány jejich skupinové úkoly (pracovníci nebudou smazáni).",
+    "backup_db_desc": "Přenese celý váš systém (jako databázový soubor .sqlite) na váš lokální disk. Můžete jej použít pro výměnu nebo zálohování počítače.",
+    "vacuum_db_desc": "Vyčistí databázové prostory vytvořené vyprázdněnými nebo smazanými záznamy, uvolní místo na disku a zvýší rychlost dotazů.",
+    "critical_system_actions": "Kritické systémové akce",
+    "restore_db_label": "Obnovení ze zálohy (Drag & Drop)",
+    "restore_db_title": "Přepsat záložní databázi",
+    "restore_db_desc": "Přetáhněte sem soubor .sqlite (aplikace se automaticky restartuje)",
+    "restore_confirm": "Opravdu chcete obnovit databázi? Všechna vaše stávající data budou smazána!",
+    "restore_invalid_file": "Přetáhněte platný databázový soubor SQLite (.sqlite nebo .db).",
+    "system_maintenance": "Údržba systému"
   },
   "dashboard": {
     "title": "Správa personálu",

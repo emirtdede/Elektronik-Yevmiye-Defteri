@@ -68,7 +68,7 @@ const MediaGallery = ({ activeProjectId, projects = [] }) => {
   if (!activeProjectId) {
     return (
       <div className="glass-card text-center" style={{ padding: '3rem' }}>
-        <h2>Medya Galerisi</h2>
+        <h2>{t('nav.media', 'Medya Galerisi')}</h2>
         <p className="text-muted" style={{ marginTop: '1rem' }}>{t('common.select_project_msg', 'Lütfen sol menüden veya Şantiye Yönetimi sayfasından aktif bir şantiye seçin.')}</p>
       </div>
     );

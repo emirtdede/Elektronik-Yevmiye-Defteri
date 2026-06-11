@@ -12,7 +12,11 @@
     "media": "Galleria multimediale",
     "help": "Informazioni e aiuto",
     "no_project_selected": "Cantiere non selezionato!",
-    "active_project": "Cantiere attivo"
+    "active_project": "Cantiere attivo",
+    "settings_genel": "Impostazioni generali",
+    "settings_finance": "Finanza e operazioni",
+    "settings_security": "Sicurezza e backup",
+    "settings_logs": "Registri di sistema"
   },
   "settings": {
     "title": "Impostazioni di sistema",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Sei sicuro di voler eliminare questo tipo di studio? Poiché i calcoli nelle vecchie scorecard vengono salvati nel database, i dati storici non verranno danneggiati.",
     "group_name_label": "Nome del gruppo",
     "delete_group_title": "Elimina gruppo di lavoro",
-    "delete_group_msg": "Sei sicuro di voler eliminare questo gruppo? Ai lavoratori del gruppo verranno rimosse le assegnazioni di gruppo (i lavoratori non verranno eliminati)."
+    "delete_group_msg": "Sei sicuro di voler eliminare questo gruppo? Ai lavoratori del gruppo verranno rimosse le assegnazioni di gruppo (i lavoratori non verranno eliminati).",
+    "backup_db_desc": "Trasferisce l'intero sistema (come file di database .sqlite) sul disco locale. Puoi usarlo per la sostituzione o il backup del computer.",
+    "vacuum_db_desc": "Cancella gli spazi del database creati da record svuotati o cancellati, recupera spazio su disco e aumenta la velocità delle query.",
+    "critical_system_actions": "Azioni critiche del sistema",
+    "restore_db_label": "Ripristina da backup (trascina e rilascia)",
+    "restore_db_title": "Sovrascrivi il database di backup",
+    "restore_db_desc": "Trascina e rilascia qui il file .sqlite (l'applicazione si riavvierà automaticamente)",
+    "restore_confirm": "Sei sicuro di voler ripristinare il database? Tutti i tuoi dati esistenti verranno cancellati!",
+    "restore_invalid_file": "Trascina un file di database SQLite (.sqlite o .db) valido.",
+    "system_maintenance": "Manutenzione del sistema"
   },
   "dashboard": {
     "title": "Gestione del personale",

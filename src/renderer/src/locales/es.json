@@ -12,7 +12,11 @@
     "media": "Galería multimedia",
     "help": "Acerca de y ayuda",
     "no_project_selected": "¡Sitio de construcción no seleccionado!",
-    "active_project": "Sitio de construcción activo"
+    "active_project": "Sitio de construcción activo",
+    "settings_genel": "Configuraciones generales",
+    "settings_finance": "Finanzas y operaciones",
+    "settings_security": "Seguridad y respaldo",
+    "settings_logs": "Registros del sistema"
   },
   "settings": {
     "title": "Ajustes del Sistema",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "¿Está seguro de que desea eliminar este tipo de estudio? Dado que los cálculos de los cuadros de mando antiguos se guardan en la base de datos, sus datos históricos no se dañarán.",
     "group_name_label": "Nombre del grupo",
     "delete_group_title": "Eliminar grupo de trabajadores",
-    "delete_group_msg": "¿Estás seguro de que deseas eliminar este grupo? Se eliminarán las asignaciones de grupo de los trabajadores del grupo (no se eliminarán los trabajadores)."
+    "delete_group_msg": "¿Estás seguro de que deseas eliminar este grupo? Se eliminarán las asignaciones de grupo de los trabajadores del grupo (no se eliminarán los trabajadores).",
+    "backup_db_desc": "Transfiere todo su sistema (como un archivo de base de datos .sqlite) a su disco local. Puede usarlo para reemplazar o realizar copias de seguridad de la computadora.",
+    "vacuum_db_desc": "Limpia los espacios de la base de datos creados por registros vaciados o eliminados, recupera espacio en el disco y aumenta la velocidad de las consultas.",
+    "critical_system_actions": "Acciones críticas del sistema",
+    "restore_db_label": "Restaurar desde copia de seguridad (arrastrar y soltar)",
+    "restore_db_title": "Sobrescribir la base de datos de respaldo",
+    "restore_db_desc": "Arrastre y suelte el archivo .sqlite aquí (la aplicación se reiniciará automáticamente)",
+    "restore_confirm": "¿Está seguro de que desea restaurar la base de datos? ¡Todos tus datos existentes serán eliminados!",
+    "restore_invalid_file": "Arrastre un archivo de base de datos SQLite (.sqlite o .db) válido.",
+    "system_maintenance": "Mantenimiento del sistema"
   },
   "dashboard": {
     "title": "Gestión de Personal",

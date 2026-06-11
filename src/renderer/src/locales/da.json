@@ -12,7 +12,11 @@
     "media": "Mediegalleri",
     "help": "Hakkında & Yardım",
     "no_project_selected": "Byggeplads ikke valgt!",
-    "active_project": "Aktiv byggeplads"
+    "active_project": "Aktiv byggeplads",
+    "settings_genel": "Generelle indstillinger",
+    "settings_finance": "Økonomi & Drift",
+    "settings_security": "Sikkerhed og backup",
+    "settings_logs": "Systemlogs"
   },
   "settings": {
     "title": "Systemindstillinger",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Er du sikker på, at du vil slette denne undersøgelsestype? Da beregningerne i gamle scorekort er gemt i databasen, vil dine historiske data ikke blive beskadiget.",
     "group_name_label": "Gruppenavn",
     "delete_group_title": "Slet arbejdsgruppe",
-    "delete_group_msg": "Er du sikker på, at du vil slette denne gruppe? Medarbejdere i gruppen vil få deres gruppeopgaver fjernet (medarbejdere bliver ikke slettet)."
+    "delete_group_msg": "Er du sikker på, at du vil slette denne gruppe? Medarbejdere i gruppen vil få deres gruppeopgaver fjernet (medarbejdere bliver ikke slettet).",
+    "backup_db_desc": "Det overfører hele dit system (som en .sqlite-databasefil) til din lokale disk. Du kan bruge den til computerudskiftning eller backup.",
+    "vacuum_db_desc": "Det rydder databasepladser skabt af tømte eller slettede poster, generobrer diskplads og øger forespørgselshastigheden.",
+    "critical_system_actions": "Kritiske systemhandlinger",
+    "restore_db_label": "Gendan fra sikkerhedskopi (træk og slip)",
+    "restore_db_title": "Overskriv backup-database",
+    "restore_db_desc": "Træk og slip .sqlite-filen her (applikationen genstartes automatisk)",
+    "restore_confirm": "Er du sikker på, at du vil gendanne databasen? Alle dine eksisterende data vil blive slettet!",
+    "restore_invalid_file": "Træk venligst en gyldig SQLite (.sqlite eller .db) databasefil.",
+    "system_maintenance": "Systemvedligeholdelse"
   },
   "dashboard": {
     "title": "Personalestyring",

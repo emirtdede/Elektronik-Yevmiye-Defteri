@@ -12,7 +12,11 @@
     "media": "媒体库",
     "help": "关于和帮助",
     "no_project_selected": "未选定施工地点！",
-    "active_project": "活跃的施工现场"
+    "active_project": "活跃的施工现场",
+    "settings_genel": "常规设置",
+    "settings_finance": "财务与运营",
+    "settings_security": "安全与备份",
+    "settings_logs": "系统日志"
   },
   "settings": {
     "title": "系统设置",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "您确定要删除该研究类型吗？由于旧记分卡中的计算保存在数据库中，因此您的历史数据不会被损坏。",
     "group_name_label": "群组名称",
     "delete_group_title": "删除工作组",
-    "delete_group_msg": "您确定要删除该群组吗？组中的工作人员的组分配将被删除（工作人员不会被删除）。"
+    "delete_group_msg": "您确定要删除该群组吗？组中的工作人员的组分配将被删除（工作人员不会被删除）。",
+    "backup_db_desc": "它将整个系统（作为 .sqlite 数据库文件）传输到本地磁盘。您可以使用它来更换计算机或备份。",
+    "vacuum_db_desc": "它清除由清空或删除的记录创建的数据库空间，回收磁盘空间并提高查询速度。",
+    "critical_system_actions": "关键系统操作",
+    "restore_db_label": "从备份恢复（拖放）",
+    "restore_db_title": "覆盖备份数据库",
+    "restore_db_desc": "将 .sqlite 文件拖放到此处（应用程序将自动重新启动）",
+    "restore_confirm": "您确定要恢复数据库吗？您现有的所有数据都将被删除！",
+    "restore_invalid_file": "请拖动有效的 SQLite（.sqlite 或 .db）数据库文件。",
+    "system_maintenance": "系统维护"
   },
   "dashboard": {
     "title": "人员管理",

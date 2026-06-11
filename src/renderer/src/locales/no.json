@@ -12,7 +12,11 @@
     "media": "Mediegalleri",
     "help": "Om og hjelp",
     "no_project_selected": "Byggeplass ikke valgt!",
-    "active_project": "Aktiv byggeplass"
+    "active_project": "Aktiv byggeplass",
+    "settings_genel": "Generelle innstillinger",
+    "settings_finance": "Økonomi og drift",
+    "settings_security": "Sikkerhet og sikkerhetskopiering",
+    "settings_logs": "Systemlogger"
   },
   "settings": {
     "title": "Systeminnstillinger",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Er du sikker på at du vil slette denne studietypen? Siden beregningene i gamle målkort er lagret i databasen, vil ikke dine historiske data bli ødelagt.",
     "group_name_label": "Gruppenavn",
     "delete_group_title": "Slett arbeidsgruppe",
-    "delete_group_msg": "Er du sikker på at du vil slette denne gruppen? Arbeidere i gruppen vil få gruppeoppgavene sine fjernet (arbeidere vil ikke bli slettet)."
+    "delete_group_msg": "Er du sikker på at du vil slette denne gruppen? Arbeidere i gruppen vil få gruppeoppgavene sine fjernet (arbeidere vil ikke bli slettet).",
+    "backup_db_desc": "Den overfører hele systemet (som en .sqlite-databasefil) til din lokale disk. Du kan bruke den til datamaskinerstatning eller sikkerhetskopiering.",
+    "vacuum_db_desc": "Den tømmer databaseplasser opprettet av tømte eller slettede poster, tar tilbake diskplass og øker spørringshastigheten.",
+    "critical_system_actions": "Kritiske systemhandlinger",
+    "restore_db_label": "Gjenopprett fra sikkerhetskopi (dra og slipp)",
+    "restore_db_title": "Overskriv Backup Database",
+    "restore_db_desc": "Dra og slipp .sqlite-filen her (applikasjonen starter automatisk på nytt)",
+    "restore_confirm": "Er du sikker på at du vil gjenopprette databasen? Alle dine eksisterende data vil bli slettet!",
+    "restore_invalid_file": "Dra en gyldig SQLite-databasefil (.sqlite eller .db).",
+    "system_maintenance": "Systemvedlikehold"
   },
   "dashboard": {
     "title": "Personaladministrasjon",

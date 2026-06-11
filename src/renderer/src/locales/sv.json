@@ -12,7 +12,11 @@
     "media": "Mediagalleri",
     "help": "Om & Hjälp",
     "no_project_selected": "Byggplats ej vald!",
-    "active_project": "Aktiv byggarbetsplats"
+    "active_project": "Aktiv byggarbetsplats",
+    "settings_genel": "Allmänna inställningar",
+    "settings_finance": "Ekonomi & Drift",
+    "settings_security": "Säkerhet och säkerhetskopiering",
+    "settings_logs": "Systemloggar"
   },
   "settings": {
     "title": "Systeminställningar",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Är du säker på att du vill ta bort den här studietypen? Eftersom beräkningarna i gamla styrkort sparas i databasen kommer dina historiska data inte att skadas.",
     "group_name_label": "Gruppnamn",
     "delete_group_title": "Ta bort arbetsgrupp",
-    "delete_group_msg": "Är du säker på att du vill ta bort den här gruppen? Arbetare i gruppen kommer att få sina gruppuppgifter borttagna (arbetare kommer inte att tas bort)."
+    "delete_group_msg": "Är du säker på att du vill ta bort den här gruppen? Arbetare i gruppen kommer att få sina gruppuppgifter borttagna (arbetare kommer inte att tas bort).",
+    "backup_db_desc": "Den överför hela ditt system (som en .sqlite-databasfil) till din lokala disk. Du kan använda den för datorbyte eller backup.",
+    "vacuum_db_desc": "Det rensar databasutrymmen som skapats av tömda eller raderade poster, tar tillbaka diskutrymme och ökar frågehastigheten.",
+    "critical_system_actions": "Kritiska systemåtgärder",
+    "restore_db_label": "Återställ från säkerhetskopia (dra och släpp)",
+    "restore_db_title": "Skriv över backupdatabas",
+    "restore_db_desc": "Dra och släpp .sqlite-filen här (applikationen startar om automatiskt)",
+    "restore_confirm": "Är du säker på att du vill återställa databasen? All din befintliga data kommer att raderas!",
+    "restore_invalid_file": "Dra en giltig SQLite (.sqlite eller .db) databasfil.",
+    "system_maintenance": "Systemunderhåll"
   },
   "dashboard": {
     "title": "Personalhantering",

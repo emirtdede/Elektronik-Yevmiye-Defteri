@@ -12,7 +12,11 @@
     "media": "Mediengalerie",
     "help": "Über & Hilfe",
     "no_project_selected": "Baustelle nicht ausgewählt!",
-    "active_project": "Aktive Baustelle"
+    "active_project": "Aktive Baustelle",
+    "settings_genel": "Allgemeine Einstellungen",
+    "settings_finance": "Finanzen und Betrieb",
+    "settings_security": "Sicherheit und Backup",
+    "settings_logs": "Systemprotokolle"
   },
   "settings": {
     "title": "Systemeinstellungen",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Sind Sie sicher, dass Sie diesen Studientyp löschen möchten? Da die Berechnungen in alten Scorecards in der Datenbank gespeichert werden, werden Ihre historischen Daten nicht beschädigt.",
     "group_name_label": "Gruppenname",
     "delete_group_title": "Arbeitergruppe löschen",
-    "delete_group_msg": "Sind Sie sicher, dass Sie diese Gruppe löschen möchten? Die Gruppenzuweisungen der Arbeiter in der Gruppe werden entfernt (Arbeiter werden nicht gelöscht)."
+    "delete_group_msg": "Sind Sie sicher, dass Sie diese Gruppe löschen möchten? Die Gruppenzuweisungen der Arbeiter in der Gruppe werden entfernt (Arbeiter werden nicht gelöscht).",
+    "backup_db_desc": "Es überträgt Ihr gesamtes System (als .sqlite-Datenbankdatei) auf Ihre lokale Festplatte. Sie können es als Computerersatz oder als Backup verwenden.",
+    "vacuum_db_desc": "Es löscht durch geleerte oder gelöschte Datensätze entstandene Datenbankplätze, gibt Speicherplatz frei und erhöht die Abfragegeschwindigkeit.",
+    "critical_system_actions": "Kritische Systemaktionen",
+    "restore_db_label": "Aus Backup wiederherstellen (Drag & Drop)",
+    "restore_db_title": "Sicherungsdatenbank überschreiben",
+    "restore_db_desc": "Ziehen Sie die .sqlite-Datei hierher und legen Sie sie dort ab (die Anwendung wird automatisch neu gestartet).",
+    "restore_confirm": "Sind Sie sicher, dass Sie die Datenbank wiederherstellen möchten? Alle Ihre bestehenden Daten werden gelöscht!",
+    "restore_invalid_file": "Bitte ziehen Sie eine gültige SQLite-Datenbankdatei (.sqlite oder .db).",
+    "system_maintenance": "Systemwartung"
   },
   "dashboard": {
     "title": "Personalverwaltung",

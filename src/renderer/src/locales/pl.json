@@ -12,7 +12,11 @@
     "media": "Galeria multimediów",
     "help": "Informacje i pomoc",
     "no_project_selected": "Nie wybrano placu budowy!",
-    "active_project": "Aktywny plac budowy"
+    "active_project": "Aktywny plac budowy",
+    "settings_genel": "Ustawienia ogólne",
+    "settings_finance": "Finanse i operacje",
+    "settings_security": "Bezpieczeństwo i kopie zapasowe",
+    "settings_logs": "Dzienniki systemowe"
   },
   "settings": {
     "title": "Ustawienia systemu",
@@ -60,7 +64,16 @@
     "delete_work_type_msg": "Czy na pewno chcesz usunąć ten typ badania? Ponieważ obliczenia ze starych kart wyników są zapisywane w bazie danych, Twoje dane historyczne nie ulegną uszkodzeniu.",
     "group_name_label": "Nazwa grupy",
     "delete_group_title": "Usuń grupę pracowników",
-    "delete_group_msg": "Czy na pewno chcesz usunąć tę grupę? Przypisania grupowe dla pracowników w grupie zostaną usunięte (Pracownicy nie zostaną usunięci)."
+    "delete_group_msg": "Czy na pewno chcesz usunąć tę grupę? Przypisania grupowe dla pracowników w grupie zostaną usunięte (Pracownicy nie zostaną usunięci).",
+    "backup_db_desc": "Przesyła cały system (jako plik bazy danych .sqlite) na dysk lokalny. Można go używać do wymiany komputera lub tworzenia kopii zapasowych.",
+    "vacuum_db_desc": "Czyści przestrzeń w bazie danych utworzoną przez opróżnione lub usunięte rekordy, odzyskuje miejsce na dysku i zwiększa prędkość zapytań.",
+    "critical_system_actions": "Krytyczne działania systemu",
+    "restore_db_label": "Przywróć z kopii zapasowej (przeciągnij i upuść)",
+    "restore_db_title": "Zastąp bazę danych kopii zapasowej",
+    "restore_db_desc": "Przeciągnij i upuść tutaj plik .sqlite (aplikacja uruchomi się ponownie automatycznie)",
+    "restore_confirm": "Czy na pewno chcesz przywrócić bazę danych? Wszystkie Twoje istniejące dane zostaną usunięte!",
+    "restore_invalid_file": "Przeciągnij prawidłowy plik bazy danych SQLite (.sqlite lub .db).",
+    "system_maintenance": "Konserwacja systemu"
   },
   "dashboard": {
     "title": "Zarządzanie personelem",

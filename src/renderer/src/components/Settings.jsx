@@ -277,10 +277,10 @@ const Settings = ({ activeTab = 'genel' }) => {
     <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem', minHeight: 'calc(100vh - 100px)' }}>
       <header className="header" style={{ marginBottom: '0.5rem' }}>
         <h2>
-          {activeTab === 'genel' ? '⚙️ Genel Ayarlar' : 
-           activeTab === 'finance' ? '💼 Finans & Operasyon' : 
-           activeTab === 'security' ? '🛡️ Güvenlik ve Yedekleme' : 
-           '📋 Sistem Kayıtları'}
+          {activeTab === 'genel' ? `⚙️ ${t('nav.settings_genel', 'Genel Ayarlar')}` : 
+           activeTab === 'finance' ? `💼 ${t('nav.settings_finance', 'Finans & Operasyon')}` : 
+           activeTab === 'security' ? `🛡️ ${t('nav.settings_security', 'Güvenlik ve Yedekleme')}` : 
+           `📋 ${t('nav.settings_logs', 'Sistem Kayıtları')}`}
         </h2>
       </header>
 
@@ -724,35 +724,35 @@ const Settings = ({ activeTab = 'genel' }) => {
             {/* Kritik Veri İşlemleri - Kırmızı / Uyarı Tasarımı */}
             <div className="glass-card" style={{ borderLeft: '4px solid var(--danger)', background: 'rgba(239, 68, 68, 0.02)' }}>
               <h3 className="card-title" style={{ color: 'var(--danger)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                ⚠️ Kritik Sistem Eylemleri
+                ⚠️ {t('settings.critical_system_actions', 'Kritik Sistem Eylemleri')}
               </h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <div>
                   <button className="btn btn-primary" onClick={handleBackup} style={{ width: '100%', background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', marginBottom: '0.5rem' }}>
-                    📦 Tüm Veritabanını Yedekle (.sqlite Export)
+                    📦 {t('settings.backup_db', 'Tüm Veritabanını Yedekle (.sqlite Export)')}
                   </button>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    Tüm sisteminizi (.sqlite veritabanı dosyası olarak) yerel diskinize aktarır. Bilgisayar değişimi veya yedekleme için kullanabilirsiniz.
+                    {t('settings.backup_db_desc', 'Tüm sisteminizi (.sqlite veritabanı dosyası olarak) yerel diskinize aktarır. Bilgisayar değişimi veya yedekleme için kullanabilirsiniz.')}
                   </p>
                 </div>
 
                 <div style={{ borderTop: '1px solid rgba(239, 68, 68, 0.15)', paddingTop: '1.25rem' }}>
-                  <label className="form-label" style={{ color: '#fca5a5' }}>Yedekten Geri Yükle (Drag & Drop)</label>
+                  <label className="form-label" style={{ color: '#fca5a5' }}>{t('settings.restore_db_label', 'Yedekten Geri Yükle (Drag & Drop)')}</label>
                   <div 
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={async (e) => {
                       e.preventDefault();
                       const file = e.dataTransfer.files[0];
                       if (file && (file.name.endsWith('.sqlite') || file.name.endsWith('.db'))) {
-                        if (window.confirm('Veritabanını geri yüklemek istediğinize emin misiniz? Mevcut tüm verileriniz silinecektir!')) {
+                        if (window.confirm(t('settings.restore_confirm', 'Veritabanını geri yüklemek istediğinize emin misiniz? Mevcut tüm verileriniz silinecektir!'))) {
                           const res = await window.api.system.restoreDBFile({ filePath: file.path });
                           if (res && !res.success) {
                             alert('Geri yükleme hatası: ' + res.message);
                           }
                         }
                       } else {
-                        alert('Lütfen geçerli bir SQLite (.sqlite veya .db) veritabanı dosyası sürükleyin.');
+                        alert(t('settings.restore_invalid_file', 'Lütfen geçerli bir SQLite (.sqlite veya .db) veritabanı dosyası sürükleyin.'));
                       }
                     }}
                     style={{
@@ -768,8 +768,8 @@ const Settings = ({ activeTab = 'genel' }) => {
                     onDragLeave={(e) => e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'}
                   >
                     <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>📥</div>
-                    <strong style={{ fontSize: '0.85rem', color: '#fff', display: 'block' }}>Yedek Veritabanını Üzerine Yazdır</strong>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>.sqlite dosyasını buraya sürükleyip bırakın (Uygulama otomatik olarak yeniden başlayacaktır)</span>
+                    <strong style={{ fontSize: '0.85rem', color: '#fff', display: 'block' }}>{t('settings.restore_db_title', 'Yedek Veritabanını Üzerine Yazdır')}</strong>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t('settings.restore_db_desc', '.sqlite dosyasını buraya sürükleyip bırakın (Uygulama otomatik olarak yeniden başlayacaktır)')}</span>
                   </div>
                 </div>
               </div>
@@ -777,24 +777,24 @@ const Settings = ({ activeTab = 'genel' }) => {
 
             {/* Otomasyon ve Bakım */}
             <div className="glass-card">
-              <h3 className="card-title" style={{ marginBottom: '1.25rem' }}>Sistem Bakımı</h3>
+              <h3 className="card-title" style={{ marginBottom: '1.25rem' }}>{t('settings.system_maintenance', 'Sistem Bakımı')}</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 <div>
                   <button className="btn" onClick={handleVacuum} style={{ width: '100%', marginBottom: '0.5rem', background: 'rgba(255,255,255,0.04)' }}>
-                    🧹 Veritabanını Optimize Et (Vacuum)
+                    🧹 {t('settings.vacuum_db', 'Veritabanını Optimize Et (Vacuum)')}
                   </button>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    Boşaltılan veya silinen kayıtların oluşturduğu veritabanı boşluklarını temizler, disk alanını geri kazanır ve sorgu hızlarını artırır.
+                    {t('settings.vacuum_db_desc', 'Boşaltılan veya silinen kayıtların oluşturduğu veritabanı boşluklarını temizler, disk alanını geri kazanır ve sorgu hızlarını artırır.')}
                   </p>
                 </div>
 
                 <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '1.25rem' }}>
                   <button className="btn" onClick={handleCloudSyncFolder} style={{ width: '100%', marginBottom: '0.5rem', border: '1px solid #10B981', color: '#10B981', background: 'transparent' }}>
-                    ☁️ Bulut Yedekleme Klasörü Ayarla
+                    ☁️ {t('settings.cloud_sync', 'Bulut Yedekleme Klasörü Ayarla')}
                   </button>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    Her uygulama kapandığında arkaplanda (sessizce) otomatik yedeklerin kaydedileceği bir Dropbox, Drive vb. bulut klasörü seçmenizi sağlar.
+                    {t('settings.cloud_sync_desc', 'Her uygulama kapandığında arkaplanda (sessizce) otomatik yedeklerin kaydedileceği bir Dropbox, Drive vb. bulut klasörü seçmenizi sağlar.')}
                   </p>
                 </div>
               </div>

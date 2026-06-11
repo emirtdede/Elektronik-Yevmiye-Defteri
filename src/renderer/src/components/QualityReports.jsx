@@ -145,7 +145,7 @@ const QualityReports = ({ activeProjectId, projects = [] }) => {
   if (!activeProjectId) {
     return (
       <div className="glass-card text-center" style={{ padding: '3rem' }}>
-        <h2>Kalite Kontrol Tutanakları</h2>
+        <h2>{t('nav.quality', 'Kalite Kontrol Tutanakları')}</h2>
         <p className="text-muted" style={{ marginTop: '1rem' }}>{t('common.select_project_msg', 'Lütfen sol menüden veya Şantiye Yönetimi sayfasından aktif bir şantiye seçin.')}</p>
       </div>
     );
