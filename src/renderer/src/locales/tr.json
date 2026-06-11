@@ -71,6 +71,9 @@
       "type": "Çalışma Tipi",
       "overtime": "Mesai (Saat)",
       "notes": "Açıklama/Not",
+      "notes_ph": "Ek açıklama...",
+      "tags_label": "Etiketler",
+      "tags_ph": "Örn: Şantiye-A, Boya İşi",
       "add_btn": "Puantaj Ekle"
     },
     "advance_form": {
@@ -78,6 +81,8 @@
       "date": "Tarih",
       "amount": "Tutar",
       "notes": "Açıklama",
+      "tags_label": "Etiketler",
+      "tags_ph": "Örn: Yol-Parası, Kişisel",
       "add_btn": "Avans Ekle"
     },
     "summary": {
@@ -121,10 +126,7 @@
     "account_statement": "Cari Hesap Ekstresi (Filtrele & Dışa Aktar)",
     "calculated_earned": "Hesaplanan Hak Ediş:",
     "auto_deduct_notice": "* Verilen avans otomatik olarak Kasa'dan (Nakit Çıkışı) düşülecektir.",
-    "tags_label": "Etiketler",
-    "timesheet_tags_ph": "Örn: Şantiye-A, Boya İşi",
-    "timesheet_notes_ph": "Ek açıklama...",
-    "advance_tags_ph": "Örn: Yol-Parası, Kişisel"
+    "current_balance": "Güncel Bakiye"
   },
   "cash": {
     "title": "Kasa Yönetimi",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "İptal",
     "confirm": "Onayla",
-    "delete": "Sil"
+    "delete": "Sil",
+    "empty_data": "Gösterilecek veri bulunamadı."
   },
   "worker_modal": {
     "title_new": "Yeni Personel Ekle",

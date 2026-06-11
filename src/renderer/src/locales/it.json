@@ -71,14 +71,19 @@
       "type": "Tipo",
       "overtime": "Straordinari",
       "notes": "Note",
-      "add_btn": "Aggiungi"
+      "add_btn": "Aggiungi",
+      "notes_ph": "Spiegazione aggiuntiva...",
+      "tags_label": "Tag",
+      "tags_ph": "Es: Cantiere-A, Lavori di verniciatura"
     },
     "advance_form": {
       "title": "Aggiungi anticipo",
       "date": "Data",
       "amount": "Importo",
       "notes": "Note",
-      "add_btn": "Aggiungi"
+      "add_btn": "Aggiungi",
+      "tags_label": "Tag",
+      "tags_ph": "Es: Pedaggio di viaggio, Personale"
     },
     "summary": {
       "previous_balance": "Saldo precedente",
@@ -121,10 +126,7 @@
     "account_statement": "Estratto conto",
     "calculated_earned": "Guadagno calcolato:",
     "auto_deduct_notice": "* L'anticipo verrà detratto dalla cassa.",
-    "tags_label": "Tag",
-    "timesheet_tags_ph": "es. Pittura",
-    "timesheet_notes_ph": "Nota...",
-    "advance_tags_ph": "es. Viaggio"
+    "current_balance": "Saldo attuale"
   },
   "cash": {
     "title": "Cassa",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Annulla",
     "confirm": "Conferma",
-    "delete": "Elimina"
+    "delete": "Elimina",
+    "empty_data": "Nessun dato trovato da visualizzare."
   },
   "worker_modal": {
     "title_new": "Aggiungi",

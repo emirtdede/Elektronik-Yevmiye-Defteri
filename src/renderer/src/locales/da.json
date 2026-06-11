@@ -71,14 +71,19 @@
       "type": "Type",
       "overtime": "Overtid",
       "notes": "Noter",
-      "add_btn": "Tilføj"
+      "add_btn": "Tilføj",
+      "notes_ph": "Yderligere forklaring...",
+      "tags_label": "Tags",
+      "tags_ph": "Eks: Byggeplads-A, malerarbejde"
     },
     "advance_form": {
       "title": "Tilføj forskud",
       "date": "Dato",
       "amount": "Beløb",
       "notes": "Noter",
-      "add_btn": "Tilføj forskud"
+      "add_btn": "Tilføj forskud",
+      "tags_label": "Tags",
+      "tags_ph": "Eks: Rejseafgift, Personlig"
     },
     "summary": {
       "previous_balance": "Tidligere saldo",
@@ -121,10 +126,7 @@
     "account_statement": "Kontoudtog",
     "calculated_earned": "Beregnet indtjening:",
     "auto_deduct_notice": "* Forskud trækkes fra kassen.",
-    "tags_label": "Tags",
-    "timesheet_tags_ph": "f.eks. Maling",
-    "timesheet_notes_ph": "Ekstra note...",
-    "advance_tags_ph": "f.eks. Rejse"
+    "current_balance": "Nuværende saldo"
   },
   "cash": {
     "title": "Kassestyring",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Annuller",
     "confirm": "Bekræft",
-    "delete": "Slet"
+    "delete": "Slet",
+    "empty_data": "Ingen data fundet at vise."
   },
   "worker_modal": {
     "title_new": "Tilføj",

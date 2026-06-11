@@ -71,14 +71,19 @@
       "type": "Typ",
       "overtime": "Přesčasy",
       "notes": "Poznámky",
-      "add_btn": "Přidat"
+      "add_btn": "Přidat",
+      "notes_ph": "Dodatečné vysvětlení...",
+      "tags_label": "Tagy",
+      "tags_ph": "Př.: Staveniště-A, Malířské práce"
     },
     "advance_form": {
       "title": "Přidat zálohu",
       "date": "Datum",
       "amount": "Částka",
       "notes": "Poznámky",
-      "add_btn": "Přidat zálohu"
+      "add_btn": "Přidat zálohu",
+      "tags_label": "Tagy",
+      "tags_ph": "Příklad: Cestovní mýtné, Osobní"
     },
     "summary": {
       "previous_balance": "Předchozí zůstatek",
@@ -121,10 +126,7 @@
     "account_statement": "Výpis z účtu",
     "calculated_earned": "Vypočítaný výdělek:",
     "auto_deduct_notice": "* Záloha bude odečtena z pokladny.",
-    "tags_label": "Štítky",
-    "timesheet_tags_ph": "např. Malování",
-    "timesheet_notes_ph": "Poznámka...",
-    "advance_tags_ph": "např. Cestování"
+    "current_balance": "Aktuální zůstatek"
   },
   "cash": {
     "title": "Pokladna",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Zrušit",
     "confirm": "Potvrdit",
-    "delete": "Odstranit"
+    "delete": "Odstranit",
+    "empty_data": "Nebyla nalezena žádná data k zobrazení."
   },
   "worker_modal": {
     "title_new": "Přidat",

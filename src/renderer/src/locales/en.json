@@ -71,14 +71,19 @@
       "type": "Work Type",
       "overtime": "Overtime (Hours)",
       "notes": "Notes",
-      "add_btn": "Add Timesheet"
+      "add_btn": "Add Timesheet",
+      "notes_ph": "Additional explanation...",
+      "tags_label": "Tags",
+      "tags_ph": "Ex: Construction Site-A, Painting Work"
     },
     "advance_form": {
       "title": "Add Advance",
       "date": "Date",
       "amount": "Amount",
       "notes": "Notes",
-      "add_btn": "Add Advance"
+      "add_btn": "Add Advance",
+      "tags_label": "Tags",
+      "tags_ph": "Ex: Travel-Toll, Personal"
     },
     "summary": {
       "previous_balance": "Previous Balance",
@@ -121,10 +126,7 @@
     "account_statement": "Account Statement (Filter & Export)",
     "calculated_earned": "Calculated Earned:",
     "auto_deduct_notice": "* The given advance will be automatically deducted from Cash (Cash Out).",
-    "tags_label": "Tags",
-    "timesheet_tags_ph": "e.g. Site-A, Painting",
-    "timesheet_notes_ph": "Additional note...",
-    "advance_tags_ph": "e.g. Travel, Personal"
+    "current_balance": "Current Balance"
   },
   "cash": {
     "title": "Cash Management",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "delete": "Delete"
+    "delete": "Delete",
+    "empty_data": "No data found to display."
   },
   "worker_modal": {
     "title_new": "Add New Personnel",

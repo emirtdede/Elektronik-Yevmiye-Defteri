@@ -71,14 +71,19 @@
       "type": "Typ",
       "overtime": "Nadgodziny",
       "notes": "Notatki",
-      "add_btn": "Dodaj"
+      "add_btn": "Dodaj",
+      "notes_ph": "Dodatkowe wyjaśnienie...",
+      "tags_label": "Tagi",
+      "tags_ph": "Przykład: Plac budowy A, prace malarskie"
     },
     "advance_form": {
       "title": "Dodaj zaliczkę",
       "date": "Data",
       "amount": "Kwota",
       "notes": "Notatki",
-      "add_btn": "Dodaj zaliczkę"
+      "add_btn": "Dodaj zaliczkę",
+      "tags_label": "Tagi",
+      "tags_ph": "Np.: opłata za przejazd, osobista"
     },
     "summary": {
       "previous_balance": "Poprzednie saldo",
@@ -121,10 +126,7 @@
     "account_statement": "Wyciąg z konta",
     "calculated_earned": "Obliczone zarobki:",
     "auto_deduct_notice": "* Zaliczka zostanie potrącona z kasy.",
-    "tags_label": "Tagi",
-    "timesheet_tags_ph": "np. Malowanie",
-    "timesheet_notes_ph": "Notatka...",
-    "advance_tags_ph": "np. Podróż"
+    "current_balance": "Aktualne saldo"
   },
   "cash": {
     "title": "Kasa",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Anuluj",
     "confirm": "Potwierdź",
-    "delete": "Usuń"
+    "delete": "Usuń",
+    "empty_data": "Nie znaleziono danych do wyświetlenia."
   },
   "worker_modal": {
     "title_new": "Dodaj",

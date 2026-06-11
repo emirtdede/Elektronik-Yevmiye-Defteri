@@ -71,14 +71,19 @@
       "type": "Typ",
       "overtime": "Überstunden",
       "notes": "Notizen",
-      "add_btn": "Hinzufügen"
+      "add_btn": "Hinzufügen",
+      "notes_ph": "Zusätzliche Erklärung...",
+      "tags_label": "Schlagworte",
+      "tags_ph": "Beispiel: Baustelle A, Malerarbeiten"
     },
     "advance_form": {
       "title": "Vorschuss hinzufügen",
       "date": "Datum",
       "amount": "Betrag",
       "notes": "Notizen",
-      "add_btn": "Hinzufügen"
+      "add_btn": "Hinzufügen",
+      "tags_label": "Schlagworte",
+      "tags_ph": "Beispiel: Reisemaut, persönlich"
     },
     "summary": {
       "previous_balance": "Vorheriger Saldo",
@@ -121,10 +126,7 @@
     "account_statement": "Kontoauszug (Filtern & Exportieren)",
     "calculated_earned": "Berechneter Verdienst:",
     "auto_deduct_notice": "* Der Vorschuss wird automatisch von der Kasse abgezogen.",
-    "tags_label": "Tags",
-    "timesheet_tags_ph": "z.B. Baustelle A, Malerei",
-    "timesheet_notes_ph": "Zusätzliche Notiz...",
-    "advance_tags_ph": "z.B. Reise, Persönlich"
+    "current_balance": "Aktueller Kontostand"
   },
   "cash": {
     "title": "Kassenverwaltung",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "empty_data": "Es wurden keine Daten zur Anzeige gefunden."
   },
   "worker_modal": {
     "title_new": "Neues Personal hinzufügen",

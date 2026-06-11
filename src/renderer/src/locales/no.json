@@ -71,14 +71,19 @@
       "type": "Arbeidstype",
       "overtime": "Overtid (timer)",
       "notes": "Notater",
-      "add_btn": "Legg til"
+      "add_btn": "Legg til",
+      "notes_ph": "Ytterligere forklaring...",
+      "tags_label": "Tagger",
+      "tags_ph": "Eks: Byggeplass-A, Malerarbeid"
     },
     "advance_form": {
       "title": "Legg til forskudd",
       "date": "Dato",
       "amount": "Beløp",
       "notes": "Notater",
-      "add_btn": "Legg til forskudd"
+      "add_btn": "Legg til forskudd",
+      "tags_label": "Tagger",
+      "tags_ph": "Eks: reiseavgift, personlig"
     },
     "summary": {
       "previous_balance": "Tidligere saldo",
@@ -121,10 +126,7 @@
     "account_statement": "Kontoutskrift",
     "calculated_earned": "Beregnet inntekt:",
     "auto_deduct_notice": "* Forskuddet trekkes automatisk fra Kassen.",
-    "tags_label": "Tagger",
-    "timesheet_tags_ph": "f.eks. Sted A",
-    "timesheet_notes_ph": "Tilleggsnotat...",
-    "advance_tags_ph": "f.eks. Reise"
+    "current_balance": "Nåværende saldo"
   },
   "cash": {
     "title": "Kassehåndtering",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Avbryt",
     "confirm": "Bekreft",
-    "delete": "Slett"
+    "delete": "Slett",
+    "empty_data": "Fant ingen data å vise."
   },
   "worker_modal": {
     "title_new": "Legg til ansatt",

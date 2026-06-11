@@ -71,14 +71,19 @@
       "type": "Type",
       "overtime": "Heures Sup.",
       "notes": "Notes",
-      "add_btn": "Ajouter"
+      "add_btn": "Ajouter",
+      "notes_ph": "Explication supplémentaire...",
+      "tags_label": "Balises",
+      "tags_ph": "Ex : Chantier-A, Travaux de peinture"
     },
     "advance_form": {
       "title": "Ajouter Avance",
       "date": "Date",
       "amount": "Montant",
       "notes": "Notes",
-      "add_btn": "Ajouter"
+      "add_btn": "Ajouter",
+      "tags_label": "Balises",
+      "tags_ph": "Ex : Travel-Toll, Personnel"
     },
     "summary": {
       "previous_balance": "Solde Précédent",
@@ -121,10 +126,7 @@
     "account_statement": "Relevé de Compte (Filtrer & Exporter)",
     "calculated_earned": "Gains Calculés:",
     "auto_deduct_notice": "* L'avance sera automatiquement déduite de la caisse.",
-    "tags_label": "Étiquettes",
-    "timesheet_tags_ph": "ex. Chantier A, Peinture",
-    "timesheet_notes_ph": "Note supplémentaire...",
-    "advance_tags_ph": "ex. Voyage, Personnel"
+    "current_balance": "Solde actuel"
   },
   "cash": {
     "title": "Gestion de Caisse",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Annuler",
     "confirm": "Confirmer",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "empty_data": "Aucune donnée à afficher trouvée."
   },
   "worker_modal": {
     "title_new": "Ajouter du Personnel",

@@ -71,14 +71,19 @@
       "type": "タイプ",
       "overtime": "残業",
       "notes": "メモ",
-      "add_btn": "追加"
+      "add_btn": "追加",
+      "notes_ph": "追加説明…",
+      "tags_label": "タグ",
+      "tags_ph": "例：工事現場A、塗装工事"
     },
     "advance_form": {
       "title": "前払いを追加",
       "date": "日付",
       "amount": "金額",
       "notes": "メモ",
-      "add_btn": "前払いを追加"
+      "add_btn": "前払いを追加",
+      "tags_label": "タグ",
+      "tags_ph": "例: 出張料金、個人料金"
     },
     "summary": {
       "previous_balance": "前回の残高",
@@ -121,10 +126,7 @@
     "account_statement": "アカウントステートメント",
     "calculated_earned": "計算された収益:",
     "auto_deduct_notice": "* 前払いはレジから自動的に差し引かれます。",
-    "tags_label": "タグ",
-    "timesheet_tags_ph": "例：塗装",
-    "timesheet_notes_ph": "追加のメモ...",
-    "advance_tags_ph": "例：旅行"
+    "current_balance": "現在の残高"
   },
   "cash": {
     "title": "レジ管理",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "キャンセル",
     "confirm": "確認",
-    "delete": "削除"
+    "delete": "削除",
+    "empty_data": "表示するデータが見つかりませんでした。"
   },
   "worker_modal": {
     "title_new": "追加",

@@ -71,14 +71,19 @@
       "type": "유형",
       "overtime": "초과 근무",
       "notes": "메모",
-      "add_btn": "추가"
+      "add_btn": "추가",
+      "notes_ph": "추가설명...",
+      "tags_label": "태그",
+      "tags_ph": "예: 건설현장-A, 도장작업"
     },
     "advance_form": {
       "title": "가불 추가",
       "date": "날짜",
       "amount": "금액",
       "notes": "메모",
-      "add_btn": "가불 추가"
+      "add_btn": "가불 추가",
+      "tags_label": "태그",
+      "tags_ph": "예: 통행료, 개인"
     },
     "summary": {
       "previous_balance": "이전 잔액",
@@ -121,10 +126,7 @@
     "account_statement": "계좌 명세서",
     "calculated_earned": "계산된 수입:",
     "auto_deduct_notice": "* 가불은 금전 등록기에서 자동으로 차감됩니다.",
-    "tags_label": "태그",
-    "timesheet_tags_ph": "예: 페인트 작업",
-    "timesheet_notes_ph": "추가 메모...",
-    "advance_tags_ph": "예: 출장"
+    "current_balance": "현재 잔액"
   },
   "cash": {
     "title": "금전 관리",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "취소",
     "confirm": "확인",
-    "delete": "삭제"
+    "delete": "삭제",
+    "empty_data": "표시할 데이터가 없습니다."
   },
   "worker_modal": {
     "title_new": "추가",

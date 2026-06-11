@@ -71,14 +71,19 @@
       "type": "Type",
       "overtime": "Overwerk",
       "notes": "Notities",
-      "add_btn": "Toevoegen"
+      "add_btn": "Toevoegen",
+      "notes_ph": "Extra uitleg...",
+      "tags_label": "Labels",
+      "tags_ph": "Bijv.: Bouwplaats-A, schilderwerkzaamheden"
     },
     "advance_form": {
       "title": "Voorschot toevoegen",
       "date": "Datum",
       "amount": "Bedrag",
       "notes": "Notities",
-      "add_btn": "Toevoegen"
+      "add_btn": "Toevoegen",
+      "tags_label": "Labels",
+      "tags_ph": "Bijvoorbeeld: reistol, persoonlijk"
     },
     "summary": {
       "previous_balance": "Vorig saldo",
@@ -121,10 +126,7 @@
     "account_statement": "Rekeningoverzicht",
     "calculated_earned": "Berekend inkomen:",
     "auto_deduct_notice": "* Het voorschot wordt van de kassa afgetrokken.",
-    "tags_label": "Tags",
-    "timesheet_tags_ph": "bijv. Schilderen",
-    "timesheet_notes_ph": "Notitie...",
-    "advance_tags_ph": "bijv. Reizen"
+    "current_balance": "Huidig ​​saldo"
   },
   "cash": {
     "title": "Kassa",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Annuleren",
     "confirm": "Bevestigen",
-    "delete": "Verwijderen"
+    "delete": "Verwijderen",
+    "empty_data": "Er zijn geen gegevens gevonden om weer te geven."
   },
   "worker_modal": {
     "title_new": "Toevoegen",

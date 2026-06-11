@@ -71,14 +71,19 @@
       "type": "Tipo",
       "overtime": "Horas Extras",
       "notes": "Notas",
-      "add_btn": "Adicionar"
+      "add_btn": "Adicionar",
+      "notes_ph": "Explicação adicional...",
+      "tags_label": "Etiquetas",
+      "tags_ph": "Ex: Canteiro de Obras-A, Trabalhos de Pintura"
     },
     "advance_form": {
       "title": "Adicionar Adiantamento",
       "date": "Data",
       "amount": "Valor",
       "notes": "Notas",
-      "add_btn": "Adicionar"
+      "add_btn": "Adicionar",
+      "tags_label": "Etiquetas",
+      "tags_ph": "Ex: pedágio de viagem, pessoal"
     },
     "summary": {
       "previous_balance": "Saldo Anterior",
@@ -121,10 +126,7 @@
     "account_statement": "Extrato de Conta (Filtrar e Exportar)",
     "calculated_earned": "Ganho Calculado:",
     "auto_deduct_notice": "* O adiantamento será deduzido automaticamente do caixa.",
-    "tags_label": "Tags",
-    "timesheet_tags_ph": "ex. Obra A, Pintura",
-    "timesheet_notes_ph": "Nota adicional...",
-    "advance_tags_ph": "ex. Viagem, Pessoal"
+    "current_balance": "Saldo Atual"
   },
   "cash": {
     "title": "Gestão de Caixa",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Cancelar",
     "confirm": "Confirmar",
-    "delete": "Excluir"
+    "delete": "Excluir",
+    "empty_data": "Nenhum dado encontrado para exibição."
   },
   "worker_modal": {
     "title_new": "Adicionar Novo Pessoal",

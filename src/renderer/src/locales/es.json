@@ -71,14 +71,19 @@
       "type": "Tipo",
       "overtime": "Horas Extras",
       "notes": "Notas",
-      "add_btn": "Añadir Horas"
+      "add_btn": "Añadir Horas",
+      "notes_ph": "Explicación adicional...",
+      "tags_label": "Etiquetas",
+      "tags_ph": "Ej: Sitio de Construcción-A, Trabajos de Pintura"
     },
     "advance_form": {
       "title": "Añadir Anticipo",
       "date": "Fecha",
       "amount": "Cantidad",
       "notes": "Notas",
-      "add_btn": "Añadir Anticipo"
+      "add_btn": "Añadir Anticipo",
+      "tags_label": "Etiquetas",
+      "tags_ph": "Ej: Viaje-Peaje, Personal"
     },
     "summary": {
       "previous_balance": "Saldo Anterior",
@@ -121,10 +126,7 @@
     "account_statement": "Estado de Cuenta (Filtrar y Exportar)",
     "calculated_earned": "Ganado Calculado:",
     "auto_deduct_notice": "* El anticipo se deducirá automáticamente de la Caja (Salida de Efectivo).",
-    "tags_label": "Etiquetas",
-    "timesheet_tags_ph": "ej. Sitio A, Pintura",
-    "timesheet_notes_ph": "Nota adicional...",
-    "advance_tags_ph": "ej. Viaje, Personal"
+    "current_balance": "Saldo actual"
   },
   "cash": {
     "title": "Gestión de Caja",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Cancelar",
     "confirm": "Confirmar",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "empty_data": "No se encontraron datos para mostrar."
   },
   "worker_modal": {
     "title_new": "Añadir Nuevo Personal",

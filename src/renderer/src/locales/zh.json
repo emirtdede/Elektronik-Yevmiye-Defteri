@@ -71,14 +71,19 @@
       "type": "工作类型",
       "overtime": "加班 (小时)",
       "notes": "备注",
-      "add_btn": "添加工时"
+      "add_btn": "添加工时",
+      "notes_ph": "附加说明...",
+      "tags_label": "标签",
+      "tags_ph": "例如：建筑工地-A，油漆工作"
     },
     "advance_form": {
       "title": "添加预支",
       "date": "日期",
       "amount": "金额",
       "notes": "备注",
-      "add_btn": "添加预支"
+      "add_btn": "添加预支",
+      "tags_label": "标签",
+      "tags_ph": "例如：旅行费用、个人费用"
     },
     "summary": {
       "previous_balance": "期初余额",
@@ -121,10 +126,7 @@
     "account_statement": "账户对账单（筛选和导出）",
     "calculated_earned": "计算应得：",
     "auto_deduct_notice": "* 预支将自动从现金中扣除（现金支出）。",
-    "tags_label": "标签",
-    "timesheet_tags_ph": "例如：工地A，刷漆",
-    "timesheet_notes_ph": "补充说明...",
-    "advance_tags_ph": "例如：差旅费，个人"
+    "current_balance": "当前余额"
   },
   "cash": {
     "title": "现金管理",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "取消",
     "confirm": "确认",
-    "delete": "删除"
+    "delete": "删除",
+    "empty_data": "没有找到可显示的数据。"
   },
   "worker_modal": {
     "title_new": "添加新人员",

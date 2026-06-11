@@ -71,14 +71,19 @@
       "type": "النوع",
       "overtime": "عمل إضافي",
       "notes": "ملاحظات",
-      "add_btn": "إضافة"
+      "add_btn": "إضافة",
+      "notes_ph": "شرح إضافي...",
+      "tags_label": "العلامات",
+      "tags_ph": "على سبيل المثال: موقع البناء-أ، أعمال الطلاء"
     },
     "advance_form": {
       "title": "إضافة سلفة",
       "date": "التاريخ",
       "amount": "المبلغ",
       "notes": "ملاحظات",
-      "add_btn": "إضافة"
+      "add_btn": "إضافة",
+      "tags_label": "العلامات",
+      "tags_ph": "على سبيل المثال: رسوم السفر، الشخصية"
     },
     "summary": {
       "previous_balance": "الرصيد السابق",
@@ -121,10 +126,7 @@
     "account_statement": "كشف حساب (تصفية وتصدير)",
     "calculated_earned": "المكتسب المحسوب:",
     "auto_deduct_notice": "* سيتم خصم السلفة تلقائياً من الخزينة.",
-    "tags_label": "العلامات",
-    "timesheet_tags_ph": "مثل: موقع أ، دهان",
-    "timesheet_notes_ph": "ملاحظة إضافية...",
-    "advance_tags_ph": "مثل: سفر، شخصي"
+    "current_balance": "الرصيد الحالي"
   },
   "cash": {
     "title": "إدارة النقد",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "إلغاء",
     "confirm": "تأكيد",
-    "delete": "حذف"
+    "delete": "حذف",
+    "empty_data": "لم يتم العثور على بيانات لعرضها."
   },
   "worker_modal": {
     "title_new": "إضافة موظف جديد",

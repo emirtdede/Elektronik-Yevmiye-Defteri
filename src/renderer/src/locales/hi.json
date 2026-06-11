@@ -71,14 +71,19 @@
       "type": "प्रकार",
       "overtime": "ओवरटाइम",
       "notes": "नोट्स",
-      "add_btn": "जोड़ें"
+      "add_btn": "जोड़ें",
+      "notes_ph": "अतिरिक्त स्पष्टीकरण...",
+      "tags_label": "टैग",
+      "tags_ph": "उदाहरण: निर्माण स्थल-ए, पेंटिंग कार्य"
     },
     "advance_form": {
       "title": "अग्रिम जोड़ें",
       "date": "तारीख",
       "amount": "रकम",
       "notes": "नोट्स",
-      "add_btn": "जोड़ें"
+      "add_btn": "जोड़ें",
+      "tags_label": "टैग",
+      "tags_ph": "उदाहरणार्थ: यात्रा-टोल, व्यक्तिगत"
     },
     "summary": {
       "previous_balance": "पिछला शेष",
@@ -121,10 +126,7 @@
     "account_statement": "खाता विवरण (फ़िल्टर और निर्यात)",
     "calculated_earned": "गणना की गई कमाई:",
     "auto_deduct_notice": "* अग्रिम राशि स्वचालित रूप से नकद से काट ली जाएगी।",
-    "tags_label": "टैग",
-    "timesheet_tags_ph": "उदा. साइट-ए, पेंटिंग",
-    "timesheet_notes_ph": "अतिरिक्त नोट...",
-    "advance_tags_ph": "उदा. यात्रा, व्यक्तिगत"
+    "current_balance": "वर्तमान शेष"
   },
   "cash": {
     "title": "नकद प्रबंधन",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "रद्द करें",
     "confirm": "पुष्टि करें",
-    "delete": "हटाएं"
+    "delete": "हटाएं",
+    "empty_data": "प्रदर्शित करने के लिए कोई डेटा नहीं मिला."
   },
   "worker_modal": {
     "title_new": "नया कर्मचारी जोड़ें",

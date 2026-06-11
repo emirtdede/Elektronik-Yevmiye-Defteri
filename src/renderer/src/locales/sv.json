@@ -71,14 +71,19 @@
       "type": "Arbetstyp",
       "overtime": "Övertid (timmar)",
       "notes": "Anteckningar",
-      "add_btn": "Lägg till tidrapport"
+      "add_btn": "Lägg till tidrapport",
+      "notes_ph": "Ytterligare förklaring...",
+      "tags_label": "Taggar",
+      "tags_ph": "Ex: Byggplats-A, Målningsarbete"
     },
     "advance_form": {
       "title": "Lägg till förskott",
       "date": "Datum",
       "amount": "Belopp",
       "notes": "Anteckningar",
-      "add_btn": "Lägg till förskott"
+      "add_btn": "Lägg till förskott",
+      "tags_label": "Taggar",
+      "tags_ph": "Ex: Travel-Toll, Personal"
     },
     "summary": {
       "previous_balance": "Tidigare saldo",
@@ -121,10 +126,7 @@
     "account_statement": "Kontoutdrag (Filtrera & Exportera)",
     "calculated_earned": "Beräknad inkomst:",
     "auto_deduct_notice": "* Det givna förskottet dras automatiskt från Kassan (Kassa Ut).",
-    "tags_label": "Taggar",
-    "timesheet_tags_ph": "t.ex. Plats A, Målning",
-    "timesheet_notes_ph": "Ytterligare anteckning...",
-    "advance_tags_ph": "t.ex. Resa, Personligt"
+    "current_balance": "Nuvarande saldo"
   },
   "cash": {
     "title": "Kassahantering",
@@ -165,7 +167,8 @@
   "common": {
     "cancel": "Avbryt",
     "confirm": "Bekräfta",
-    "delete": "Radera"
+    "delete": "Radera",
+    "empty_data": "Inga data hittades att visa."
   },
   "worker_modal": {
     "title_new": "Lägg till ny personal",
