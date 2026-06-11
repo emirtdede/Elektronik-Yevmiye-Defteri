@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ConfirmationModal from './ui/ConfirmationModal';
+import CustomDatePicker from './ui/CustomDatePicker';
 
 const QualityReports = ({ activeProjectId, projects = [] }) => {
   const { t } = useTranslation();
@@ -173,12 +174,11 @@ const QualityReports = ({ activeProjectId, projects = [] }) => {
           </div>
           <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">Tarih</label>
-            <input 
-              type="date" 
-              className="form-input" 
-              value={formData.report_date}
-              onChange={e => setFormData(prev => ({ ...prev, report_date: e.target.value }))}
-              required
+            <CustomDatePicker 
+              className="form-input"
+              value={formData.report_date} 
+              onChange={e => setFormData(prev => ({ ...prev, report_date: e.target.value }))} 
+              required 
             />
           </div>
           <div className="form-group" style={{ marginBottom: 0 }}>

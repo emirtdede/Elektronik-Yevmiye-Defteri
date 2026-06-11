@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import TagInput from './ui/TagInput';
+import CustomDatePicker from './ui/CustomDatePicker';
 import { isValidTCKN } from '../utils/validation';
 
 const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
@@ -177,10 +178,9 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
 
           <div className="form-group">
             <label className="form-label">{t('worker_modal.start_date')}</label>
-            <input 
-              type="date" 
+            <CustomDatePicker 
               name="start_date" 
-              className="form-input"
+              className="form-input" 
               value={formData.start_date} 
               onChange={handleChange} 
               required 

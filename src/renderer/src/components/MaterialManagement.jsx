@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ConfirmationModal from './ui/ConfirmationModal';
+import CustomDatePicker from './ui/CustomDatePicker';
 
 const MaterialManagement = ({ activeProjectId, projects = [] }) => {
   const { t } = useTranslation();
@@ -223,8 +224,7 @@ const MaterialManagement = ({ activeProjectId, projects = [] }) => {
           </div>
           <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">Tarih</label>
-            <input 
-              type="date" 
+            <CustomDatePicker 
               className="form-input" 
               value={formData.receipt_date}
               onChange={e => setFormData(prev => ({ ...prev, receipt_date: e.target.value }))}

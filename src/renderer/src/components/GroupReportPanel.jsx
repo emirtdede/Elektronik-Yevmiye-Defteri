@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import CustomDatePicker from './ui/CustomDatePicker';
 import { exportToExcel, exportToJSON } from '../utils/exportUtils';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -130,11 +131,11 @@ const GroupReportPanel = () => {
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <div>
             <label className="form-label" style={{ fontSize: '0.8rem', marginBottom: '0.2rem' }}>{t('group_report.start_date')}</label>
-            <input type="date" className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={startDate} onChange={e => setStartDate(e.target.value)} />
+            <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={startDate} onChange={e => setStartDate(e.target.value)} />
           </div>
           <div>
             <label className="form-label" style={{ fontSize: '0.8rem', marginBottom: '0.2rem' }}>{t('group_report.end_date')}</label>
-            <input type="date" className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={endDate} onChange={e => setEndDate(e.target.value)} />
+            <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={endDate} onChange={e => setEndDate(e.target.value)} />
           </div>
           <select className="btn" style={{ padding: '0.5rem', alignSelf: 'flex-end', height: '100%', marginBottom: '2px' }} onChange={e => {
               if(e.target.value) handleExport(e.target.value);

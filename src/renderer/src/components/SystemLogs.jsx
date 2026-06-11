@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { exportToExcel, exportToCSV, exportToJSON, exportToText, exportToMarkdown } from '../utils/exportUtils';
+import CustomDatePicker from './ui/CustomDatePicker';
 
 const SystemLogs = () => {
   const { t } = useTranslation();
@@ -82,11 +83,11 @@ const SystemLogs = () => {
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
         <div style={{ flex: 1 }}>
           <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.filter.start_date')}</label>
-          <input type="date" className="form-input" value={startDate} onChange={e => setStartDate(e.target.value)} />
+          <CustomDatePicker className="form-input" value={startDate} onChange={e => setStartDate(e.target.value)} />
         </div>
         <div style={{ flex: 1 }}>
           <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.filter.end_date')}</label>
-          <input type="date" className="form-input" value={endDate} onChange={e => setEndDate(e.target.value)} />
+          <CustomDatePicker className="form-input" value={endDate} onChange={e => setEndDate(e.target.value)} />
         </div>
         <div style={{ flex: 2 }}>
           <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.filter.search')}</label>

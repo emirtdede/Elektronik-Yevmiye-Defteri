@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { exportToExcel, exportToCSV, exportToJSON } from '../utils/exportUtils';
 import TagInput from './ui/TagInput';
 import ConfirmationModal from './ui/ConfirmationModal';
+import CustomDatePicker from './ui/CustomDatePicker';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -328,7 +329,7 @@ const CashRegister = () => {
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label className="form-label">{t('cash.table.date')}</label>
-                <input type="date" name="trans_date" className="form-input" value={formData.trans_date} onChange={handleChange} required />
+                <CustomDatePicker name="trans_date" className="form-input" value={formData.trans_date} onChange={handleChange} required />
               </div>
               <div className="form-group">
                 <label className="form-label">{t('cash.table.type')}</label>
@@ -376,11 +377,11 @@ const CashRegister = () => {
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
             <div style={{ flex: 1 }}>
               <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('cash.start_date')}</label>
-              <input type="date" className="form-input" value={filterStartDate} onChange={e => setFilterStartDate(e.target.value)} />
+              <CustomDatePicker className="form-input" value={filterStartDate} onChange={e => setFilterStartDate(e.target.value)} />
             </div>
             <div style={{ flex: 1 }}>
               <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('cash.end_date')}</label>
-              <input type="date" className="form-input" value={filterEndDate} onChange={e => setFilterEndDate(e.target.value)} />
+              <CustomDatePicker className="form-input" value={filterEndDate} onChange={e => setFilterEndDate(e.target.value)} />
             </div>
             <div style={{ flex: 1 }}>
               <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('cash.trans_dir')}</label>

@@ -5,6 +5,7 @@ import 'jspdf-autotable';
 import { exportToExcel, exportToCSV, exportToJSON } from '../utils/exportUtils';
 import TagInput from './ui/TagInput';
 import ConfirmationModal from './ui/ConfirmationModal';
+import CustomDatePicker from './ui/CustomDatePicker';
 
 const WorkerProfile = ({ worker, onBack }) => {
   const { t } = useTranslation();
@@ -387,7 +388,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                 <form onSubmit={handleSubmitTimesheet}>
                   <div className="form-group">
                     <label className="form-label">{t('worker_profile.timesheet_form.date')}</label>
-                    <input type="date" name="work_date" className="form-input" value={formData.work_date} onChange={handlePuantajChange} required />
+                    <CustomDatePicker name="work_date" className="form-input" value={formData.work_date} onChange={handlePuantajChange} required />
                   </div>
                   <div className="form-group">
                     <label className="form-label">{t('worker_profile.timesheet_form.type')}</label>
@@ -417,7 +418,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                 <form onSubmit={handleSubmitAvans}>
                   <div className="form-group">
                     <label className="form-label">{t('worker_profile.advance_form.date')}</label>
-                    <input type="date" name="trans_date" className="form-input" value={avansData.trans_date} onChange={handleAvansChange} required />
+                    <CustomDatePicker name="trans_date" className="form-input" value={avansData.trans_date} onChange={handleAvansChange} required />
                   </div>
                   <div className="form-group">
                     <label className="form-label">{t('worker_profile.advance_form.amount')} (₺)</label>
@@ -442,11 +443,11 @@ const WorkerProfile = ({ worker, onBack }) => {
                   <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
                     <div style={{ flex: 1 }}>
                       <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.filter.start_date')}</label>
-                      <input type="date" className="form-input" value={filterStartDate} onChange={e => setFilterStartDate(e.target.value)} />
+                      <CustomDatePicker className="form-input" value={filterStartDate} onChange={e => setFilterStartDate(e.target.value)} />
                     </div>
                     <div style={{ flex: 1 }}>
                       <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.filter.end_date')}</label>
-                      <input type="date" className="form-input" value={filterEndDate} onChange={e => setFilterEndDate(e.target.value)} />
+                      <CustomDatePicker className="form-input" value={filterEndDate} onChange={e => setFilterEndDate(e.target.value)} />
                     </div>
                   </div>
                   

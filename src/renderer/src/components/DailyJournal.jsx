@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ConfirmationModal from './ui/ConfirmationModal';
+import CustomDatePicker from './ui/CustomDatePicker';
 
 const DailyJournal = ({ activeProjectId, projects = [] }) => {
   const { t } = useTranslation();
@@ -135,8 +136,7 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
               <label className="form-label">Tarih</label>
-              <input 
-                type="date" 
+              <CustomDatePicker 
                 className="form-input" 
                 value={formData.journal_date}
                 onChange={e => setFormData(prev => ({ ...prev, journal_date: e.target.value }))}
