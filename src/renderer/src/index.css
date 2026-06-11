@@ -775,9 +775,15 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 
 .sidebar-collapsed .sidebar-text,
 .sidebar-collapsed .sidebar-footer,
-.sidebar-collapsed .sidebar-submenu,
 .sidebar-collapsed .sidebar-active-project {
   display: none !important;
+}
+
+/* Center icons in collapsed mode */
+.sidebar-collapsed .sidebar-link {
+  justify-content: center !important;
+  padding: 0.75rem 0 !important;
+  gap: 0 !important;
 }
 
 /* Hidden Sidebar State */

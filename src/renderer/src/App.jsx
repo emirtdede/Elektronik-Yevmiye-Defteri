@@ -471,7 +471,7 @@ function App() {
                 maxHeight: isSettingsOpen ? '200px' : '0px',
                 overflow: 'hidden',
                 transition: 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                paddingLeft: '1rem',
+                paddingLeft: sidebarState === 'collapsed' ? '0' : '1rem',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.2rem',
@@ -482,28 +482,32 @@ function App() {
                   onClick={() => setView('settings_genel')}
                   style={{ fontSize: '0.825rem', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  ⚙️ {t('nav.settings_genel', 'Genel Ayarlar')}
+                  <span className="sidebar-icon">⚙️</span>
+                  <span className="sidebar-text">{t('nav.settings_genel', 'Genel Ayarlar')}</span>
                 </div>
                 <div 
                   className={`sidebar-link ${view === 'settings_finance' ? 'active' : ''}`} 
                   onClick={() => setView('settings_finance')}
                   style={{ fontSize: '0.825rem', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  💼 {t('nav.settings_finance', 'Finans & Operasyon')}
+                  <span className="sidebar-icon">💼</span>
+                  <span className="sidebar-text">{t('nav.settings_finance', 'Finans & Operasyon')}</span>
                 </div>
                 <div 
                   className={`sidebar-link ${view === 'settings_security' ? 'active' : ''}`} 
                   onClick={() => setView('settings_security')}
                   style={{ fontSize: '0.825rem', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  🛡️ {t('nav.settings_security', 'Güvenlik & Yedek')}
+                  <span className="sidebar-icon">🛡️</span>
+                  <span className="sidebar-text">{t('nav.settings_security', 'Güvenlik & Yedek')}</span>
                 </div>
                 <div 
                   className={`sidebar-link ${view === 'settings_logs' ? 'active' : ''}`} 
                   onClick={() => setView('settings_logs')}
                   style={{ fontSize: '0.825rem', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  📋 {t('nav.settings_logs', 'Sistem Kayıtları')}
+                  <span className="sidebar-icon">📋</span>
+                  <span className="sidebar-text">{t('nav.settings_logs', 'Sistem Kayıtları')}</span>
                 </div>
               </div>
             </div>
