@@ -12,7 +12,7 @@ Projede backend ve finansal iş kuralları kodlanırken **TDD** benimsenmiştir.
 ## Birim Testler
 | Modül                         | Durum         | Kapsam / Senaryolar                                      |
 |-------------------------------|---------------|---------------------------------------------------------|
-|✅ **Güncel Başarı Oranı:** %100 (16 / 16 Test Başarılı)
+|✅ **Güncel Başarı Oranı:** %100 (19 / 19 Test Başarılı)
 
 ## Kapsanan Senaryolar (Test Suites)
 
@@ -83,10 +83,18 @@ Projede backend ve finansal iş kuralları kodlanırken **TDD** benimsenmiştir.
 - [x] **Sistem Dili Tespiti:** Veritabanı boş olduğunda otomatik `navigator.language` tespiti ve işletim sistemine uygun dil ataması sağlandı.
 - [x] **Akıllı Tarih Takası (Auto-Swap):** Hatalı tarih seçimi `start_date > end_date` durumunda backend'in hata vermek yerine tarihleri takas edip raporu doğru ürettiği test edildi.
 
+### 14. Yeni ERP Veritabanı Modülleri (Faz 1)
+- [x] **Şantiye Oluşturma:** `projects` tablosuna kayıt atılabilmesi ve okunabilmesi test edildi.
+- [x] **Malzeme & İrsaliye Kaydı:** `materials` tablosuna veri eklenmesi, listelenmesi ve soft delete mekanizmasının çalıştığı doğrulandı.
+
+### 15. Yerel Ağ (LAN) Mobil Sunucu (Faz 2)
+- [x] **Yerel IP Keşfi:** `getLocalIP` fonksiyonunun bilgisayarın ağ bağdaştırıcısını doğru okuyarak geçerli bir IPv4 adresi döndürdüğü doğrulandı.
+- [x] **Sunucu Kontrolleri:** Express.js sunucusunun belirtilen portta sorunsuz başladığı, mükerrer başlatma isteklerini doğru yönettiği ve durdurulduğu doğrulandı.
+
 ## Entegrasyon Testleri
 | Akış              | Durum         | Notlar                |
 |-------------------|---------------|-----------------------|
-| IPC Haberleşmesi  | ✅ Başarılı   | `vitest` unit testleri ve React UI testleri sayesinde DB-Renderer haberleşmesi (db:read, db:create vb.) 16/16 başarılı şekilde tamamlandı. |
+| IPC Haberleşmesi  | ✅ Başarılı   | `vitest` unit testleri ve React UI testleri sayesinde DB-Renderer haberleşmesi (db:read, db:create vb.) 19/19 başarılı şekilde tamamlandı. |
 
 ## Test Ortamı
 - **Framework:** `Vitest`

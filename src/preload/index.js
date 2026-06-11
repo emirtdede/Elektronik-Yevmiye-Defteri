@@ -18,5 +18,27 @@ contextBridge.exposeInMainWorld('api', {
     workerStatement: (params) => ipcRenderer.invoke('finance:worker-statement', params),
     companyReport: (year, month) => ipcRenderer.invoke('finance:company-report', { year, month }),
     groupStatement: (params) => ipcRenderer.invoke('finance:group-statement', params)
+  },
+  system: {
+    backupDB: () => ipcRenderer.invoke('system:backup-db'),
+    readLogs: (params) => ipcRenderer.invoke('system:read-logs', params),
+    vacuumDB: () => ipcRenderer.invoke('system:vacuum-db'),
+    setCloudFolder: () => ipcRenderer.invoke('system:set-cloud-folder'),
+    getWeather: (params) => ipcRenderer.invoke('system:get-weather', params),
+    startLANServer: (params) => ipcRenderer.invoke('system:start-lan-server', params),
+    stopLANServer: () => ipcRenderer.invoke('system:stop-lan-server'),
+    restoreDBFile: (params) => ipcRenderer.invoke('system:restore-db-file', params),
+    onPhotoUploaded: (callback) => {
+      const subscription = (event, data) => callback(data);
+      ipcRenderer.on('lan:photo-uploaded', subscription);
+      return () => {
+        ipcRenderer.removeListener('lan:photo-uploaded', subscription);
+      };
+    }
+  },
+  media: {
+    selectPhoto: () => ipcRenderer.invoke('media:select-photo'),
+    savePhoto: (params) => ipcRenderer.invoke('media:save-photo', params),
+    readPhoto: (params) => ipcRenderer.invoke('media:read-photo', params)
   }
 });

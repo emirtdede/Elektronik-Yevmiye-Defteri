@@ -1,4 +1,4 @@
-const { ipcMain, dialog, app } = require('electron');
+const { ipcMain, dialog, app, BrowserWindow } = require('electron');
 const { getDB } = require('./database/db');
 const fs = require('fs');
 const path = require('path');
@@ -228,6 +228,171 @@ async function setupHandlers() {
       return { success: false, message: error.message };
     }
   });
+
+  // --- NEW WEATHER AND MEDIA IPC HANDLERS ---
+  ipcMain.handle('system:get-weather', async (_, { location }) => {
+    try {
+      if (!location) {
+        return { success: false, message: 'Lokasyon belirtilmedi.' };
+      }
+      
+      const apiKeySetting = await db.get("SELECT setting_value FROM app_settings WHERE setting_key = 'weather_api_key'");
+      const apiKey = apiKeySetting ? apiKeySetting.setting_value : '895284fb665f874747e05a1216616b51'; 
+      
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${apiKey}&units=metric&lang=tr`
+      ).catch(() => null);
+
+      if (!response || !response.ok) {
+        // Fallback to simulated weather if offline or API key invalid
+        const conditions = ['Güneşli', 'Parçalı Bulutlu', 'Bulutlu', 'Yağmurlu', 'Rüzgarlı'];
+        const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
+        const randomTemp = Math.floor(Math.random() * 15) + 15; // 15-30 degrees
+        return {
+          success: true,
+          temp: randomTemp,
+          desc: randomCondition,
+          icon: '01d',
+          simulated: true
+        };
+      }
+
+      const weatherData = await response.json();
+      return {
+        success: true,
+        temp: Math.round(weatherData.main.temp),
+        desc: weatherData.weather[0].description,
+        icon: weatherData.weather[0].icon,
+        simulated: false
+      };
+    } catch (error) {
+      console.error('Weather fetching error:', error);
+      return { success: false, message: error.message };
+    }
+  });
+
+  ipcMain.handle('media:select-photo', async () => {
+    try {
+      const { canceled, filePaths } = await dialog.showOpenDialog({
+        title: 'Fotoğraf Seç',
+        properties: ['openFile'],
+        filters: [{ name: 'Görseller', extensions: ['jpg', 'jpeg', 'png'] }]
+      });
+      if (canceled || filePaths.length === 0) return { success: false };
+      return { success: true, filePath: filePaths[0] };
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  });
+
+  ipcMain.handle('media:save-photo', async (_, { projectId, filePath }) => {
+    try {
+      if (!filePath) return { success: false, message: 'Dosya seçilmedi' };
+      
+      const isDev = process.env.NODE_ENV === 'development';
+      const baseDir = isDev 
+        ? path.join(__dirname, '../../media')
+        : path.join(app.getPath('userData'), 'media');
+
+      const projectDir = path.join(baseDir, `project_${projectId}`);
+      if (!fs.existsSync(projectDir)) {
+        fs.mkdirSync(projectDir, { recursive: true });
+      }
+
+      const ext = path.extname(filePath);
+      const uniqueName = `${Date.now()}_${Math.floor(Math.random() * 10000)}${ext}`;
+      const destPath = path.join(projectDir, uniqueName);
+
+      fs.copyFileSync(filePath, destPath);
+
+      return { success: true, relativePath: `project_${projectId}/${uniqueName}` };
+    } catch (error) {
+      console.error('Save photo error:', error);
+      return { success: false, message: error.message };
+    }
+  });
+
+  ipcMain.handle('media:read-photo', async (_, { relativePath }) => {
+    try {
+      if (!relativePath) return { success: false, message: 'Dosya belirtilmedi' };
+      
+      const isDev = process.env.NODE_ENV === 'development';
+      const baseDir = isDev 
+        ? path.join(__dirname, '../../media')
+        : path.join(app.getPath('userData'), 'media');
+      
+      const filePath = path.resolve(baseDir, relativePath);
+      if (!filePath.startsWith(baseDir)) {
+        return { success: false, message: 'Geçersiz dosya yolu' };
+      }
+      
+      if (fs.existsSync(filePath)) {
+        const content = fs.readFileSync(filePath, 'base64');
+        const ext = path.extname(filePath).toLowerCase();
+        let mime = 'image/jpeg';
+        if (ext === '.png') mime = 'image/png';
+        return { success: true, base64: `data:${mime};base64,${content}` };
+      }
+      return { success: false, message: 'Dosya bulunamadı' };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  });
+
+  // --- LAN MOBILE UPLOAD & DB RESTORE HANDLERS ---
+  const { startLANServer, stopLANServer } = require('./services/lanServer');
+  const QRCode = require('qrcode');
+
+  ipcMain.handle('system:start-lan-server', async (event, { projectId, projectName }) => {
+    try {
+      const webContents = event.sender;
+      const window = BrowserWindow.fromWebContents(webContents);
+      
+      const result = startLANServer(window);
+      if (result.success) {
+        const url = `http://${result.ip}:${result.port}?projectId=${projectId || ''}&projectName=${encodeURIComponent(projectName || 'Genel')}`;
+        const qrCodeDataUrl = await QRCode.toDataURL(url);
+        return { success: true, url, qrCodeDataUrl };
+      }
+      return { success: false, message: 'Sunucu başlatılamadı.' };
+    } catch (error) {
+      console.error('Start LAN server error:', error);
+      return { success: false, message: error.message };
+    }
+  });
+
+  ipcMain.handle('system:stop-lan-server', async () => {
+    stopLANServer();
+    return { success: true };
+  });
+
+  ipcMain.handle('system:restore-db-file', async (_, { filePath }) => {
+    try {
+      if (!filePath || !fs.existsSync(filePath)) {
+        return { success: false, message: 'Geçersiz dosya yolu.' };
+      }
+      
+      const isDev = process.env.NODE_ENV === 'development';
+      const dbPath = isDev 
+        ? path.join(__dirname, '../../database.sqlite')
+        : path.join(app.getPath('userData'), 'elektronik-yevmiye.sqlite');
+
+      if (db && typeof db.close === 'function') {
+        await db.close();
+      }
+      
+      fs.copyFileSync(filePath, dbPath);
+
+      app.relaunch();
+      app.exit(0);
+
+      return { success: true };
+    } catch (error) {
+      console.error('DB Restore error:', error);
+      return { success: false, message: error.message };
+    }
+  });
+
 }
 
 setupHandlers();

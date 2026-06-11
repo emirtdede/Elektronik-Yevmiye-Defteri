@@ -8,7 +8,13 @@ function generateHumanMessage(table_name, action, old_values, new_values) {
     'transactions': 'Avans/İşlem',
     'cash_register': 'Kasa İşlemi',
     'work_types': 'Çalışma Tipi',
-    'app_settings': 'Sistem Ayarı'
+    'app_settings': 'Sistem Ayarı',
+    'projects': 'Şantiye',
+    'production_records': 'İmalat/Metraj',
+    'materials': 'Malzeme/İrsaliye',
+    'daily_journals': 'Günlük Jurnal',
+    'quality_reports': 'Kalite Tutanak',
+    'subcontractor_ledgers': 'Taşeron Cari'
   };
   const tName = tMap[table_name] || table_name;
   

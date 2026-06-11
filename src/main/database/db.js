@@ -119,6 +119,91 @@ async function getDB() {
       new_values TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS projects (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      location TEXT,
+      status TEXT DEFAULT 'active',
+      is_deleted BOOLEAN DEFAULT 0,
+      deleted_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS production_records (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      project_id INTEGER NOT NULL,
+      item_name TEXT NOT NULL,
+      quantity REAL NOT NULL,
+      unit TEXT NOT NULL,
+      notes TEXT,
+      record_date DATE NOT NULL,
+      is_deleted BOOLEAN DEFAULT 0,
+      deleted_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (project_id) REFERENCES projects(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS materials (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      project_id INTEGER NOT NULL,
+      supplier TEXT NOT NULL,
+      material_type TEXT NOT NULL,
+      quantity REAL NOT NULL,
+      unit TEXT NOT NULL,
+      receipt_number TEXT,
+      receipt_date DATE NOT NULL,
+      photo_path TEXT,
+      notes TEXT,
+      is_deleted BOOLEAN DEFAULT 0,
+      deleted_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (project_id) REFERENCES projects(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS daily_journals (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      project_id INTEGER NOT NULL,
+      journal_date DATE NOT NULL,
+      weather_temp REAL,
+      weather_desc TEXT,
+      weather_icon TEXT,
+      notes TEXT,
+      worker_count INTEGER,
+      is_deleted BOOLEAN DEFAULT 0,
+      deleted_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (project_id) REFERENCES projects(id),
+      UNIQUE(project_id, journal_date)
+    );
+
+    CREATE TABLE IF NOT EXISTS quality_reports (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      project_id INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT,
+      status TEXT DEFAULT 'open',
+      photo_path TEXT,
+      report_date DATE NOT NULL,
+      is_deleted BOOLEAN DEFAULT 0,
+      deleted_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (project_id) REFERENCES projects(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS subcontractor_ledgers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      project_id INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      service_type TEXT NOT NULL,
+      phone TEXT,
+      daily_wage REAL NOT NULL,
+      status TEXT DEFAULT 'active',
+      is_deleted BOOLEAN DEFAULT 0,
+      deleted_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (project_id) REFERENCES projects(id)
+    );
   `);
 
   // Migrations for existing DB
@@ -134,8 +219,24 @@ async function getDB() {
     // Column might already exist, ignore
   }
 
+  // Project ID & ISG Date Migrations for existing tables
+  const tablesWithProjectId = ['workers', 'timesheets', 'transactions', 'cash_register'];
+  for (const t of tablesWithProjectId) {
+    try {
+      await db.run(`ALTER TABLE ${t} ADD COLUMN project_id INTEGER REFERENCES projects(id)`);
+    } catch (err) {
+      // Column might already exist, ignore
+    }
+  }
+
+  try {
+    await db.run('ALTER TABLE workers ADD COLUMN isg_bitis_tarihi DATE');
+  } catch (err) {
+    // Column might already exist, ignore
+  }
+
   // Tags Migrations
-  const tablesWithTags = ['workers', 'timesheets', 'transactions', 'cash_register'];
+  const tablesWithTags = ['workers', 'timesheets', 'transactions', 'cash_register', 'materials', 'quality_reports', 'subcontractor_ledgers'];
   for (const t of tablesWithTags) {
     try {
       await db.run(`ALTER TABLE ${t} ADD COLUMN tags TEXT`);

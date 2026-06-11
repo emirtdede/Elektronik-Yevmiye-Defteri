@@ -68,4 +68,35 @@ describe('Generic CRUD Service (Veritabanı İşlemleri)', () => {
     expect(logs.length).toBe(1);
     expect(JSON.parse(logs[0].new_values).is_deleted).toBe(1);
   });
+
+  it('should support CRUD operations on new ERP tables', async () => {
+    // 1. Create a project
+    const projectRes = await createRecord(db, 'projects', { name: 'Şantiye A', location: 'İstanbul' });
+    expect(projectRes.success).toBe(true);
+    expect(projectRes.id).toBe(1);
+
+    // 2. Create a material linked to the project
+    const materialRes = await createRecord(db, 'materials', {
+      project_id: 1,
+      supplier: 'Beton A.Ş.',
+      material_type: 'C30 Beton',
+      quantity: 50,
+      unit: 'm3',
+      receipt_number: 'IRS-12345',
+      receipt_date: '2026-06-11'
+    });
+    expect(materialRes.success).toBe(true);
+
+    // 3. Read active materials
+    const activeMaterials = await readRecord(db, 'materials');
+    expect(activeMaterials.length).toBe(1);
+    expect(activeMaterials[0].supplier).toBe('Beton A.Ş.');
+
+    // 4. Soft delete the material
+    const deleteRes = await deleteRecord(db, 'materials', materialRes.id);
+    expect(deleteRes.success).toBe(true);
+
+    const activeMaterialsAfterDelete = await readRecord(db, 'materials');
+    expect(activeMaterialsAfterDelete.length).toBe(0);
+  });
 });
