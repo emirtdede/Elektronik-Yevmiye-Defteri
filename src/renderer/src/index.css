@@ -718,8 +718,11 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 }
 
 .react-datepicker__month-text {
+  flex: 1 !important;
+  text-align: center !important;
   color: rgba(255, 255, 255, 0.85) !important;
   padding: 8px 0 !important;
+  margin: 2px !important;
 }
 
 .react-datepicker__month-text--selected,
@@ -727,5 +730,17 @@ input[type="month"]::-webkit-calendar-picker-indicator {
   background-color: var(--primary) !important;
   color: #fff !important;
   font-weight: bold;
+}
+
+/* Month picker layout fixes */
+.react-datepicker__month-container {
+  width: 260px !important;
+}
+
+.react-datepicker__month-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  margin-bottom: 8px !important;
 }
 
