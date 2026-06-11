@@ -300,7 +300,9 @@
     "faq_q6": "Hvordan fungerer Local Area Network (LAN) Mobile Photo Uploader?",
     "faq_a6": "Når du trykker på knappen \"Upload fra mobil (QR)\", mens du tilføjer materialeleveringsnotat eller kvalitetskontrolrapporter, åbner applikationen en midlertidig lokal netværksserver (LAN Express-server) på din computer. Når du scanner QR-koden med din telefon, uploades de følgeseddelbilleder, du tager med dit telefonkamera, direkte til applikationen på din computer uden internet/cloud omkostninger.",
     "faq_q7": "Hvor får man vejroplysninger fra byggepladslogbøger?",
-    "faq_a7": "Når du åbner fanen Daily Journal efter at have indtastet placeringsoplysningerne for din byggeplads (f.eks. \"Istanbul, TR\") på byggepladsstyringssiden, henter systemet automatisk dagens vejrtemperatur og statusoplysninger automatisk i henhold til byggepladsens placering via OpenWeather API. Hvis der ikke er noget internet, tildeler systemet realistiske simulerede værdier."
+    "faq_a7": "Når du åbner fanen Daily Journal efter at have indtastet placeringsoplysningerne for din byggeplads (f.eks. \"Istanbul, TR\") på byggepladsstyringssiden, henter systemet automatisk dagens vejrtemperatur og statusoplysninger automatisk i henhold til byggepladsens placering via OpenWeather API. Hvis der ikke er noget internet, tildeler systemet realistiske simulerede værdier.",
+    "search_faq": "Search in frequently asked questions...",
+    "no_faq_found": "No questions found matching your criteria."
   },
   "projects": {
     "title": "Byggeplads (Location) Management",

@@ -300,7 +300,9 @@
     "faq_q6": "Comment fonctionne le téléchargeur de photos mobile en réseau local (LAN) ?",
     "faq_a6": "Lorsque vous appuyez sur le bouton « Télécharger depuis un mobile (QR) » lors de l'ajout d'un bon de livraison de matériel ou de rapports de contrôle qualité, l'application ouvre un serveur de réseau local temporaire (serveur LAN Express) sur votre ordinateur. Lorsque vous scannez le code QR avec votre téléphone, les images du bon de livraison que vous prenez avec l'appareil photo de votre téléphone sont téléchargées directement sur l'application sur votre ordinateur sans frais Internet/cloud.",
     "faq_q7": "Où obtenir des informations météorologiques à partir des journaux de chantier ?",
-    "faq_a7": "Lorsque vous ouvrez l'onglet Journal quotidien après avoir saisi les informations de localisation de votre chantier de construction (par exemple \"Istanbul, TR\") sur la page Gestion du chantier de construction, le système récupère automatiquement la température météo du jour et les informations d'état de manière autonome en fonction de l'emplacement du chantier de construction via l'API OpenWeather. En l'absence d'Internet, le système attribue des valeurs simulées réalistes."
+    "faq_a7": "Lorsque vous ouvrez l'onglet Journal quotidien après avoir saisi les informations de localisation de votre chantier de construction (par exemple \"Istanbul, TR\") sur la page Gestion du chantier de construction, le système récupère automatiquement la température météo du jour et les informations d'état de manière autonome en fonction de l'emplacement du chantier de construction via l'API OpenWeather. En l'absence d'Internet, le système attribue des valeurs simulées réalistes.",
+    "search_faq": "Search in frequently asked questions...",
+    "no_faq_found": "No questions found matching your criteria."
   },
   "projects": {
     "title": "Gestion du chantier (emplacement)",

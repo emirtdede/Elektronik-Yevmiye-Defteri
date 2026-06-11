@@ -300,7 +300,9 @@
     "faq_q6": "Como funciona o Mobile Photo Uploader de rede local (LAN)?",
     "faq_a6": "Ao pressionar o botão \"Upload from Mobile (QR)\" ao adicionar Nota de Entrega de Material ou Relatórios de Controle de Qualidade, o aplicativo abre um servidor de rede local temporário (servidor LAN Express) em seu computador. Ao escanear o código QR com seu telefone, as imagens da nota de entrega tiradas com a câmera do telefone são carregadas diretamente no aplicativo em seu computador, sem custos de internet/nuvem.",
     "faq_q7": "Onde obter informações meteorológicas nos diários de bordo do canteiro de obras?",
-    "faq_a7": "Quando você abre a guia Diário Diário após inserir as informações de localização do seu canteiro de obras (por exemplo, \"Istambul, TR\") na página Gerenciamento do canteiro de obras, o sistema recupera automaticamente a temperatura climática do dia e as informações de status de forma autônoma de acordo com a localização do canteiro de obras por meio da API OpenWeather. Caso não haja internet, o sistema atribui valores simulados realistas."
+    "faq_a7": "Quando você abre a guia Diário Diário após inserir as informações de localização do seu canteiro de obras (por exemplo, \"Istambul, TR\") na página Gerenciamento do canteiro de obras, o sistema recupera automaticamente a temperatura climática do dia e as informações de status de forma autônoma de acordo com a localização do canteiro de obras por meio da API OpenWeather. Caso não haja internet, o sistema atribui valores simulados realistas.",
+    "search_faq": "Search in frequently asked questions...",
+    "no_faq_found": "No questions found matching your criteria."
   },
   "projects": {
     "title": "Gerenciamento de canteiro de obras (localização)",

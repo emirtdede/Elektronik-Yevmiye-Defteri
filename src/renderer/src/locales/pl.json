@@ -300,7 +300,9 @@
     "faq_q6": "Jak działa mobilna aplikacja do przesyłania zdjęć w sieci lokalnej (LAN)?",
     "faq_a6": "Po naciśnięciu przycisku „Prześlij z telefonu komórkowego (QR)” podczas dodawania dowodu dostawy materiału lub raportów kontroli jakości aplikacja otworzy na Twoim komputerze tymczasowy serwer sieci lokalnej (serwer LAN Express). Kiedy zeskanujesz kod QR za pomocą telefonu, zdjęcia listów przewozowych wykonane aparatem w telefonie zostaną przesłane bezpośrednio do aplikacji na Twoim komputerze, bez konieczności ponoszenia kosztów Internetu/chmury.",
     "faq_q7": "Skąd czerpać informacje o pogodzie z dzienników budowy?",
-    "faq_a7": "Kiedy otworzysz zakładkę Daily Journal po wprowadzeniu informacji o lokalizacji placu budowy (np. „Stambuł, TR”) na stronie Zarządzanie placem budowy, system automatycznie automatycznie pobierze informacje o temperaturze i statusie pogody w ciągu dnia, w sposób autonomiczny, w zależności od lokalizacji placu budowy za pośrednictwem API OpenWeather. W przypadku braku Internetu system przypisuje realistyczne symulowane wartości."
+    "faq_a7": "Kiedy otworzysz zakładkę Daily Journal po wprowadzeniu informacji o lokalizacji placu budowy (np. „Stambuł, TR”) na stronie Zarządzanie placem budowy, system automatycznie automatycznie pobierze informacje o temperaturze i statusie pogody w ciągu dnia, w sposób autonomiczny, w zależności od lokalizacji placu budowy za pośrednictwem API OpenWeather. W przypadku braku Internetu system przypisuje realistyczne symulowane wartości.",
+    "search_faq": "Search in frequently asked questions...",
+    "no_faq_found": "No questions found matching your criteria."
   },
   "projects": {
     "title": "Zarządzanie placem budowy (lokalizacją).",

@@ -300,7 +300,9 @@
     "faq_q6": "¿Cómo funciona el cargador de fotografías móviles de red de área local (LAN)?",
     "faq_a6": "Cuando presiona el botón \"Cargar desde móvil (QR)\" mientras agrega el Albarán de entrega de material o los Informes de control de calidad, la aplicación abre un servidor de red local temporal (servidor LAN Express) en su computadora. Cuando escaneas el código QR con tu teléfono, las imágenes del albarán de entrega que tomas con la cámara de tu teléfono se cargan directamente en la aplicación de tu ordenador sin costes de Internet/nube.",
     "faq_q7": "¿Dónde obtener información meteorológica de los cuadernos de bitácora de las obras de construcción?",
-    "faq_a7": "Cuando abre la pestaña Diario después de ingresar la información de ubicación de su sitio de construcción (por ejemplo, \"Estambul, TR\") en la página Gestión del sitio de construcción, el sistema recupera automáticamente la temperatura del clima del día y la información de estado de forma autónoma según la ubicación del sitio de construcción a través de la API OpenWeather. En caso de que no haya internet, el sistema asigna valores simulados realistas."
+    "faq_a7": "Cuando abre la pestaña Diario después de ingresar la información de ubicación de su sitio de construcción (por ejemplo, \"Estambul, TR\") en la página Gestión del sitio de construcción, el sistema recupera automáticamente la temperatura del clima del día y la información de estado de forma autónoma según la ubicación del sitio de construcción a través de la API OpenWeather. En caso de que no haya internet, el sistema asigna valores simulados realistas.",
+    "search_faq": "Search in frequently asked questions...",
+    "no_faq_found": "No questions found matching your criteria."
   },
   "projects": {
     "title": "Gestión del sitio de construcción (ubicación)",

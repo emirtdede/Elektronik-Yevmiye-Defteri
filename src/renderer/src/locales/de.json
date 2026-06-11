@@ -300,7 +300,9 @@
     "faq_q6": "Wie funktioniert der mobile Foto-Uploader für ein lokales Netzwerk (LAN)?",
     "faq_a6": "Wenn Sie beim Hinzufügen von Materiallieferscheinen oder Qualitätskontrollberichten auf die Schaltfläche „Von Mobilgeräten hochladen (QR)“ klicken, öffnet die Anwendung einen temporären lokalen Netzwerkserver (LAN Express-Server) auf Ihrem Computer. Wenn Sie den QR-Code mit Ihrem Telefon scannen, werden die mit der Kamera Ihres Telefons aufgenommenen Lieferscheinbilder direkt in die Anwendung auf Ihrem Computer hochgeladen, ohne dass Internet-/Cloud-Kosten anfallen.",
     "faq_q7": "Wo erhält man Wetterinformationen aus Baustellentagebüchern?",
-    "faq_a7": "Wenn Sie die Registerkarte „Tagesjournal“ öffnen, nachdem Sie die Standortinformationen Ihrer Baustelle (z. B. „Istanbul, TR“) auf der Seite „Baustellenverwaltung“ eingegeben haben, ruft das System über die OpenWeather-API automatisch die Wettertemperatur und Statusinformationen des Tages entsprechend dem Standort der Baustelle automatisch ab. Falls kein Internet vorhanden ist, weist das System realistische Simulationswerte zu."
+    "faq_a7": "Wenn Sie die Registerkarte „Tagesjournal“ öffnen, nachdem Sie die Standortinformationen Ihrer Baustelle (z. B. „Istanbul, TR“) auf der Seite „Baustellenverwaltung“ eingegeben haben, ruft das System über die OpenWeather-API automatisch die Wettertemperatur und Statusinformationen des Tages entsprechend dem Standort der Baustelle automatisch ab. Falls kein Internet vorhanden ist, weist das System realistische Simulationswerte zu.",
+    "search_faq": "Search in frequently asked questions...",
+    "no_faq_found": "No questions found matching your criteria."
   },
   "projects": {
     "title": "Baustellen-(Standort-)Management",

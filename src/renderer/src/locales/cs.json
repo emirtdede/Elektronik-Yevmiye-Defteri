@@ -300,7 +300,9 @@
     "faq_q6": "Jak funguje aplikace Mobile Photo Uploader v místní síti (LAN)?",
     "faq_a6": "Když stisknete tlačítko \"Nahrát z mobilu (QR)\" při přidávání dodacího listu materiálu nebo zpráv o kontrole kvality, aplikace otevře dočasný místní síťový server (server LAN Express) na vašem počítači. Když telefonem naskenujete QR kód, snímky dodacího listu, které pořídíte fotoaparátem telefonu, se nahrají přímo do aplikace ve vašem počítači bez poplatků za internet / cloud.",
     "faq_q7": "Kde získat informace o počasí ze stavebních deníků?",
-    "faq_a7": "Když po zadání informací o poloze vašeho staveniště (např. „Istanbul, TR“) na stránce Správa staveniště otevřete kartu Denní deník, systém automaticky načte denní teplotu počasí a informace o stavu autonomně podle polohy staveniště přes OpenWeather API. V případě, že není k dispozici internet, systém přiřadí realistické simulované hodnoty."
+    "faq_a7": "Když po zadání informací o poloze vašeho staveniště (např. „Istanbul, TR“) na stránce Správa staveniště otevřete kartu Denní deník, systém automaticky načte denní teplotu počasí a informace o stavu autonomně podle polohy staveniště přes OpenWeather API. V případě, že není k dispozici internet, systém přiřadí realistické simulované hodnoty.",
+    "search_faq": "Search in frequently asked questions...",
+    "no_faq_found": "No questions found matching your criteria."
   },
   "projects": {
     "title": "Správa staveniště (místa).",

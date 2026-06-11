@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root, :root[data-theme='dark'] {
+  color-scheme: dark;
   /* Color Palette - Premium Dark Theme */
   --bg-gradient: linear-gradient(135deg, #090d16 0%, #11102b 100%);
   --glass-bg: rgba(255, 255, 255, 0.03);

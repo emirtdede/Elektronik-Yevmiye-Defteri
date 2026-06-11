@@ -300,7 +300,9 @@
     "faq_q6": "Come funziona il dispositivo di caricamento foto mobile della rete locale (LAN)?",
     "faq_a6": "Quando premi il pulsante \"Carica da dispositivo mobile (QR)\" mentre aggiungi la nota di consegna del materiale o i rapporti di controllo qualità, l'applicazione apre un server di rete locale temporaneo (server LAN Express) sul tuo computer. Quando scannerizzi il codice QR con il tuo telefono, le immagini della bolla di consegna scattate con la fotocamera del tuo telefono vengono caricate direttamente nell'applicazione sul tuo computer senza costi internet/cloud.",
     "faq_q7": "Dove ottenere informazioni meteorologiche dai registri di cantiere?",
-    "faq_a7": "Quando apri la scheda Giornale quotidiano dopo aver inserito le informazioni sulla posizione del tuo cantiere (ad esempio \"Istanbul, TR\") nella pagina Gestione cantiere, il sistema recupera automaticamente la temperatura meteorologica del giorno e le informazioni sullo stato in modo autonomo in base alla posizione del cantiere tramite l'API OpenWeather. Nel caso in cui non sia disponibile Internet, il sistema assegna valori simulati realistici."
+    "faq_a7": "Quando apri la scheda Giornale quotidiano dopo aver inserito le informazioni sulla posizione del tuo cantiere (ad esempio \"Istanbul, TR\") nella pagina Gestione cantiere, il sistema recupera automaticamente la temperatura meteorologica del giorno e le informazioni sullo stato in modo autonomo in base alla posizione del cantiere tramite l'API OpenWeather. Nel caso in cui non sia disponibile Internet, il sistema assegna valori simulati realistici.",
+    "search_faq": "Search in frequently asked questions...",
+    "no_faq_found": "No questions found matching your criteria."
   },
   "projects": {
     "title": "Gestione del cantiere (ubicazione).",
