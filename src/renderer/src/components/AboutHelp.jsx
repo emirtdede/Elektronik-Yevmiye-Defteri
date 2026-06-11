@@ -21,7 +21,6 @@ const AboutHelp = () => {
     { q: t('about.faq_q3'), a: t('about.faq_a3') },
     { q: t('about.faq_q4'), a: t('about.faq_a4') },
     {
-    {
       q: t('about.faq_q5', 'Bilgisayarıma format atarsam veya uygulamayı silersem verilerim gider mi? Yedekleme ve Geri Yükleme nasıl yapılır?'),
       a: t('about.faq_a5', 'Evet, uygulama çevrimdışı (offline-first) çalıştığı için tüm verileriniz yerel bilgisayarınızda saklanır. Format atmadan önce verilerinizi korumak için:\n\n1. Ayarlar -> Sistem Güvenliği sayfasındaki "Tüm Veritabanını Yedekle (.sqlite)" butonuna basarak yedeğinizi alın.\n2. Yeni bilgisayarda uygulamayı açıp, Ayarlar sayfasındaki "Yedek Veritabanını Geri Yükle" alanına bu .sqlite dosyasını sürükleyip bırakarak sisteminizi otonom geri yükleyin (uygulama otomatik olarak yedeğin üzerine yazıp yeniden başlayacaktır).')
     },
