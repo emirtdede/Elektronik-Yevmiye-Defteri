@@ -310,9 +310,5 @@
     "location_ph": "Ex: Istanbul / Çatalca",
     "add_btn": "Add Project",
     "empty_state": "No registered construction site found. You can add your first construction site from the form above."
-  },
-  "about": {
-      "search_faq": "Search in frequently asked questions...",
-      "no_faq_found": "No questions found matching your criteria."
-    }
   }
+}

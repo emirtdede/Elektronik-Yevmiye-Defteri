@@ -24,45 +24,67 @@ registerLocale('da', da);
 registerLocale('pl', pl);
 registerLocale('cs', cs);
 
-const CustomDatePicker = ({ value, onChange, className, required, style, name, placeholder }) => {
+const CustomDatePicker = ({ value, onChange, className, required, style, name, placeholder, showMonthYearPicker }) => {
   const { i18n } = useTranslation();
   const lang = i18n.language || 'tr';
 
-  const [date, setDate] = useState(value ? new Date(value) : null);
+  const [date, setDate] = useState(null);
 
   useEffect(() => {
     // Prevent timezone shift by parsing local parts
     if (value) {
       const parts = value.split('-');
-      if (parts.length === 3) {
-        setDate(new Date(parts[0], parts[1] - 1, parts[2]));
+      if (showMonthYearPicker) {
+        if (parts.length >= 2) {
+          setDate(new Date(parts[0], parts[1] - 1, 1));
+        } else {
+          setDate(new Date(value));
+        }
       } else {
-        setDate(new Date(value));
+        if (parts.length === 3) {
+          setDate(new Date(parts[0], parts[1] - 1, parts[2]));
+        } else {
+          setDate(new Date(value));
+        }
       }
     } else {
       setDate(null);
     }
-  }, [value]);
+  }, [value, showMonthYearPicker]);
 
   const handleChange = (selectedDate) => {
     setDate(selectedDate);
     if (onChange) {
-      // Extract YYYY-MM-DD
-      const yyyy = selectedDate ? selectedDate.getFullYear() : '';
-      const mm = selectedDate ? String(selectedDate.getMonth() + 1).padStart(2, '0') : '';
-      const dd = selectedDate ? String(selectedDate.getDate()).padStart(2, '0') : '';
-      const finalVal = selectedDate ? `${yyyy}-${mm}-${dd}` : '';
+      if (showMonthYearPicker) {
+        const yyyy = selectedDate ? selectedDate.getFullYear() : '';
+        const mm = selectedDate ? String(selectedDate.getMonth() + 1).padStart(2, '0') : '';
+        const finalVal = selectedDate ? `${yyyy}-${mm}` : '';
 
-      onChange({
-        target: {
-          name: name || '',
-          value: finalVal
-        }
-      });
+        onChange({
+          target: {
+            name: name || '',
+            value: finalVal
+          }
+        });
+      } else {
+        // Extract YYYY-MM-DD
+        const yyyy = selectedDate ? selectedDate.getFullYear() : '';
+        const mm = selectedDate ? String(selectedDate.getMonth() + 1).padStart(2, '0') : '';
+        const dd = selectedDate ? String(selectedDate.getDate()).padStart(2, '0') : '';
+        const finalVal = selectedDate ? `${yyyy}-${mm}-${dd}` : '';
+
+        onChange({
+          target: {
+            name: name || '',
+            value: finalVal
+          }
+        });
+      }
     }
   };
 
   const getDateFormat = () => {
+    if (showMonthYearPicker) return 'MMMM yyyy';
     if (lang === 'en') return 'MM/dd/yyyy';
     if (['tr', 'de', 'fr', 'it', 'es', 'pt', 'ru', 'nl', 'cs', 'da', 'no', 'pl', 'sv'].includes(lang)) return 'dd.MM.yyyy';
     if (['zh', 'ja', 'ko'].includes(lang)) return 'yyyy-MM-dd';
@@ -85,6 +107,7 @@ const CustomDatePicker = ({ value, onChange, className, required, style, name, p
         popperPlacement="bottom-start"
         autoComplete="off"
         wrapperClassName="w-100"
+        showMonthYearPicker={showMonthYearPicker}
       />
     </div>
   );

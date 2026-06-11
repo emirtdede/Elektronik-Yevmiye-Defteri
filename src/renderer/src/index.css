@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root, :root[data-theme='dark'] {
-  color-scheme: dark;
   /* Color Palette - Premium Dark Theme */
   --bg-gradient: linear-gradient(135deg, #090d16 0%, #11102b 100%);
   --glass-bg: rgba(255, 255, 255, 0.03);
@@ -711,5 +710,27 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 
 .custom-datepicker-wrapper input {
   width: 100%;
+}
+
+/* React DatePicker Month/Year View Overrides */
+.react-datepicker__month-text,
+.react-datepicker__year-text {
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: 8px 0 !important;
+}
+
+.react-datepicker__month-text:hover,
+.react-datepicker__year-text:hover {
+  background-color: var(--primary) !important;
+  color: #fff !important;
+}
+
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__year-text--selected,
+.react-datepicker__year-text--keyboard-selected {
+  background-color: var(--primary) !important;
+  color: #fff !important;
+  font-weight: bold !important;
 }
 

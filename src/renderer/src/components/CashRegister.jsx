@@ -244,58 +244,17 @@ const CashRegister = () => {
         <div className="glass-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h3 className="card-title">{t('cash.monthly_summary')}</h3>
-              <div style={{ position: 'relative', width: '12rem' }}>
-                <div 
-                  className="form-input" 
-                  style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'space-between', 
-                    padding: '0.4rem 0.75rem',
-                    pointerEvents: 'none',
-                    width: '100%',
-                    height: '100%',
-                    boxSizing: 'border-box'
-                  }}
-                >
-                  <span style={{ textTransform: 'capitalize' }}>
-                    {new Date(reportDate.year, reportDate.month - 1).toLocaleDateString(i18n.language, { month: 'long', year: 'numeric' })}
-                  </span>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style={{ opacity: 0.85, flexShrink: 0 }}>
-                    <rect x="3" y="5" width="18" height="15" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
-                    <path d="M3 7.5c0-.83.67-1.5 1.5-1.5h15c.83 0 1.5.67 1.5 1.5V10H3V7.5z" fill="#3b82f6"/>
-                    <rect x="6" y="2" width="2" height="5" rx="1" fill="#475569"/>
-                    <rect x="16" y="2" width="2" height="5" rx="1" fill="#475569"/>
-                    <circle cx="7.5" cy="13.5" r="1" fill="#94a3b8"/>
-                    <circle cx="12" cy="13.5" r="1" fill="#94a3b8"/>
-                    <circle cx="16.5" cy="13.5" r="1" fill="#94a3b8"/>
-                    <circle cx="7.5" cy="17" r="1" fill="#94a3b8"/>
-                    <circle cx="12" cy="17" r="1.2" fill="#3b82f6"/>
-                    <circle cx="16.5" cy="17" r="1" fill="#94a3b8"/>
-                  </svg>
-                </div>
-                
-                <input 
-                  type="month" 
-                  style={{ 
-                    position: 'absolute', 
-                    top: 0, 
-                    left: 0, 
-                    width: '100%', 
-                    height: '100%', 
-                    opacity: 0, 
-                    cursor: 'pointer',
-                    boxSizing: 'border-box'
-                  }}
-                  value={`${reportDate.year}-${reportDate.month.toString().padStart(2, '0')}`}
-                  onChange={(e) => {
-                    if (e.target.value) {
-                      const [y, m] = e.target.value.split('-');
-                      setReportDate({ year: parseInt(y), month: parseInt(m) });
-                    }
-                  }}
-                />
-              </div>
+              <CustomDatePicker
+                showMonthYearPicker
+                style={{ width: '12rem' }}
+                value={`${reportDate.year}-${reportDate.month.toString().padStart(2, '0')}`}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    const [y, m] = e.target.value.split('-');
+                    setReportDate({ year: parseInt(y), month: parseInt(m) });
+                  }
+                }}
+              />
             </div>
             
             {reportData ? (

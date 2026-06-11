@@ -308,9 +308,5 @@
     "how_4_desc": "Tüm işlemleriniz yerel veritabanınızda şifreli ve güvenli bir şekilde saklanır.",
     "conclusion_1": "Sadece bir kayıt defteri değil; şantiyenizin finansal hafızası.",
     "conclusion_2": "Elektronik Yevmiye Defteri, karmaşıklığı sadeleştirmek ve işinize odaklanmanız için tasarlanmıştır. Teknolojinin güveniyle, işinizin bereketini artırın."
-  },
-  "about": {
-      "search_faq": "Sıkça sorulan sorularda ara...",
-      "no_faq_found": "Aradığınız kriterlere uygun soru bulunamadı."
-    }
   }
+}
