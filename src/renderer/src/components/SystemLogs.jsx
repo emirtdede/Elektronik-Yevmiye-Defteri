@@ -94,11 +94,11 @@ const SystemLogs = () => {
         </div>
       </div>
 
-      <div style={{ flex: 1, background: '#0f172a', borderRadius: '8px', padding: '1rem', overflowY: 'auto', border: '1px solid #1e293b', fontFamily: 'monospace', fontSize: '0.85rem', color: '#cbd5e1' }}>
+      <div style={{ flex: 1, background: '#0f172a', borderRadius: '8px', padding: '1rem', overflowY: 'auto', border: '1px solid #1e293b', fontFamily: 'monospace', fontSize: '0.85rem', color: '#cbd5e1', display: 'flex', flexDirection: 'column' }}>
         {loading ? (
-          <div className="text-center" style={{ marginTop: '2rem' }}>Yükleniyor...</div>
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Yükleniyor...</div>
         ) : filteredLogs.length === 0 ? (
-          <div className="text-center text-muted" style={{ marginTop: '2rem' }}>Seçili aralıkta log bulunamadı.</div>
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>Seçili aralıkta log bulunamadı.</div>
         ) : (
           filteredLogs.map((logLine, idx) => {
             // Simple syntax highlighting based on log level or keywords

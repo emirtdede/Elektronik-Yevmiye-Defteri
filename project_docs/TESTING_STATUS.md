@@ -91,6 +91,11 @@ Projede backend ve finansal iş kuralları kodlanırken **TDD** benimsenmiştir.
 - [x] **Yerel IP Keşfi:** `getLocalIP` fonksiyonunun bilgisayarın ağ bağdaştırıcısını doğru okuyarak geçerli bir IPv4 adresi döndürdüğü doğrulandı.
 - [x] **Sunucu Kontrolleri:** Express.js sunucusunun belirtilen portta sorunsuz başladığı, mükerrer başlatma isteklerini doğru yönettiği ve durdurulduğu doğrulandı.
 
+### 16. Master-Detail Ayarlar ve Bağımsız SSS (Faz 3 & 4 Redesign)
+- [x] **Dikey Sekme Navigasyonu:** Sol dikey kategori butonları tıklandığında sağ tarafta ilgili panelin (Genel, Finans, Güvenlik, Loglar) gecikmesiz yüklendiği ve form verilerinin korunduğu doğrulandı.
+- [x] **Bağımsız Hakkında & SSS:** SSS sayfasının Ayarlar'dan tamamen ayrıştırıldığı, sol menü ve Spotlight (Ctrl+K) entegrasyonuyla bağımsız bir bileşen olarak başarıyla çalıştığı test edildi.
+- [x] **Güvenli Drag & Drop Bölgesi:** Güvenlik sekmesindeki Drag & Drop veritabanı geri yükleme alanının sürüklenen dosyayı doğru algılayıp `window.api.system.restoreDBFile` IPC'sine yönlendirdiği arayüz seviyesinde doğrulandı.
+
 ## Entegrasyon Testleri
 | Akış              | Durum         | Notlar                |
 |-------------------|---------------|-----------------------|

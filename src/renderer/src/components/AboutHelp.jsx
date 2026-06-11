@@ -5,6 +5,7 @@ import { ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 const AboutHelp = () => {
   const { t } = useTranslation();
   const [openFaq, setOpenFaq] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const toggleFaq = (index) => {
     if (openFaq === index) {
@@ -18,8 +19,25 @@ const AboutHelp = () => {
     { q: t('about.faq_q1'), a: t('about.faq_a1') },
     { q: t('about.faq_q2'), a: t('about.faq_a2') },
     { q: t('about.faq_q3'), a: t('about.faq_a3') },
-    { q: t('about.faq_q4'), a: t('about.faq_a4') }
+    { q: t('about.faq_q4'), a: t('about.faq_a4') },
+    {
+      q: 'Bilgisayarıma format atarsam veya uygulamayı silersem verilerim gider mi? Yedekleme ve Geri Yükleme nasıl yapılır?',
+      a: 'Evet, uygulama çevrimdışı (offline-first) çalıştığı için tüm verileriniz yerel bilgisayarınızda saklanır. Format atmadan önce verilerinizi korumak için:\n\n1. Ayarlar -> Sistem Güvenliği sayfasındaki "Tüm Veritabanını Yedekle (.sqlite)" butonuna basarak yedeğinizi alın.\n2. Yeni bilgisayarda uygulamayı açıp, Ayarlar sayfasındaki "Yedek Veritabanını Geri Yükle" alanına bu .sqlite dosyasını sürükleyip bırakarak sisteminizi otonom geri yükleyin (uygulama otomatik olarak yedeğin üzerine yazıp yeniden başlayacaktır).'
+    },
+    {
+      q: 'Yerel Ağ (LAN) Mobil Fotoğraf Yükleyicisi nasıl çalışır?',
+      a: 'Malzeme İrsaliyesi veya Kalite Kontrol Tutanakları eklerken "Mobilden Yükle (QR)" butonuna bastığınızda, uygulama bilgisayarınızda geçici bir yerel ağ sunucusu (LAN Express server) açar. Telefonunuzla QR kodu okuttuğunuzda, telefon kamerasıyla çektiğiniz irsaliye resimleri internet / bulut maliyeti olmaksızın doğrudan bilgisayarınızdaki uygulamaya yüklenir.'
+    },
+    {
+      q: 'Şantiye jurnallerindeki hava durumu bilgisi nereden çekilir?',
+      a: 'Şantiye Yönetimi sayfasından şantiyenizin lokasyon bilgisini (örneğin "İstanbul, TR") girdikten sonra Günlük Jurnal sekmesini açtığınızda, sistem otomatik olarak OpenWeather API üzerinden günün hava sıcaklık ve durum bilgisini şantiyenin konumuna göre otonom olarak çeker. İnternet olmaması durumunda ise sistem gerçekçi simüle değerler atar.'
+    }
   ];
+
+  const filteredFaqs = faqs.filter(faq => 
+    faq.q.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    faq.a.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const socialLinks = {
     code: [
@@ -128,50 +146,64 @@ const AboutHelp = () => {
 
       {/* SSS Accordion */}
       <div className="glass-card" style={{ marginBottom: '2rem' }}>
-        <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>{t('about.faq')}</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+          <h3 className="card-title" style={{ margin: 0 }}>{t('about.faq')}</h3>
+          <input 
+            type="text" 
+            className="form-input" 
+            placeholder="Sıkça sorulan sorularda ara..." 
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            style={{ maxWidth: '300px' }}
+          />
+        </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {faqs.map((faq, idx) => (
-            <div 
-              key={idx} 
-              style={{ 
-                border: '1px solid var(--glass-border)', 
-                borderRadius: '8px', 
-                overflow: 'hidden',
-                background: 'rgba(255,255,255,0.02)'
-              }}
-            >
-              <button 
-                onClick={() => toggleFaq(idx)}
+          {filteredFaqs.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aradığınız kriterlere uygun soru bulunamadı.</div>
+          ) : (
+            filteredFaqs.map((faq, idx) => (
+              <div 
+                key={idx} 
                 style={{ 
-                  width: '100%', 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center',
-                  padding: '1rem', 
-                  background: 'transparent', 
-                  border: 'none', 
-                  color: 'var(--text-main)', 
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  textAlign: 'left'
+                  border: '1px solid var(--glass-border)', 
+                  borderRadius: '8px', 
+                  overflow: 'hidden',
+                  background: 'rgba(255,255,255,0.02)'
                 }}
               >
-                {faq.q}
-                {openFaq === idx ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-              </button>
-              
-              <div style={{ 
-                maxHeight: openFaq === idx ? '500px' : '0', 
-                overflow: 'hidden', 
-                transition: 'max-height 0.3s ease',
-                background: 'rgba(0,0,0,0.1)'
-              }}>
-                <div style={{ padding: '1rem', color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.5' }}>
-                  {faq.a}
+                <button 
+                  onClick={() => toggleFaq(idx)}
+                  style={{ 
+                    width: '100%', 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center',
+                    padding: '1rem', 
+                    background: 'transparent', 
+                    border: 'none', 
+                    color: 'var(--text-main)', 
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    textAlign: 'left'
+                  }}
+                >
+                  {faq.q}
+                  {openFaq === idx ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                </button>
+                
+                <div style={{ 
+                  maxHeight: openFaq === idx ? '500px' : '0', 
+                  overflow: 'hidden', 
+                  transition: 'max-height 0.3s ease',
+                  background: 'rgba(0,0,0,0.1)'
+                }}>
+                  <div style={{ padding: '1rem', color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>
+                    {faq.a}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 

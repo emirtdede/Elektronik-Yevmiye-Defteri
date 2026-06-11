@@ -13,19 +13,19 @@
 - [x] **Medya Galerisi Backend**: İrsaliye, tutanak ve şantiye bazlı görsellerin listelenmesi için gerekli API ve IPC handler yapısının kurulması.
 
 ### FAZ 2: YEREL AĞ (LAN) MOBİL YÜKLEME VE VERİ GÜVENLİĞİ
-- [/] **LAN Fotoğraf Yükleyicisi (QR Kod)**: Express.js yerel sunucu entegrasyonu, Multer yükleme motoru ve QR kod üreteci tamamlandı; UI entegrasyonu bekliyor.
-- [/] **Tek Tıkla Export / Import (Sistem Geri Yükleme)**: SQLite dosyasını üzerine yazıp Electron'u otonom yeniden başlatan IPC handler'ı yazıldı; Drag&Drop UI'ı bekliyor.
+- [x] **LAN Fotoğraf Yükleyicisi (QR Kod)**: Express.js yerel sunucu entegrasyonu, Multer yükleme motoru, QR kod üretimi ve arayüz entegrasyonu başarıyla tamamlandı.
+- [x] **Tek Tıkla Export / Import (Sistem Geri Yükleme)**: SQLite dosyasını üzerine yazıp Electron'u otonom yeniden başlatan IPC handler'ı ve Ayarlar ekranındaki Drag & Drop UI alanı tamamlandı.
 - [x] **Sessiz Bulut Yedekleme**: Uygulama kapanırken arkaplanda yedekleme klasörüne sessizce zaman damgalı kopyalama yapan algoritma tamamlandı ve aktifleştirildi.
 
 ### FAZ 3: "GOD-TIER" ARAYÜZ MİMARİSİ (UI/UX Redesign)
-- [ ] **Bento Box Dashboard**: Dashboard tasarımının Apple Widget tarzında asimetrik bento grid yapısına dönüştürülmesi.
-- [ ] **Komuta Merkezi (Ctrl + K)**: Spotlight arama çubuğu entegrasyonu (hızlı arama, sayfalar arası yönlendirme ve hızlı işlem tetikleme).
-- [ ] **Bütünleşik Çalışma Alanı**: Sol navigasyon paneli, sağ dinamik sahne yapısı ve buzlu cam (Glassmorphism) modallar ile form alanları.
-- [ ] **Mikro Etkileşimler**: Pulsing Skeleton loader (iskelet yükleyiciler) ve butonlar için yaylanma fiziğine (spring animation) sahip micro-interaction geçişleri.
+- [x] **Bento Box Dashboard**: Dashboard tasarımı Apple Widget tarzında asimetrik bento grid yapısına dönüştürüldü.
+- [x] **Komuta Merkezi (Ctrl + K)**: Spotlight arama çubuğu entegrasyonu (hızlı arama, sayfalar arası yönlendirme, işçi ve şantiyeler arası hızlı geçiş) sağlandı.
+- [x] **Bütünleşik Çalışma Alanı**: Sol navigasyon paneli, sağ dinamik sahne yapısı ve buzlu cam (Glassmorphism) modallar ile form alanları entegre edildi.
+- [x] **Mikro Etkileşimler**: Pulsing Skeleton loader (iskelet yükleyiciler) ve butonlar için yaylanma fiziğine (spring animation) sahip micro-interaction geçişleri eklendi.
 
 ### FAZ 4: AKILLI YARDIM VE ARAMA MOTORLU SSS (FAQ)
-- [ ] **Arama Çubuğu (Searchable FAQ)**: Yardım sayfasındaki SSS bölümünün üstüne anlık sorgu yapabilen dinamik arama filtresi eklenmesi.
-- [ ] **Tam Kapsamlı İçerik**: Format atma durumunda veri kaybı riski, yedekleme (Export/Import) adımları ve tüm ERP modüllerinin çalışma rehberi ile SSS içeriğinin zenginleştirilmesi.
+- [x] **Arama Çubuğu (Searchable FAQ)**: Yardım sayfasındaki SSS bölümünün üstüne anlık sorgu yapabilen dinamik arama filtresi ve birinci sınıf sidebar navigasyonu eklendi.
+- [x] **Tam Kapsamlı İçerik**: Format atma durumunda veri kaybı riski, yedekleme (Export/Import) adımları ve tüm ERP modüllerinin çalışma rehberi ile SSS içeriği zenginleştirildi.
 
 ---
 

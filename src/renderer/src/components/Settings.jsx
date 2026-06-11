@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import SystemLogs from './SystemLogs';
 import ConfirmationModal from './ui/ConfirmationModal';
-import AboutHelp from './AboutHelp';
 import { useTranslation } from 'react-i18next';
 
-const Settings = () => {
+const Settings = ({ activeTab = 'genel' }) => {
   const { t, i18n } = useTranslation();
-  const [activeTab, setActiveTab] = useState('genel'); // 'genel' | 'logs'
   const [appSettings, setAppSettings] = useState([]);
   const [workTypes, setWorkTypes] = useState([]);
   const [workerGroups, setWorkerGroups] = useState([]);
@@ -40,7 +38,6 @@ const Settings = () => {
   // Update App Settings
   const handleSettingChange = async (id, key, value) => {
     if (window.api) {
-      // Optistic UI update
       setAppSettings(prev => prev.map(s => s.id === id ? { ...s, setting_value: value } : s));
       await window.api.db.update('app_settings', id, { setting_value: value });
 
@@ -60,7 +57,6 @@ const Settings = () => {
     reader.onload = async (e) => {
       const base64Img = e.target.result;
       
-      // Optionally resize using canvas to save DB space
       const img = new Image();
       img.src = base64Img;
       img.onload = async () => {
@@ -99,7 +95,7 @@ const Settings = () => {
     setModalConfig({
       isOpen: true,
       title: 'Çalışma Tipini Sil',
-      message: 'Bu çalışma tipini silmek istediğinize emin misiniz? Eski puantajlardaki hesaplamalar (çarpanlar) veritabanına mühürlendiği için geçmiş verileriniz bozulmayacaktır.',
+      message: 'Bu çalışma tipini silmek istediğinize emin misiniz? Eski puantajlardaki hesaplamalar veritabanına kaydedildiği için geçmiş verileriniz bozulmayacaktır.',
       type: 'danger',
       onConfirm: async () => {
         await window.api.db.delete('work_types', id);
@@ -147,15 +143,13 @@ const Settings = () => {
     setModalConfig({
       isOpen: true,
       title: 'Sistemi Optimize Et',
-      message: 'Veritabanı vakumlanarak silinmiş kayıtların kapladığı boşluklar geri kazanılacaktır. Bu işlem sistem hızınızı artırır ancak büyük veritabanlarında birkaç saniye sürebilir.',
+      message: 'Veritabanı vakumlanarak silinmiş kayıtların kapladığı boşluklar geri kazanılacaktır. Bu işlem sistem hızınızı artırır.',
       type: 'primary',
       onConfirm: async () => {
         if (window.api && window.api.system.vacuumDB) {
           const res = await window.api.system.vacuumDB();
           if (res.success) alert('Veritabanı başarıyla optimize edildi.');
           else alert('Optimizasyon Hatası: ' + res.message);
-        } else {
-          alert('Vakum komutu henüz backend tarafında desteklenmiyor.');
         }
       }
     });
@@ -166,11 +160,8 @@ const Settings = () => {
       const res = await window.api.system.setCloudFolder();
       if (res.success) {
         alert('Sessiz bulut yedekleme klasörü başarıyla ayarlandı:\n' + res.folderPath);
-        // İsteğe bağlı: UI'da bu klasörü göstermek için appSettings yenilenebilir.
         fetchData();
       }
-    } else {
-      alert('Sessiz yedekleme özelliği henüz backend tarafında desteklenmiyor.');
     }
   };
 
@@ -179,336 +170,333 @@ const Settings = () => {
   }
 
   return (
-    <div style={{ maxWidth: activeTab === 'logs' ? '1200px' : '1000px', margin: '0 auto', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <header className="header" style={{ marginBottom: '1rem' }}>
-        <h2>{t('settings.title')}</h2>
+    <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem', minHeight: 'calc(100vh - 100px)' }}>
+      <header className="header" style={{ marginBottom: '0.5rem' }}>
+        <h2>
+          {activeTab === 'genel' ? '⚙️ Genel Ayarlar' : 
+           activeTab === 'finance' ? '💼 Finans & Operasyon' : 
+           activeTab === 'security' ? '🛡️ Güvenlik ve Yedekleme' : 
+           '📋 Sistem Kayıtları'}
+        </h2>
       </header>
 
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem' }}>
-        <h3 
-          className="card-title" 
-          style={{ cursor: 'pointer', color: activeTab === 'genel' ? 'var(--text-main)' : 'var(--text-muted)' }}
-          onClick={() => setActiveTab('genel')}
-        >
-          {t('settings.tab_general')}
-        </h3>
-        <h3 
-          className="card-title" 
-          style={{ cursor: 'pointer', color: activeTab === 'logs' ? 'var(--text-main)' : 'var(--text-muted)' }}
-          onClick={() => setActiveTab('logs')}
-        >
-          {t('settings.tab_logs')}
-        </h3>
-        <h3 
-          className="card-title" 
-          style={{ cursor: 'pointer', color: activeTab === 'hakkinda' ? 'var(--text-main)' : 'var(--text-muted)' }}
-          onClick={() => setActiveTab('hakkinda')}
-        >
-          {t('about.title', 'Hakkında & Yardım')}
-        </h3>
-      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', overflowY: 'auto', paddingRight: '0.5rem' }}>
+        
+        {activeTab === 'genel' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {/* Tema ve Dil Seçimi */}
+            <div className="glass-card">
+              <h3 className="card-title" style={{ marginBottom: '1.25rem' }}>{t('settings.theme_language', 'Görünüm ve Dil')}</h3>
+              
+              {appSettings.map(setting => {
+                if (setting.setting_key === 'theme') {
+                  return (
+                    <div key={setting.id} className="form-group">
+                      <label className="form-label">{t('settings.theme', 'Tema')}</label>
+                      <select 
+                        className="form-input" 
+                        value={setting.setting_value}
+                        onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
+                      >
+                        <option value="dark">{t('settings.theme_dark', 'Karanlık')}</option>
+                        <option value="light">{t('settings.theme_light', 'Aydınlık')}</option>
+                      </select>
+                    </div>
+                  );
+                }
+                if (setting.setting_key === 'language') {
+                  return (
+                    <div key={setting.id} className="form-group">
+                      <label className="form-label">{t('settings.language', 'Dil')}</label>
+                      <select 
+                        className="form-input" 
+                        value={setting.setting_value}
+                        onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
+                      >
+                        <option value="tr">Türkçe (TR)</option>
+                        <option value="en">English (EN)</option>
+                        <option value="de">Deutsch (DE)</option>
+                        <option value="sv">Svenska (SV)</option>
+                        <option value="no">Norsk (NO)</option>
+                        <option value="da">Dansk (DA)</option>
+                        <option value="fr">Français (FR)</option>
+                        <option value="pl">Polski (PL)</option>
+                        <option value="it">Italiano (IT)</option>
+                        <option value="nl">Nederlands (NL)</option>
+                        <option value="cs">Čeština (CS)</option>
+                        <option value="es">Español (ES)</option>
+                        <option value="pt">Português (PT)</option>
+                        <option value="ru">Русский (RU)</option>
+                        <option value="zh">中文 (Mandarin)</option>
+                        <option value="ja">日本語 (JA)</option>
+                        <option value="ko">한국어 (KO)</option>
+                        <option value="ar">العربية (AR)</option>
+                        <option value="hi">हिन्दी (HI)</option>
+                      </select>
+                    </div>
+                  );
+                }
+                return null;
+              })}
+            </div>
 
-      {activeTab === 'hakkinda' ? (
-        <AboutHelp />
-      ) : activeTab === 'genel' ? (
-        <div className="profile-grid" style={{ flex: 1 }}>
-          {/* Left Column: App Settings */}
-          <div className="left-panel">
-          <div className="glass-card">
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>{t('settings.general')}</h3>
-            
-            {appSettings.map(setting => {
-              // Hide specialized settings from general list
-              if (['theme', 'language', 'company_name', 'company_logo'].includes(setting.setting_key)) return null;
-
-              return (
-                <div key={setting.id} className="form-group">
-                  <label className="form-label">{t(`settings.keys.${setting.setting_key}`) || setting.description || setting.setting_key}</label>
-                  <input 
-                    type="text" 
-                    className="form-input" 
-                    value={setting.setting_value}
-                    onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
-                  />
-                </div>
-              );
-            })}
-            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '1rem' }}>
-              {t('settings.auto_save_note')}
+            {/* Şirket Kimliği ve PDF Anteti */}
+            <div className="glass-card">
+              <h3 className="card-title" style={{ marginBottom: '1.25rem' }}>{t('settings.company_info', 'Şirket Kimliği & PDF Anteti')}</h3>
+              
+              {appSettings.map(setting => {
+                if (setting.setting_key === 'company_name') {
+                  return (
+                    <div key={setting.id} className="form-group">
+                      <label className="form-label">{t('settings.company_name', 'Şirket Adı')}</label>
+                      <input 
+                        type="text" 
+                        className="form-input" 
+                        placeholder="Örn: ABC İnşaat A.Ş."
+                        value={setting.setting_value}
+                        onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
+                      />
+                    </div>
+                  );
+                }
+                if (setting.setting_key === 'company_logo') {
+                  return (
+                    <div key={setting.id} className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                      <label className="form-label">{t('settings.company_logo', 'Şirket Logosu')}</label>
+                      {setting.setting_value && (
+                        <div style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start' }}>
+                          <img 
+                            src={setting.setting_value} 
+                            alt="Company Logo" 
+                            style={{ maxWidth: '150px', maxHeight: '100px', objectFit: 'contain', background: 'rgba(255,255,255,0.05)', padding: '0.5rem', borderRadius: '8px', border: '1px solid var(--glass-border)' }} 
+                          />
+                          <button 
+                            type="button"
+                            className="btn btn-danger"
+                            style={{ position: 'absolute', top: '-10px', right: '-10px', width: '24px', height: '24px', padding: 0, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            onClick={() => handleRemoveLogo(setting.id)}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      )}
+                      
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <label 
+                          htmlFor={`logo-upload-input-${setting.id}`}
+                          className="btn"
+                          style={{ cursor: 'pointer', margin: 0 }}
+                        >
+                          📁 Logo Seç
+                        </label>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                          {setting.setting_value ? 'Logo yüklendi' : 'Dosya seçilmedi'}
+                        </span>
+                        <input 
+                          id={`logo-upload-input-${setting.id}`}
+                          type="file" 
+                          accept="image/png, image/jpeg" 
+                          style={{ display: 'none' }}
+                          onChange={(e) => handleLogoUpload(setting.id, e.target.files[0])}
+                        />
+                      </div>
+                    </div>
+                  );
+                }
+                return null;
+              })}
             </div>
           </div>
+        )}
 
-          <div className="glass-card" style={{ marginTop: '2rem' }}>
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>{t('settings.company_info')}</h3>
-            
-            {appSettings.map(setting => {
-              if (setting.setting_key === 'company_name') {
+        {activeTab === 'finance' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {/* Standart Çalışma Parametreleri */}
+            <div className="glass-card">
+              <h3 className="card-title" style={{ marginBottom: '1.25rem' }}>Parametreler</h3>
+              {appSettings.map(setting => {
+                if (['theme', 'language', 'company_name', 'company_logo'].includes(setting.setting_key)) return null;
                 return (
                   <div key={setting.id} className="form-group">
-                    <label className="form-label">{t('settings.company_name')}</label>
+                    <label className="form-label">{t(`settings.keys.${setting.setting_key}`) || setting.description || setting.setting_key}</label>
                     <input 
                       type="text" 
                       className="form-input" 
-                      placeholder={t('settings.company_name_placeholder', 'Örn: ABC İnşaat A.Ş.')}
                       value={setting.setting_value}
                       onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
                     />
                   </div>
                 );
-              }
-              if (setting.setting_key === 'company_logo') {
-                return (
-                  <div key={setting.id} className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label className="form-label">{t('settings.company_logo')}</label>
-                    {setting.setting_value && (
-                      <div style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start' }}>
-                        <img 
-                          src={setting.setting_value} 
-                          alt="Company Logo" 
-                          style={{ maxWidth: '150px', maxHeight: '100px', objectFit: 'contain', background: 'rgba(255,255,255,0.1)', padding: '0.5rem', borderRadius: '4px' }} 
-                        />
-                        <button 
-                          type="button"
-                          className="btn"
-                          style={{ position: 'absolute', top: '-10px', right: '-10px', background: '#ef4444', color: 'white', padding: '0.2rem 0.5rem', fontSize: '0.8rem', borderRadius: '50%', border: 'none', cursor: 'pointer', lineHeight: '1' }}
-                          onClick={() => handleRemoveLogo(setting.id)}
-                          title="Logoyu Kaldır"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    )}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '0.25rem' }}>
-                      <label 
-                        htmlFor={`logo-upload-input-${setting.id}`}
-                        className="btn"
-                        style={{ 
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          margin: 0,
-                          cursor: 'pointer',
-                          backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                          border: '1px solid var(--glass-border)'
-                        }}
-                      >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle' }}>
-                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                          <polyline points="17 8 12 3 7 8" />
-                          <line x1="12" y1="3" x2="12" y2="15" />
-                        </svg>
-                        {t('settings.file_select_button', 'Dosya Seç')}
-                      </label>
-                      <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-                        {setting.setting_value ? t('settings.company_logo') : t('settings.file_not_selected', 'Dosya seçilmedi')}
-                      </span>
-                      <input 
-                        id={`logo-upload-input-${setting.id}`}
-                        type="file" 
-                        accept="image/png, image/jpeg" 
-                        style={{ display: 'none' }}
-                        onChange={(e) => handleLogoUpload(setting.id, e.target.files[0])}
-                      />
+              })}
+            </div>
+
+            {/* Çalışma Tipleri */}
+            <div className="glass-card">
+              <h3 className="card-title" style={{ marginBottom: '1rem' }}>{t('settings.work_types_title', 'Çalışma Tipleri & Çarpanlar')}</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
+                {workTypes.map(wt => (
+                  <div key={wt.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid var(--glass-border)' }}>
+                    <div>
+                      <strong>{wt.name}</strong>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Çarpan: x{wt.multiplier}</div>
                     </div>
-                    <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>
-                      {t('settings.company_logo_help', '* PNG veya JPG formatında. Otomatik olarak optimize edilir.')}
-                    </small>
+                    <button onClick={() => handleDeleteWorkType(wt.id)} className="btn btn-danger" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}>
+                      {t('settings.delete', 'Sil')}
+                    </button>
                   </div>
-                );
-              }
-              return null;
-            })}
-          </div>
-
-          <div className="glass-card" style={{ marginTop: '2rem' }}>
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>{t('settings.theme_language')}</h3>
-            
-            {appSettings.map(setting => {
-              if (setting.setting_key === 'theme') {
-                return (
-                  <div key={setting.id} className="form-group">
-                    <label className="form-label">{t('settings.theme')}</label>
-                    <select 
-                      className="form-input" 
-                      value={setting.setting_value}
-                      onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
-                    >
-                      <option value="dark">{t('settings.theme_dark')}</option>
-                      <option value="light">{t('settings.theme_light')}</option>
-                    </select>
-                  </div>
-                );
-              }
-              if (setting.setting_key === 'language') {
-                return (
-                  <div key={setting.id} className="form-group">
-                    <label className="form-label">{t('settings.language')}</label>
-                    <select 
-                      className="form-input" 
-                      value={setting.setting_value}
-                      onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
-                    >
-                      <option value="tr">Türkçe (TR)</option>
-                      <option value="en">English (EN)</option>
-                      <option value="de">Deutsch (DE)</option>
-                      <option value="sv">Svenska (SV)</option>
-                      <option value="no">Norsk (NO)</option>
-                      <option value="da">Dansk (DA)</option>
-                      <option value="fr">Français (FR)</option>
-                      <option value="pl">Polski (PL)</option>
-                      <option value="it">Italiano (IT)</option>
-                      <option value="nl">Nederlands (NL)</option>
-                      <option value="cs">Čeština (CS)</option>
-                      <option value="es">Español (ES)</option>
-                      <option value="pt">Português (PT)</option>
-                      <option value="ru">Русский (RU)</option>
-                      <option value="zh">中文 (Mandarin)</option>
-                      <option value="ja">日本語 (JA)</option>
-                      <option value="ko">한국어 (KO)</option>
-                      <option value="ar">العربية (AR)</option>
-                      <option value="hi">हिन्दी (HI)</option>
-                    </select>
-                  </div>
-                );
-              }
-              return null;
-            })}
-          </div>
-
-          <div className="glass-card" style={{ marginTop: '2rem' }}>
-            <h3 className="card-title" style={{ marginBottom: '1.5rem', color: '#38bdf8' }}>{t('settings.security_title')}</h3>
-            
-            <div style={{ marginBottom: '1.5rem' }}>
-              <button className="btn btn-primary" onClick={handleBackup} style={{ width: '100%', background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', marginBottom: '0.5rem' }}>
-                {t('settings.backup_db')}
-              </button>
-              <p className="text-sm text-gray-500" style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                {t('settings.backup_desc')}
-              </p>
-            </div>
-
-            <div style={{ marginBottom: '1.5rem', borderTop: '1px solid var(--glass-border)', paddingTop: '1.5rem' }}>
-              <button className="btn" onClick={handleVacuum} style={{ width: '100%', marginBottom: '0.5rem', background: 'rgba(255,255,255,0.05)' }}>
-                {t('settings.vacuum_db')}
-              </button>
-              <p className="text-sm text-gray-500" style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                {t('settings.vacuum_desc')}
-              </p>
-            </div>
-
-            <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '1.5rem' }}>
-              <button className="btn" onClick={handleCloudSyncFolder} style={{ width: '100%', marginBottom: '0.5rem', border: '1px solid #10B981', color: '#10B981' }}>
-                {t('settings.cloud_sync')}
-              </button>
-              <p className="text-sm text-gray-500" style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                {t('settings.cloud_sync_desc')}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Work Types */}
-        <div className="right-panel">
-          <div className="glass-card" style={{ marginBottom: '2rem' }}>
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>{t('settings.work_types_title')}</h3>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {workTypes.map(wt => (
-                <div key={wt.id} style={{ 
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  background: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)'
-                }}>
-                  <div>
-                    <div style={{ fontWeight: '600', fontSize: '1.1rem' }}>{wt.name}</div>
-                    <div className="text-muted" style={{ fontSize: '0.9rem', marginTop: '0.25rem' }}>{t('settings.multiplier')}: x{wt.multiplier}</div>
-                  </div>
-                  <button 
-                    onClick={() => handleDeleteWorkType(wt.id)}
-                    className="btn btn-danger"
-                    style={{ padding: '0.5rem 1rem' }}
-                  >
-                    {t('settings.delete')}
-                  </button>
+                ))}
+              </div>
+              
+              <form onSubmit={handleAddWorkType} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end', borderTop: '1px solid var(--glass-border)', paddingTop: '1.25rem' }}>
+                <div style={{ flex: 2 }}>
+                  <label className="form-label">Çalışma Tipi Adı</label>
+                  <input 
+                    type="text" 
+                    className="form-input" 
+                    value={newWorkType.name}
+                    onChange={e => setNewWorkType(prev => ({...prev, name: e.target.value}))}
+                    required
+                  />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="glass-card">
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>{t('settings.add_new_type')}</h3>
-            <form onSubmit={handleAddWorkType} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
-              <div className="form-group" style={{ marginBottom: 0, flex: 2 }}>
-                <label className="form-label">{t('settings.type_name')}</label>
-                <input 
-                  type="text" 
-                  className="form-input" 
-                  value={newWorkType.name}
-                  onChange={e => setNewWorkType(prev => ({...prev, name: e.target.value}))}
-                  required
-                />
-              </div>
-              <div className="form-group" style={{ marginBottom: 0, flex: 1 }}>
-                <label className="form-label">{t('settings.multiplier')}</label>
-                <input 
-                  type="number" 
-                  step="0.1"
-                  className="form-input" 
-                  value={newWorkType.multiplier}
-                  onChange={e => setNewWorkType(prev => ({...prev, multiplier: Number(e.target.value)}))}
-                  required
-                />
-              </div>
-              <button type="submit" className="btn btn-primary" style={{ height: '45px' }}>{t('settings.add')}</button>
-            </form>
-          </div>
-
-          {/* Groups Management */}
-          <div className="glass-card" style={{ marginTop: '2rem', marginBottom: '2rem' }}>
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>{t('settings.groups_title')}</h3>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {workerGroups.map(grp => (
-                <div key={grp.id} style={{ 
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  background: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)'
-                }}>
-                  <div style={{ fontWeight: '600', fontSize: '1.1rem' }}>{grp.name}</div>
-                  <button 
-                    onClick={() => handleDeleteGroup(grp.id)}
-                    className="btn btn-danger"
-                    style={{ padding: '0.5rem 1rem' }}
-                  >
-                    {t('settings.delete')}
-                  </button>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Çarpan</label>
+                  <input 
+                    type="number" 
+                    step="0.1"
+                    className="form-input" 
+                    value={newWorkType.multiplier}
+                    onChange={e => setNewWorkType(prev => ({...prev, multiplier: Number(e.target.value)}))}
+                    required
+                  />
                 </div>
-              ))}
+                <button type="submit" className="btn btn-primary" style={{ padding: '0.75rem 1.25rem' }}>Ekle</button>
+              </form>
+            </div>
+
+            {/* Gruplar */}
+            <div className="glass-card">
+              <h3 className="card-title" style={{ marginBottom: '1rem' }}>{t('settings.groups_title', 'İşçi Grupları')}</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
+                {workerGroups.map(grp => (
+                  <div key={grp.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid var(--glass-border)' }}>
+                    <strong>{grp.name}</strong>
+                    <button onClick={() => handleDeleteGroup(grp.id)} className="btn btn-danger" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}>
+                      {t('settings.delete', 'Sil')}
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <form onSubmit={handleAddGroup} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end', borderTop: '1px solid var(--glass-border)', paddingTop: '1.25rem' }}>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Grup Adı</label>
+                  <input 
+                    type="text" 
+                    className="form-input" 
+                    value={newGroup.name}
+                    onChange={e => setNewGroup(prev => ({...prev, name: e.target.value}))}
+                    required
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary" style={{ padding: '0.75rem 1.25rem' }}>Ekle</button>
+              </form>
             </div>
           </div>
+        )}
 
-          <div className="glass-card">
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>{t('settings.add_new_group')}</h3>
-            <form onSubmit={handleAddGroup} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
-              <div className="form-group" style={{ marginBottom: 0, flex: 2 }}>
-                <label className="form-label">{t('settings.group_name')}</label>
-                <input 
-                  type="text" 
-                  className="form-input" 
-                  value={newGroup.name}
-                  onChange={e => setNewGroup(prev => ({...prev, name: e.target.value}))}
-                  required
-                />
+        {activeTab === 'security' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            
+            {/* Kritik Veri İşlemleri - Kırmızı / Uyarı Tasarımı */}
+            <div className="glass-card" style={{ borderLeft: '4px solid var(--danger)', background: 'rgba(239, 68, 68, 0.02)' }}>
+              <h3 className="card-title" style={{ color: 'var(--danger)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                ⚠️ Kritik Sistem Eylemleri
+              </h3>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div>
+                  <button className="btn btn-primary" onClick={handleBackup} style={{ width: '100%', background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', marginBottom: '0.5rem' }}>
+                    📦 Tüm Veritabanını Yedekle (.sqlite Export)
+                  </button>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    Tüm sisteminizi (.sqlite veritabanı dosyası olarak) yerel diskinize aktarır. Bilgisayar değişimi veya yedekleme için kullanabilirsiniz.
+                  </p>
+                </div>
+
+                <div style={{ borderTop: '1px solid rgba(239, 68, 68, 0.15)', paddingTop: '1.25rem' }}>
+                  <label className="form-label" style={{ color: '#fca5a5' }}>Yedekten Geri Yükle (Drag & Drop)</label>
+                  <div 
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={async (e) => {
+                      e.preventDefault();
+                      const file = e.dataTransfer.files[0];
+                      if (file && (file.name.endsWith('.sqlite') || file.name.endsWith('.db'))) {
+                        if (window.confirm('Veritabanını geri yüklemek istediğinize emin misiniz? Mevcut tüm verileriniz silinecektir!')) {
+                          const res = await window.api.system.restoreDBFile({ filePath: file.path });
+                          if (res && !res.success) {
+                            alert('Geri yükleme hatası: ' + res.message);
+                          }
+                        }
+                      } else {
+                        alert('Lütfen geçerli bir SQLite (.sqlite veya .db) veritabanı dosyası sürükleyin.');
+                      }
+                    }}
+                    style={{
+                      border: '2px dashed rgba(239, 68, 68, 0.3)',
+                      borderRadius: '8px',
+                      padding: '1.75rem',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      background: 'rgba(239, 68, 68, 0.04)',
+                      transition: 'all 0.2s',
+                    }}
+                    onDragEnter={(e) => e.currentTarget.style.borderColor = 'var(--danger)'}
+                    onDragLeave={(e) => e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'}
+                  >
+                    <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>📥</div>
+                    <strong style={{ fontSize: '0.85rem', color: '#fff', display: 'block' }}>Yedek Veritabanını Üzerine Yazdır</strong>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>.sqlite dosyasını buraya sürükleyip bırakın (Uygulama otomatik olarak yeniden başlayacaktır)</span>
+                  </div>
+                </div>
               </div>
-              <button type="submit" className="btn btn-primary" style={{ height: '45px' }}>{t('settings.add')}</button>
-            </form>
+            </div>
+
+            {/* Otomasyon ve Bakım */}
+            <div className="glass-card">
+              <h3 className="card-title" style={{ marginBottom: '1.25rem' }}>Sistem Bakımı</h3>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <div>
+                  <button className="btn" onClick={handleVacuum} style={{ width: '100%', marginBottom: '0.5rem', background: 'rgba(255,255,255,0.04)' }}>
+                    🧹 Veritabanını Optimize Et (Vacuum)
+                  </button>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    Boşaltılan veya silinen kayıtların oluşturduğu veritabanı boşluklarını temizler, disk alanını geri kazanır ve sorgu hızlarını artırır.
+                  </p>
+                </div>
+
+                <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '1.25rem' }}>
+                  <button className="btn" onClick={handleCloudSyncFolder} style={{ width: '100%', marginBottom: '0.5rem', border: '1px solid #10B981', color: '#10B981', background: 'transparent' }}>
+                    ☁️ Bulut Yedekleme Klasörü Ayarla
+                  </button>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    Her uygulama kapandığında arkaplanda (sessizce) otomatik yedeklerin kaydedileceği bir Dropbox, Drive vb. bulut klasörü seçmenizi sağlar.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
+        )}
+
+        {activeTab === 'logs' && (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <SystemLogs />
           </div>
-        </div>
-      ) : (
-        <div style={{ flex: 1 }}>
-          <SystemLogs />
-        </div>
-      )}
-      
+        )}
+
+      </div>
+
       <ConfirmationModal 
         {...modalConfig} 
         onClose={() => setModalConfig({ ...modalConfig, isOpen: false })} 

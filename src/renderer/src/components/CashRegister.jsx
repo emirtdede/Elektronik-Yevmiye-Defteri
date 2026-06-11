@@ -7,7 +7,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 const CashRegister = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [transactions, setTransactions] = useState([]);
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -243,16 +243,47 @@ const CashRegister = () => {
         <div className="glass-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h3 className="card-title">{t('cash.monthly_summary')}</h3>
-              <input 
-                type="month" 
-                className="form-input" 
-                style={{ width: 'auto', padding: '0.25rem 0.5rem' }}
-                value={`${reportDate.year}-${reportDate.month.toString().padStart(2, '0')}`}
-                onChange={(e) => {
-                  const [y, m] = e.target.value.split('-');
-                  setReportDate({ year: parseInt(y), month: parseInt(m) });
-                }}
-              />
+              <div style={{ position: 'relative', width: '12rem' }}>
+                <div 
+                  className="form-input" 
+                  style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'space-between', 
+                    padding: '0.4rem 0.75rem',
+                    pointerEvents: 'none',
+                    width: '100%',
+                    height: '100%',
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  <span style={{ textTransform: 'capitalize' }}>
+                    {new Date(reportDate.year, reportDate.month - 1).toLocaleDateString(i18n.language, { month: 'long', year: 'numeric' })}
+                  </span>
+                  <span style={{ opacity: 0.65, fontSize: '0.9rem' }}>📅</span>
+                </div>
+                
+                <input 
+                  type="month" 
+                  style={{ 
+                    position: 'absolute', 
+                    top: 0, 
+                    left: 0, 
+                    width: '100%', 
+                    height: '100%', 
+                    opacity: 0, 
+                    cursor: 'pointer',
+                    boxSizing: 'border-box'
+                  }}
+                  value={`${reportDate.year}-${reportDate.month.toString().padStart(2, '0')}`}
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      const [y, m] = e.target.value.split('-');
+                      setReportDate({ year: parseInt(y), month: parseInt(m) });
+                    }
+                  }}
+                />
+              </div>
             </div>
             
             {reportData ? (

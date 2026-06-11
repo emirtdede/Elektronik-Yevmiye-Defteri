@@ -27,7 +27,27 @@ const AnomalyPanel = ({ workers, balances }) => {
   });
 
   if (negativeBalanceWorkers.length === 0 && isgWarningWorkers.length === 0) {
-    return null; // Hiç anomali/uyarı yoksa panel gösterilmez
+    return (
+      <div style={{
+        background: 'rgba(16, 185, 129, 0.08)',
+        border: '1px solid rgba(16, 185, 129, 0.3)',
+        borderRadius: '12px',
+        padding: '1.25rem 1.5rem',
+        marginBottom: '1.5rem'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <span style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center' }}>🛡️</span>
+          <div>
+            <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: '600', color: '#10b981' }}>
+              Sistem Anomalisi Yok
+            </h3>
+            <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+              Tüm finansal durumlar ve İSG sertifikaları güncel.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
