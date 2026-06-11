@@ -26,8 +26,30 @@ import './index.css';
 function App() {
   const { t, i18n } = useTranslation();
   
+  const langToLocaleMap = {
+    en: 'en-US',
+    tr: 'tr-TR',
+    de: 'de-DE',
+    fr: 'fr-FR',
+    es: 'es-ES',
+    zh: 'zh-CN',
+    ru: 'ru-RU',
+    ja: 'ja-JP',
+    ko: 'ko-KR',
+    it: 'it-IT',
+    nl: 'nl-NL',
+    pt: 'pt-PT',
+    ar: 'ar-SA',
+    hi: 'hi-IN',
+    sv: 'sv-SE',
+    no: 'nb-NO',
+    da: 'da-DK',
+    pl: 'pl-PL',
+    cs: 'cs-CZ'
+  };
+
   useEffect(() => {
-    document.documentElement.lang = i18n.language;
+    document.documentElement.lang = langToLocaleMap[i18n.language] || i18n.language;
   }, [i18n.language]);
 
   const [view, setView] = useState('list'); // 'list' | 'profile' | 'settings' | 'kasa' | 'projects' | 'production' | 'materials' | 'journal' | 'quality' | 'subcontractor' | 'media'
