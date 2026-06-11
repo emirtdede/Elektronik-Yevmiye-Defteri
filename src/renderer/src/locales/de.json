@@ -40,7 +40,11 @@
       "overtime_multiplier": "Überstundenlohnmultiplikator",
       "cloud_sync_folder": "Cloud-Synchronisationsordner"
     },
-    "auto_save_note": "* Änderungen werden sofort gespeichert."
+    "auto_save_note": "* Änderungen werden sofort gespeichert.",
+    "company_name_placeholder": "z.B. ABC Bau GmbH",
+    "company_logo_help": "* Im PNG- oder JPG-Format. Wird automatisch optimiert.",
+    "file_select_button": "Datei auswählen",
+    "file_not_selected": "Keine Datei ausgewählt"
   },
   "dashboard": {
     "title": "Personalverwaltung",

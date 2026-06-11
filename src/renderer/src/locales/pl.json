@@ -40,7 +40,11 @@
       "overtime_multiplier": "Mnożnik nadgodzin",
       "cloud_sync_folder": "Folder w chmurze"
     },
-    "auto_save_note": "* Zmiany są zapisywane automatycznie."
+    "auto_save_note": "* Zmiany są zapisywane automatycznie.",
+    "company_name_placeholder": "np. ABC Budownictwo Sp. z o.o.",
+    "company_logo_help": "* W formacie PNG lub JPG. Automatycznie optymalizowane.",
+    "file_select_button": "Wybierz plik",
+    "file_not_selected": "Nie wybrano pliku"
   },
   "dashboard": {
     "title": "Zarządzanie personelem",

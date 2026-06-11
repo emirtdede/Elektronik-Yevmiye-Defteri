@@ -40,7 +40,11 @@
       "overtime_multiplier": "مضاعف أجر العمل الإضافي",
       "cloud_sync_folder": "مجلد المزامنة السحابية"
     },
-    "auto_save_note": "* يتم حفظ التغييرات على الفور."
+    "auto_save_note": "* يتم حفظ التغييرات على الفور.",
+    "company_name_placeholder": "مثال: شركة إي بي سي للمقاولات",
+    "company_logo_help": "* بصيغة PNG أو JPG. يتم تحسينها تلقائيًا.",
+    "file_select_button": "اختيار ملف",
+    "file_not_selected": "لم يتم اختيار ملف"
   },
   "dashboard": {
     "title": "إدارة شؤون الموظفين",

@@ -40,7 +40,11 @@
       "overtime_multiplier": "Overtime wage multiplier",
       "cloud_sync_folder": "Cloud Sync Folder"
     },
-    "auto_save_note": "* Changes are saved instantly."
+    "auto_save_note": "* Changes are saved instantly.",
+    "company_name_placeholder": "e.g. ABC Construction Inc.",
+    "company_logo_help": "* In PNG or JPG format. Automatically optimized.",
+    "file_select_button": "Choose File",
+    "file_not_selected": "No file chosen"
   },
   "dashboard": {
     "title": "Personnel Management",

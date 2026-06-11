@@ -40,7 +40,11 @@
       "overtime_multiplier": "Mesai saat ücreti çarpanı",
       "cloud_sync_folder": "Bulut Yedekleme Klasörü"
     },
-    "auto_save_note": "* Değişiklikler anında kaydedilir."
+    "auto_save_note": "* Değişiklikler anında kaydedilir.",
+    "company_name_placeholder": "Örn: ABC İnşaat A.Ş.",
+    "company_logo_help": "* PNG veya JPG formatında. Otomatik olarak optimize edilir.",
+    "file_select_button": "Dosya Seç",
+    "file_not_selected": "Dosya seçilmedi"
   },
   "dashboard": {
     "title": "Personel Yönetimi",

@@ -40,7 +40,11 @@
       "overtime_multiplier": "Overtidsmultiplikator",
       "cloud_sync_folder": "Nettskylagringsmappe"
     },
-    "auto_save_note": "* Endringer lagres umiddelbart."
+    "auto_save_note": "* Endringer lagres umiddelbart.",
+    "company_name_placeholder": "f.eks. ABC Bygg AS",
+    "company_logo_help": "* I PNG- eller JPG-format. Optimaliseres automatisk.",
+    "file_select_button": "Velg fil",
+    "file_not_selected": "Ingen fil valgt"
   },
   "dashboard": {
     "title": "Personaladministrasjon",

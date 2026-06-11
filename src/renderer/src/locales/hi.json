@@ -40,7 +40,11 @@
       "overtime_multiplier": "ओवरटाइम वेतन गुणक",
       "cloud_sync_folder": "क्लाउड सिंक फ़ोल्डर"
     },
-    "auto_save_note": "* परिवर्तन तुरंत सहेजे जाते हैं।"
+    "auto_save_note": "* परिवर्तन तुरंत सहेजे जाते हैं।",
+    "company_name_placeholder": "उदा: एबीसी कंस्ट्रक्शन इंक.",
+    "company_logo_help": "* पीएनजी या जेपीजी प्रारूप में। स्वचालित रूप से अनुकूलित।",
+    "file_select_button": "फ़ाइल चुनें",
+    "file_not_selected": "कोई फ़ाइल नहीं चुनी गई"
   },
   "dashboard": {
     "title": "कार्मिक प्रबंधन",

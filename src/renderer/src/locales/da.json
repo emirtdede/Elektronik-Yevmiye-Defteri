@@ -40,7 +40,11 @@
       "overtime_multiplier": "Overtidsmultiplikator",
       "cloud_sync_folder": "Cloud-mappe"
     },
-    "auto_save_note": "* Ændringer gemmes automatisk."
+    "auto_save_note": "* Ændringer gemmes automatisk.",
+    "company_name_placeholder": "f.eks. ABC Byg A/S",
+    "company_logo_help": "* I PNG- eller JPG-format. Optimeres automatisk.",
+    "file_select_button": "Vælg fil",
+    "file_not_selected": "Ingen fil valgt"
   },
   "dashboard": {
     "title": "Personalestyring",

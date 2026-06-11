@@ -40,7 +40,11 @@
       "overtime_multiplier": "Множитель оплаты сверхурочных",
       "cloud_sync_folder": "Папка облачной синхронизации"
     },
-    "auto_save_note": "* Изменения сохраняются мгновенно."
+    "auto_save_note": "* Изменения сохраняются мгновенно.",
+    "company_name_placeholder": "напр., ООО АБС Строительство",
+    "company_logo_help": "* В формате PNG или JPG. Автоматически оптимизируется.",
+    "file_select_button": "Выбрать файл",
+    "file_not_selected": "Файл не выбран"
   },
   "dashboard": {
     "title": "Управление персоналом",

@@ -40,7 +40,11 @@
       "overtime_multiplier": "Moltiplicatore straordinari",
       "cloud_sync_folder": "Cartella cloud"
     },
-    "auto_save_note": "* Le modifiche vengono salvate automaticamente."
+    "auto_save_note": "* Le modifiche vengono salvate automaticamente.",
+    "company_name_placeholder": "es. ABC Costruzioni S.p.A.",
+    "company_logo_help": "* In formato PNG o JPG. Ottimizzato automaticamente.",
+    "file_select_button": "Scegli file",
+    "file_not_selected": "Nessun file selezionato"
   },
   "dashboard": {
     "title": "Gestione del personale",

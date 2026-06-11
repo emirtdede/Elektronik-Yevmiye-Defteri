@@ -40,7 +40,11 @@
       "overtime_multiplier": "残業倍率",
       "cloud_sync_folder": "クラウドフォルダ"
     },
-    "auto_save_note": "* 変更は自動的に保存されます。"
+    "auto_save_note": "* 変更は自動的に保存されます。",
+    "company_name_placeholder": "例: ABC建設株式会社",
+    "company_logo_help": "※ PNGまたはJPG形式。自動的に最適化されます。",
+    "file_select_button": "ファイルを選択",
+    "file_not_selected": "選択されていません"
   },
   "dashboard": {
     "title": "人事管理",

@@ -249,7 +249,7 @@ const Settings = () => {
                     <input 
                       type="text" 
                       className="form-input" 
-                      placeholder="Örn: ABC İnşaat A.Ş."
+                      placeholder={t('settings.company_name_placeholder', 'Örn: ABC İnşaat A.Ş.')}
                       value={setting.setting_value}
                       onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
                     />
@@ -278,14 +278,41 @@ const Settings = () => {
                         </button>
                       </div>
                     )}
-                    <input 
-                      type="file" 
-                      accept="image/png, image/jpeg" 
-                      className="form-input" 
-                      style={{ padding: '0.4rem' }}
-                      onChange={(e) => handleLogoUpload(setting.id, e.target.files[0])}
-                    />
-                    <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>* PNG veya JPG formatında. Otomatik olarak optimize edilir.</small>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '0.25rem' }}>
+                      <label 
+                        htmlFor={`logo-upload-input-${setting.id}`}
+                        className="btn"
+                        style={{ 
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          margin: 0,
+                          cursor: 'pointer',
+                          backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid var(--glass-border)'
+                        }}
+                      >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle' }}>
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="17 8 12 3 7 8" />
+                          <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        {t('settings.file_select_button', 'Dosya Seç')}
+                      </label>
+                      <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                        {setting.setting_value ? t('settings.company_logo') : t('settings.file_not_selected', 'Dosya seçilmedi')}
+                      </span>
+                      <input 
+                        id={`logo-upload-input-${setting.id}`}
+                        type="file" 
+                        accept="image/png, image/jpeg" 
+                        style={{ display: 'none' }}
+                        onChange={(e) => handleLogoUpload(setting.id, e.target.files[0])}
+                      />
+                    </div>
+                    <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>
+                      {t('settings.company_logo_help', '* PNG veya JPG formatında. Otomatik olarak optimize edilir.')}
+                    </small>
                   </div>
                 );
               }

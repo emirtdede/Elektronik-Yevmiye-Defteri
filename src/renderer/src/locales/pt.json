@@ -40,7 +40,11 @@
       "overtime_multiplier": "Multiplicador de salário de horas extras",
       "cloud_sync_folder": "Pasta de Sincronização em Nuvem"
     },
-    "auto_save_note": "* As alterações são salvas instantaneamente."
+    "auto_save_note": "* As alterações são salvas instantaneamente.",
+    "company_name_placeholder": "ex. ABC Construção Ltda.",
+    "company_logo_help": "* No formato PNG ou JPG. Otimizado automaticamente.",
+    "file_select_button": "Escolher arquivo",
+    "file_not_selected": "Nenhum arquivo selecionado"
   },
   "dashboard": {
     "title": "Gestão de Pessoal",

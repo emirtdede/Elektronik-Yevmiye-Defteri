@@ -40,7 +40,11 @@
       "overtime_multiplier": "초과 근무 배수",
       "cloud_sync_folder": "클라우드 폴더"
     },
-    "auto_save_note": "* 변경 사항은 자동으로 저장됩니다."
+    "auto_save_note": "* 변경 사항은 자동으로 저장됩니다.",
+    "company_name_placeholder": "예: ABC 건설 주식회사",
+    "company_logo_help": "* PNG 또는 JPG 형식. 자동으로 최적화됩니다.",
+    "file_select_button": "파일 선택",
+    "file_not_selected": "선택된 파일 없음"
   },
   "dashboard": {
     "title": "인사 관리",

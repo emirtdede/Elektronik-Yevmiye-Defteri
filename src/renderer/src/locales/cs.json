@@ -40,7 +40,11 @@
       "overtime_multiplier": "Násobitel přesčasů",
       "cloud_sync_folder": "Složka v cloudu"
     },
-    "auto_save_note": "* Změny se ukládají automaticky."
+    "auto_save_note": "* Změny se ukládají automaticky.",
+    "company_name_placeholder": "např. ABC Stavební s.r.o.",
+    "company_logo_help": "* Ve formátu PNG nebo JPG. Automaticky optimalizováno.",
+    "file_select_button": "Vybrat soubor",
+    "file_not_selected": "Soubor nebyl vybrán"
   },
   "dashboard": {
     "title": "Správa personálu",

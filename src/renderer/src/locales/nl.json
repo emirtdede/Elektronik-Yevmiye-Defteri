@@ -40,7 +40,11 @@
       "overtime_multiplier": "Overwerk vermenigvuldiger",
       "cloud_sync_folder": "Cloudmap"
     },
-    "auto_save_note": "* Wijzigingen worden automatisch opgeslagen."
+    "auto_save_note": "* Wijzigingen worden automatisch opgeslagen.",
+    "company_name_placeholder": "bijv. ABC Bouw B.V.",
+    "company_logo_help": "* In PNG- of JPG-formaat. Wordt automatisch geoptimaliseerd.",
+    "file_select_button": "Bestand kiezen",
+    "file_not_selected": "Geen bestand gekozen"
   },
   "dashboard": {
     "title": "Personeelsbeheer",

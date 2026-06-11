@@ -40,7 +40,11 @@
       "overtime_multiplier": "Övertidsmultiplikator",
       "cloud_sync_folder": "Molnsynkroniseringsmapp"
     },
-    "auto_save_note": "* Ändringar sparas omedelbart."
+    "auto_save_note": "* Ändringar sparas omedelbart.",
+    "company_name_placeholder": "t.ex. ABC Bygg AB",
+    "company_logo_help": "* I PNG- eller JPG-format. Optimeras automatiskt.",
+    "file_select_button": "Välj fil",
+    "file_not_selected": "Ingen fil vald"
   },
   "dashboard": {
     "title": "Personalhantering",
