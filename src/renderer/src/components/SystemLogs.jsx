@@ -65,7 +65,7 @@ const SystemLogs = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
         <h3 className="card-title" style={{ marginBottom: 0 }}>{t('logs.title')}</h3>
         
-        <select className="btn btn-primary" style={{ padding: '0.5rem', background: '#38bdf8', color: '#0f172a', fontWeight: 'bold' }} onChange={e => {
+        <select className="btn btn-primary" style={{ padding: '0.5rem', background: 'var(--accent)', color: 'var(--accent-text)', fontWeight: 'bold' }} onChange={e => {
             const val = e.target.value;
             if (val) handleExport(val);
             e.target.value = "";
@@ -94,7 +94,7 @@ const SystemLogs = () => {
         </div>
       </div>
 
-      <div style={{ flex: 1, background: '#0f172a', borderRadius: '8px', padding: '1rem', overflowY: 'auto', border: '1px solid #1e293b', fontFamily: 'monospace', fontSize: '0.85rem', color: '#cbd5e1', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, background: 'var(--log-bg)', borderRadius: '8px', padding: '1rem', overflowY: 'auto', border: '1px solid var(--log-border)', fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--log-text)', display: 'flex', flexDirection: 'column' }}>
         {loading ? (
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Yükleniyor...</div>
         ) : filteredLogs.length === 0 ? (
@@ -102,14 +102,14 @@ const SystemLogs = () => {
         ) : (
           filteredLogs.map((logLine, idx) => {
             // Simple syntax highlighting based on log level or keywords
-            let color = '#cbd5e1';
-            if (logLine.includes('[error]')) color = '#ef4444';
-            else if (logLine.includes('[DB CREATE]')) color = '#34d399';
-            else if (logLine.includes('[DB DELETE]')) color = '#f87171';
-            else if (logLine.includes('[DB UPDATE]')) color = '#fbbf24';
+            let color = 'var(--log-text)';
+            if (logLine.includes('[error]')) color = 'var(--danger-text)';
+            else if (logLine.includes('[DB CREATE]')) color = 'var(--success-text)';
+            else if (logLine.includes('[DB DELETE]')) color = 'var(--danger-text)';
+            else if (logLine.includes('[DB UPDATE]')) color = 'var(--accent)';
 
             return (
-              <div key={idx} style={{ marginBottom: '4px', color, borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '4px' }}>
+              <div key={idx} style={{ marginBottom: '4px', color, borderBottom: '1px solid var(--log-border)', paddingBottom: '4px' }}>
                 {logLine}
               </div>
             );

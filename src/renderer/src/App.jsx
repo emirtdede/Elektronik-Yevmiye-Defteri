@@ -368,8 +368,7 @@ function App() {
             </div>
           </nav>
 
-          <div className="sidebar-footer">
-            <div>Sürüm: v4.0 (ERP Pro)</div>
+          <div className="sidebar-footer" style={{ textAlign: 'center' }}>
             <div>Spotlight: <kbd style={{ background: 'rgba(255,255,255,0.08)', padding: '1px 4px', borderRadius: '3px' }}>Ctrl + K</kbd></div>
           </div>
         </aside>

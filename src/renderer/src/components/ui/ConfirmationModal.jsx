@@ -7,12 +7,12 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, confirm
 
   return (
     <div className="drawer-overlay" style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <div className="glass-card" style={{ width: '400px', maxWidth: '90%', animation: 'fadeIn 0.3s ease', background: 'rgba(15, 23, 42, 0.95)' }}>
+      <div className="glass-card" style={{ width: '400px', maxWidth: '90%', animation: 'fadeIn 0.3s ease', background: 'var(--spotlight-bg)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <h3 style={{ 
             fontSize: '1.25rem', 
             fontWeight: '600', 
-            color: type === 'danger' ? '#ef4444' : '#38bdf8',
+            color: type === 'danger' ? 'var(--danger-text)' : 'var(--accent)',
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem'

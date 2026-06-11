@@ -232,8 +232,8 @@ const CashRegister = () => {
               fontSize: '3rem', 
               fontWeight: '700', 
               marginTop: '0.5rem',
-              color: isPositive ? '#34d399' : '#ef4444',
-              textShadow: isPositive ? '0 0 20px rgba(52, 211, 153, 0.3)' : '0 0 20px rgba(239, 68, 68, 0.3)'
+              color: isPositive ? 'var(--success-text)' : 'var(--danger-text)',
+              textShadow: isPositive ? 'var(--success-shadow)' : 'var(--danger-shadow)'
             }}>
               {balance} ₺
             </div>
@@ -260,7 +260,18 @@ const CashRegister = () => {
                   <span style={{ textTransform: 'capitalize' }}>
                     {new Date(reportDate.year, reportDate.month - 1).toLocaleDateString(i18n.language, { month: 'long', year: 'numeric' })}
                   </span>
-                  <span style={{ opacity: 0.65, fontSize: '0.9rem' }}>📅</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style={{ opacity: 0.85, flexShrink: 0 }}>
+                    <rect x="3" y="5" width="18" height="15" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <path d="M3 7.5c0-.83.67-1.5 1.5-1.5h15c.83 0 1.5.67 1.5 1.5V10H3V7.5z" fill="#3b82f6"/>
+                    <rect x="6" y="2" width="2" height="5" rx="1" fill="#475569"/>
+                    <rect x="16" y="2" width="2" height="5" rx="1" fill="#475569"/>
+                    <circle cx="7.5" cy="13.5" r="1" fill="#94a3b8"/>
+                    <circle cx="12" cy="13.5" r="1" fill="#94a3b8"/>
+                    <circle cx="16.5" cy="13.5" r="1" fill="#94a3b8"/>
+                    <circle cx="7.5" cy="17" r="1" fill="#94a3b8"/>
+                    <circle cx="12" cy="17" r="1.2" fill="#3b82f6"/>
+                    <circle cx="16.5" cy="17" r="1" fill="#94a3b8"/>
+                  </svg>
                 </div>
                 
                 <input 
@@ -288,21 +299,21 @@ const CashRegister = () => {
             
             {reportData ? (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <div style={{ background: 'rgba(56, 189, 248, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{t('cash.wage_cost')}</div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#38bdf8' }}>{reportData.summary.totalWageCost} ₺</div>
+                <div style={{ background: 'var(--accent-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--accent-border)' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('cash.wage_cost')}</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--accent)' }}>{reportData.summary.totalWageCost} ₺</div>
                 </div>
-                <div style={{ background: 'rgba(52, 211, 153, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(52, 211, 153, 0.3)' }}>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{t('cash.monthly_in')}</div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#34d399' }}>{reportData.summary.totalCashIn} ₺</div>
+                <div style={{ background: 'var(--success-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--success-border)' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('cash.monthly_in')}</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--success-text)' }}>{reportData.summary.totalCashIn} ₺</div>
                 </div>
-                <div style={{ background: 'rgba(239, 68, 68, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{t('cash.monthly_out')}</div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#ef4444' }}>{reportData.summary.totalCashOut} ₺</div>
+                <div style={{ background: 'var(--danger-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--danger-border)' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('cash.monthly_out')}</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--danger-text)' }}>{reportData.summary.totalCashOut} ₺</div>
                 </div>
-                <div style={{ background: 'rgba(255, 255, 255, 0.05)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)' }}>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{t('cash.net_change')}</div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: reportData.summary.netCashFlow >= 0 ? '#34d399' : '#ef4444' }}>
+                <div style={{ background: 'var(--glass-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)', boxShadow: 'var(--card-shadow)' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('cash.net_change')}</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: reportData.summary.netCashFlow >= 0 ? 'var(--success-text)' : 'var(--danger-text)' }}>
                     {reportData.summary.netCashFlow > 0 ? '+' : ''}{reportData.summary.netCashFlow} ₺
                   </div>
                 </div>
@@ -389,8 +400,8 @@ const CashRegister = () => {
                 const isIncome = tr.type === 'Nakit Girişi';
                 return (
                   <div key={tr.id} style={{ 
-                    background: isIncome ? 'rgba(52, 211, 153, 0.05)' : 'rgba(239, 68, 68, 0.05)', 
-                    border: `1px solid ${isIncome ? 'rgba(52, 211, 153, 0.2)' : 'rgba(239, 68, 68, 0.2)'}`, 
+                    background: isIncome ? 'var(--success-bg-light)' : 'var(--danger-bg-light)', 
+                    border: `1px solid ${isIncome ? 'var(--success-border)' : 'var(--danger-border)'}`, 
                     padding: '1rem', 
                     borderRadius: '8px', 
                     display: 'flex', 
@@ -404,8 +415,8 @@ const CashRegister = () => {
                           fontSize: '0.75rem', 
                           padding: '0.2rem 0.5rem', 
                           borderRadius: '4px', 
-                          border: `1px solid ${isIncome ? '#34d399' : '#ef4444'}`,
-                          color: isIncome ? '#34d399' : '#ef4444'
+                          border: `1px solid var(${isIncome ? '--success-text' : '--danger-text'})`,
+                          color: `var(${isIncome ? '--success-text' : '--danger-text'})`
                         }}>{isIncome ? t('cash.table.income') : t('cash.table.expense')}</span>
                       </div>
                       <div className="card-subtitle" style={{ fontSize: '0.9rem' }}>
@@ -413,12 +424,12 @@ const CashRegister = () => {
                       </div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontWeight: 'bold', color: isIncome ? '#34d399' : '#ef4444', fontSize: '1.1rem' }}>
+                      <div style={{ fontWeight: 'bold', color: isIncome ? 'var(--success-text)' : 'var(--danger-text)', fontSize: '1.1rem' }}>
                         {isIncome ? '+' : '-'}{tr.amount} ₺
                       </div>
                       <button 
                         onClick={() => handleDelete(tr.id)} 
-                        style={{ background: 'transparent', border: 'none', color: '#ef4444', fontSize: '0.8rem', cursor: 'pointer', textDecoration: 'underline', marginTop: '0.25rem' }}
+                        style={{ background: 'transparent', border: 'none', color: 'var(--danger-text)', fontSize: '0.8rem', cursor: 'pointer', textDecoration: 'underline', marginTop: '0.25rem' }}
                       >
                         {t('common.delete')}
                       </button>

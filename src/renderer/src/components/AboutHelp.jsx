@@ -77,16 +77,16 @@ const AboutHelp = () => {
             display: 'flex', 
             alignItems: 'center', 
             gap: '0.3rem', 
-            background: 'rgba(56, 189, 248, 0.1)', 
-            color: '#38bdf8', 
+            background: 'var(--accent-bg)', 
+            color: 'var(--accent)', 
             padding: '0.4rem 0.8rem', 
             borderRadius: '20px', 
             textDecoration: 'none',
             fontSize: '0.85rem',
             transition: 'all 0.2s'
           }}
-          onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.2)' }}
-          onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.1)' }}
+          onMouseOver={(e) => { e.currentTarget.style.background = 'var(--accent-bg-hover)' }}
+          onMouseOut={(e) => { e.currentTarget.style.background = 'var(--accent-bg)' }}
         >
           {link.name} <ExternalLink size={12} />
         </a>
@@ -102,45 +102,45 @@ const AboutHelp = () => {
         <h2 className="card-title" style={{ marginBottom: '0.5rem', color: 'var(--text-main)', fontSize: '1.6rem', textAlign: 'center' }}>
           {t('about.hero_title')}
         </h2>
-        <h4 style={{ color: '#38bdf8', textAlign: 'center', marginBottom: '1.5rem', fontWeight: '500' }}>
+        <h4 style={{ color: 'var(--accent)', textAlign: 'center', marginBottom: '1.5rem', fontWeight: '500' }}>
           {t('about.hero_subtitle')}
         </h4>
-        <p style={{ color: '#94a3b8', lineHeight: '1.6', marginBottom: '2rem', fontSize: '1rem', textAlign: 'justify' }}>
+        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '2rem', fontSize: '1rem', textAlign: 'justify' }}>
           {t('about.hero_desc')}
         </p>
 
-        <h3 style={{ color: 'var(--text-main)', marginBottom: '1rem', fontSize: '1.3rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
+        <h3 style={{ color: 'var(--text-main)', marginBottom: '1rem', fontSize: '1.3rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem' }}>
           {t('about.section_aim_title')}
         </h3>
-        <p style={{ color: '#94a3b8', lineHeight: '1.6', marginBottom: '2rem', fontSize: '0.95rem', textAlign: 'justify' }}>
+        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '2rem', fontSize: '0.95rem', textAlign: 'justify' }}>
           {t('about.section_aim_desc')}
         </p>
 
-        <h3 style={{ color: 'var(--text-main)', marginBottom: '1.5rem', fontSize: '1.3rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
+        <h3 style={{ color: 'var(--text-main)', marginBottom: '1.5rem', fontSize: '1.3rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem' }}>
           {t('about.section_why_title')}
         </h3>
-        <ul style={{ color: '#94a3b8', lineHeight: '1.8', fontSize: '0.95rem', paddingLeft: '1.2rem', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-          <li><strong style={{ color: '#e2e8f0' }}>{t('about.why_1_title')}</strong> {t('about.why_1_desc')}</li>
-          <li><strong style={{ color: '#e2e8f0' }}>{t('about.why_2_title')}</strong> {t('about.why_2_desc')}</li>
-          <li><strong style={{ color: '#e2e8f0' }}>{t('about.why_3_title')}</strong> {t('about.why_3_desc')}</li>
-          <li><strong style={{ color: '#e2e8f0' }}>{t('about.why_4_title')}</strong> {t('about.why_4_desc')}</li>
-          <li><strong style={{ color: '#e2e8f0' }}>{t('about.why_5_title')}</strong> {t('about.why_5_desc')}</li>
+        <ul style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '0.95rem', paddingLeft: '1.2rem', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <li><strong style={{ color: 'var(--text-main)' }}>{t('about.why_1_title')}</strong> {t('about.why_1_desc')}</li>
+          <li><strong style={{ color: 'var(--text-main)' }}>{t('about.why_2_title')}</strong> {t('about.why_2_desc')}</li>
+          <li><strong style={{ color: 'var(--text-main)' }}>{t('about.why_3_title')}</strong> {t('about.why_3_desc')}</li>
+          <li><strong style={{ color: 'var(--text-main)' }}>{t('about.why_4_title')}</strong> {t('about.why_4_desc')}</li>
+          <li><strong style={{ color: 'var(--text-main)' }}>{t('about.why_5_title')}</strong> {t('about.why_5_desc')}</li>
         </ul>
 
-        <h3 style={{ color: 'var(--text-main)', marginBottom: '1rem', fontSize: '1.3rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
+        <h3 style={{ color: 'var(--text-main)', marginBottom: '1rem', fontSize: '1.3rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem' }}>
           {t('about.section_how_title')}
         </h3>
-        <p style={{ color: '#38bdf8', marginBottom: '1rem', fontWeight: '500' }}>{t('about.how_subtitle')}</p>
-        <ul style={{ color: '#94a3b8', lineHeight: '1.8', fontSize: '0.95rem', paddingLeft: '1.2rem', marginBottom: '2.5rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-          <li><strong style={{ color: '#e2e8f0' }}>{t('about.how_1_title')}</strong> {t('about.how_1_desc')}</li>
-          <li><strong style={{ color: '#e2e8f0' }}>{t('about.how_2_title')}</strong> {t('about.how_2_desc')}</li>
-          <li><strong style={{ color: '#e2e8f0' }}>{t('about.how_3_title')}</strong> {t('about.how_3_desc')}</li>
-          <li><strong style={{ color: '#e2e8f0' }}>{t('about.how_4_title')}</strong> {t('about.how_4_desc')}</li>
+        <p style={{ color: 'var(--accent)', marginBottom: '1rem', fontWeight: '500' }}>{t('about.how_subtitle')}</p>
+        <ul style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '0.95rem', paddingLeft: '1.2rem', marginBottom: '2.5rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <li><strong style={{ color: 'var(--text-main)' }}>{t('about.how_1_title')}</strong> {t('about.how_1_desc')}</li>
+          <li><strong style={{ color: 'var(--text-main)' }}>{t('about.how_2_title')}</strong> {t('about.how_2_desc')}</li>
+          <li><strong style={{ color: 'var(--text-main)' }}>{t('about.how_3_title')}</strong> {t('about.how_3_desc')}</li>
+          <li><strong style={{ color: 'var(--text-main)' }}>{t('about.how_4_title')}</strong> {t('about.how_4_desc')}</li>
         </ul>
 
-        <div style={{ background: 'rgba(56, 189, 248, 0.05)', padding: '1.5rem', borderRadius: '8px', borderLeft: '4px solid #38bdf8' }}>
+        <div style={{ background: 'var(--accent-bg)', padding: '1.5rem', borderRadius: '8px', borderLeft: '4px solid var(--accent)' }}>
           <h4 style={{ color: 'var(--text-main)', marginBottom: '0.5rem', fontSize: '1.1rem' }}>{t('about.conclusion_1')}</h4>
-          <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>{t('about.conclusion_2')}</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', margin: 0 }}>{t('about.conclusion_2')}</p>
         </div>
       </div>
 
@@ -195,9 +195,9 @@ const AboutHelp = () => {
                   maxHeight: openFaq === idx ? '500px' : '0', 
                   overflow: 'hidden', 
                   transition: 'max-height 0.3s ease',
-                  background: 'rgba(0,0,0,0.1)'
+                  background: 'var(--log-bg)'
                 }}>
-                  <div style={{ padding: '1rem', color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>
+                  <div style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>
                     {faq.a}
                   </div>
                 </div>
@@ -216,21 +216,21 @@ const AboutHelp = () => {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
           
           <div>
-            <h4 style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.3rem' }}>
+            <h4 style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.3rem' }}>
               {t('about.cat_code')}
             </h4>
             {renderLinks(socialLinks.code)}
           </div>
 
           <div>
-            <h4 style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.3rem' }}>
+            <h4 style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.3rem' }}>
               {t('about.cat_prof')}
             </h4>
             {renderLinks(socialLinks.prof)}
           </div>
 
           <div>
-            <h4 style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.3rem' }}>
+            <h4 style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.3rem' }}>
               {t('about.cat_social')}
             </h4>
             {renderLinks(socialLinks.social)}

@@ -24,13 +24,47 @@
   --radius-sm: 8px;
   --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.15);
   --sidebar-width: 260px;
+
+  /* Form & Component Themes */
+  --card-shadow: none;
+  --input-bg: rgba(255, 255, 255, 0.02);
+  --input-border: rgba(255, 255, 255, 0.08);
+  --input-focus-border: var(--primary);
+  --input-focus-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+  --option-bg: #0f172a;
+  --log-bg: #0f172a;
+  --log-border: #1e293b;
+  --log-text: #cbd5e1;
+  --success-text: #34d399;
+  --danger-text: #ef4444;
+
+  /* Dynamic Accents & Statuses */
+  --accent: #38bdf8;
+  --accent-text: #0f172a;
+  --accent-bg: rgba(56, 189, 248, 0.1);
+  --accent-bg-hover: rgba(56, 189, 248, 0.2);
+  --accent-border: rgba(56, 189, 248, 0.3);
+  --success-bg: rgba(52, 211, 153, 0.1);
+  --success-border: rgba(52, 211, 153, 0.3);
+  --success-bg-light: rgba(52, 211, 153, 0.05);
+  --danger-bg: rgba(239, 68, 68, 0.1);
+  --danger-border: rgba(239, 68, 68, 0.3);
+  --danger-bg-light: rgba(239, 68, 68, 0.05);
+  --spotlight-bg: rgba(15, 23, 42, 0.85);
+  --spotlight-border: rgba(255, 255, 255, 0.12);
+  --spotlight-input-color: #ffffff;
+  --spotlight-item-hover: rgba(255, 255, 255, 0.06);
+  --sidebar-bg: rgba(15, 23, 42, 0.35);
+  --glass-bg-hover: rgba(255, 255, 255, 0.06);
+  --glass-border-hover: rgba(255, 255, 255, 0.18);
+  --card-shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
 
 :root[data-theme='light'] {
   /* Color Palette - Premium Light Theme */
-  --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-  --glass-bg: rgba(255, 255, 255, 0.65);
-  --glass-border: rgba(15, 23, 42, 0.08);
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  --glass-bg: #ffffff;
+  --glass-border: #e2e8f0;
   --glass-highlight: rgba(255, 255, 255, 0.95);
   
   --primary: #6d28d9;
@@ -48,8 +82,42 @@
   /* Layout & Spacing */
   --radius: 16px;
   --radius-sm: 8px;
-  --shadow-glow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  --shadow-glow: 0 4px 20px rgba(0, 0, 0, 0.03);
   --sidebar-width: 260px;
+
+  /* Form & Component Themes */
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --input-focus-border: #3b82f6;
+  --input-focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  --option-bg: #ffffff;
+  --log-bg: #f1f5f9;
+  --log-border: #e2e8f0;
+  --log-text: #475569;
+  --success-text: #059669;
+  --danger-text: #dc2626;
+
+  /* Dynamic Accents & Statuses */
+  --accent: #0284c7;
+  --accent-text: #ffffff;
+  --accent-bg: rgba(2, 132, 199, 0.08);
+  --accent-bg-hover: rgba(2, 132, 199, 0.15);
+  --accent-border: rgba(2, 132, 199, 0.2);
+  --success-bg: rgba(5, 150, 105, 0.08);
+  --success-border: rgba(5, 150, 105, 0.2);
+  --success-bg-light: rgba(5, 150, 105, 0.04);
+  --danger-bg: rgba(220, 38, 38, 0.08);
+  --danger-border: rgba(220, 38, 38, 0.2);
+  --danger-bg-light: rgba(220, 38, 38, 0.04);
+  --spotlight-bg: rgba(255, 255, 255, 0.95);
+  --spotlight-border: #cbd5e1;
+  --spotlight-input-color: #0f172a;
+  --spotlight-item-hover: rgba(0, 0, 0, 0.04);
+  --sidebar-bg: rgba(255, 255, 255, 0.85);
+  --glass-bg-hover: #ffffff;
+  --glass-border-hover: #cbd5e1;
+  --card-shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.06);
 }
 
 * {
@@ -80,7 +148,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(15, 23, 42, 0.35);
+  background: var(--sidebar-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-right: 1px solid var(--glass-border);
@@ -225,9 +293,9 @@ body {
 
 .bento-card:hover {
   transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--card-shadow-hover);
 }
 
 /* Glass Card */
@@ -242,12 +310,14 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  box-shadow: var(--card-shadow);
 }
 
 .glass-card:hover {
   transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: var(--card-shadow), 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
 /* Workers Grid */
@@ -309,8 +379,8 @@ body {
 .form-input {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--glass-border);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: var(--radius-sm);
   color: var(--text-main);
   font-family: 'Inter', sans-serif;
@@ -320,15 +390,15 @@ body {
 
 .form-input:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.06);
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+  background: var(--input-bg);
+  border-color: var(--input-focus-border);
+  box-shadow: var(--input-focus-shadow);
 }
 
 select option,
 .form-input option,
 .btn option {
-  background-color: #0f172a;
+  background-color: var(--option-bg);
   color: var(--text-main);
 }
 
@@ -353,8 +423,8 @@ select option,
   width: 650px;
   max-width: 90%;
   max-height: 50vh;
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--spotlight-bg);
+  border: 1px solid var(--spotlight-border);
   border-radius: var(--radius);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), var(--shadow-glow);
   display: flex;
@@ -367,7 +437,7 @@ select option,
   display: flex;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--spotlight-border);
 }
 
 .spotlight-input {
@@ -375,7 +445,7 @@ select option,
   background: transparent;
   border: none;
   outline: none;
-  color: #fff;
+  color: var(--spotlight-input-color);
   font-size: 1.15rem;
   font-family: inherit;
   margin-left: 0.75rem;
@@ -455,7 +525,7 @@ div::-webkit-scrollbar-thumb:hover {
 }
 
 .spotlight-item:hover, .spotlight-item.active {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--spotlight-item-hover);
   color: var(--text-main);
 }
 
@@ -555,25 +625,23 @@ input[type="date"],
 input[type="month"] {
   position: relative;
   font-family: 'Inter', sans-serif;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="5" width="18" height="15" rx="2.5" fill="%23f8fafc" stroke="%23cbd5e1" stroke-width="1.5"/><path d="M3 7.5c0-.83.67-1.5 1.5-1.5h15c.83 0 1.5.67 1.5 1.5V10H3V7.5z" fill="%233b82f6"/><rect x="6" y="2" width="2" height="5" rx="1" fill="%23475569"/><rect x="16" y="2" width="2" height="5" rx="1" fill="%23475569"/><circle cx="7.5" cy="13.5" r="1" fill="%2394a3b8"/><circle cx="12" cy="13.5" r="1" fill="%2394a3b8"/><circle cx="16.5" cy="13.5" r="1" fill="%2394a3b8"/><circle cx="7.5" cy="17" r="1" fill="%2394a3b8"/><circle cx="12" cy="17" r="1.2" fill="%233b82f6"/><circle cx="16.5" cy="17" r="1" fill="%2394a3b8"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+  padding-right: 2.25rem !important;
 }
 
 /* Customized Calendar Picker Indicator */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="month"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
   cursor: pointer;
-  filter: invert(0.8) sepia(50%) saturate(1000%) hue-rotate(220deg);
-  opacity: 0.65;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  padding: 4px;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator:hover,
-input[type="month"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
-  transform: scale(1.15);
-}
-
-:root[data-theme='light'] input[type="date"]::-webkit-calendar-picker-indicator,
-:root[data-theme='light'] input[type="month"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.2) sepia(50%) saturate(1000%) hue-rotate(220deg);
 }
