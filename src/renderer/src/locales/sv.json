@@ -302,7 +302,9 @@
     "faq_q7": "Var får man väderinformation från byggplatsloggböcker?",
     "faq_a7": "När du öppnar fliken Daily Journal efter att ha angett platsinformationen för din byggarbetsplats (t.ex. \"Istanbul, TR\") på sidan Byggplatshantering, hämtar systemet automatiskt dagens vädertemperatur och statusinformation självständigt enligt platsen för byggarbetsplatsen via OpenWeather API. Om det inte finns något internet tilldelar systemet realistiska simulerade värden.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Sök i vanliga frågor...",
+    "faq_no_results": "Inga frågor hittades som matchade dina sökkriterier."
   },
   "projects": {
     "title": "Byggarbetsplats (plats) förvaltning",

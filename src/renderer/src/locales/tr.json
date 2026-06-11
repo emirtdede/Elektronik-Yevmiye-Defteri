@@ -247,6 +247,8 @@
   "about": {
     "title": "Hakkında & Yardım",
     "faq": "Sıkça Sorulan Sorular",
+    "faq_search_placeholder": "Sıkça sorulan sorularda ara...",
+    "faq_no_results": "Aradığınız kriterlere uygun soru bulunamadı.",
     "faq_q1": "Kasa bakiyesi nasıl hesaplanır?",
     "faq_a1": "Kasa bakiyesi, tüm Nakit Girişlerinin toplamından Nakit Çıkışlarının çıkarılmasıyla anlık hesaplanır. İşçilere verilen avanslar otomatik olarak nakit çıkışı sayılır.",
     "faq_q2": "Zaman makinesi (Yedekleme) nasıl çalışır?",

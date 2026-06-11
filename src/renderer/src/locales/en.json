@@ -240,6 +240,8 @@
   "about": {
     "title": "About & Help",
     "faq": "Frequently Asked Questions",
+    "faq_search_placeholder": "Search FAQs...",
+    "faq_no_results": "No questions found matching your search criteria.",
     "faq_q1": "How is the cash balance calculated?",
     "faq_a1": "The cash balance is calculated instantly by subtracting Cash Outflows from total Cash Inflows. Advances to workers are automatically counted as cash outflows.",
     "faq_q2": "How does the time machine (Backup) work?",

@@ -302,7 +302,9 @@
     "faq_q7": "Waar kan ik weersinformatie uit bouwplaatslogboeken vinden?",
     "faq_a7": "Wanneer u het tabblad Dagelijks journaal opent nadat u de locatie-informatie van uw bouwplaats (bijvoorbeeld \"Istanbul, TR\") op de pagina Bouwplaatsbeheer heeft ingevoerd, haalt het systeem automatisch de weerstemperatuur en statusinformatie van de dag op, afhankelijk van de locatie van de bouwplaats via de OpenWeather API. Als er geen internet is, kent het systeem realistische gesimuleerde waarden toe.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Zoek in veelgestelde vragen...",
+    "faq_no_results": "Geen vragen gevonden die aan uw zoekcriteria voldoen."
   },
   "projects": {
     "title": "Bouwplaats(locatie)beheer",

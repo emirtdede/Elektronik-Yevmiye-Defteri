@@ -302,7 +302,9 @@
     "faq_q7": "从哪里可以从建筑工地日志中获取天气信息？",
     "faq_a7": "当您在工地管理页面输入工地位置信息（例如“伊斯坦布尔，土耳其”）后打开每日日志选项卡时，系统会通过 OpenWeather API 根据工地位置自主检索当天的天气温度和状态信息。如果没有互联网，系统会分配真实的模拟值。",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "搜索常见问题解答...",
+    "faq_no_results": "未找到符合您搜索条件的常见问题。"
   },
   "projects": {
     "title": "施工现场（位置）管理",

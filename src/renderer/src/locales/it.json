@@ -302,7 +302,9 @@
     "faq_q7": "Dove ottenere informazioni meteorologiche dai registri di cantiere?",
     "faq_a7": "Quando apri la scheda Giornale quotidiano dopo aver inserito le informazioni sulla posizione del tuo cantiere (ad esempio \"Istanbul, TR\") nella pagina Gestione cantiere, il sistema recupera automaticamente la temperatura meteorologica del giorno e le informazioni sullo stato in modo autonomo in base alla posizione del cantiere tramite l'API OpenWeather. Nel caso in cui non sia disponibile Internet, il sistema assegna valori simulati realistici.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Cerca nelle FAQ...",
+    "faq_no_results": "Nessuna domanda corrisponde ai criteri di ricerca."
   },
   "projects": {
     "title": "Gestione del cantiere (ubicazione).",

@@ -302,7 +302,9 @@
     "faq_q7": "Où obtenir des informations météorologiques à partir des journaux de chantier ?",
     "faq_a7": "Lorsque vous ouvrez l'onglet Journal quotidien après avoir saisi les informations de localisation de votre chantier de construction (par exemple \"Istanbul, TR\") sur la page Gestion du chantier de construction, le système récupère automatiquement la température météo du jour et les informations d'état de manière autonome en fonction de l'emplacement du chantier de construction via l'API OpenWeather. En l'absence d'Internet, le système attribue des valeurs simulées réalistes.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Rechercher dans la FAQ...",
+    "faq_no_results": "Aucune question ne correspond à vos critères de recherche."
   },
   "projects": {
     "title": "Gestion du chantier (emplacement)",

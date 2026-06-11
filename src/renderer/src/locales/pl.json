@@ -302,7 +302,9 @@
     "faq_q7": "Skąd czerpać informacje o pogodzie z dzienników budowy?",
     "faq_a7": "Kiedy otworzysz zakładkę Daily Journal po wprowadzeniu informacji o lokalizacji placu budowy (np. „Stambuł, TR”) na stronie Zarządzanie placem budowy, system automatycznie automatycznie pobierze informacje o temperaturze i statusie pogody w ciągu dnia, w sposób autonomiczny, w zależności od lokalizacji placu budowy za pośrednictwem API OpenWeather. W przypadku braku Internetu system przypisuje realistyczne symulowane wartości.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Wyszukaj w najczęściej zadawanych pytaniach...",
+    "faq_no_results": "Nie znaleziono pytań spełniających kryteria wyszukiwania."
   },
   "projects": {
     "title": "Zarządzanie placem budowy (lokalizacją).",

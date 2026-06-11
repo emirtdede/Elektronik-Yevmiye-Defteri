@@ -356,7 +356,7 @@ const Settings = ({ activeTab = 'genel' }) => {
                       <input 
                         type="text" 
                         className="form-input" 
-                        placeholder="Örn: ABC İnşaat A.Ş."
+                        placeholder={t('settings.company_name_placeholder', 'Örn: ABC İnşaat A.Ş.')}
                         value={setting.setting_value}
                         onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
                       />

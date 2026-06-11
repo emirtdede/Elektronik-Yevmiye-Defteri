@@ -302,7 +302,9 @@
     "faq_q7": "Wo erhält man Wetterinformationen aus Baustellentagebüchern?",
     "faq_a7": "Wenn Sie die Registerkarte „Tagesjournal“ öffnen, nachdem Sie die Standortinformationen Ihrer Baustelle (z. B. „Istanbul, TR“) auf der Seite „Baustellenverwaltung“ eingegeben haben, ruft das System über die OpenWeather-API automatisch die Wettertemperatur und Statusinformationen des Tages entsprechend dem Standort der Baustelle automatisch ab. Falls kein Internet vorhanden ist, weist das System realistische Simulationswerte zu.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Häufig gestellte Fragen durchsuchen...",
+    "faq_no_results": "Es wurden keine Fragen gefunden, die Ihren Suchkriterien entsprechen."
   },
   "projects": {
     "title": "Baustellen-(Standort-)Management",

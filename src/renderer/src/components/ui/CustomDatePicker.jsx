@@ -24,7 +24,7 @@ registerLocale('da', da);
 registerLocale('pl', pl);
 registerLocale('cs', cs);
 
-const CustomDatePicker = ({ value, onChange, className, required, style, name, placeholder, showMonthYearPicker }) => {
+const CustomDatePicker = ({ value, onChange, className, required, style, name, placeholder, showMonthYearPicker, popperPlacement }) => {
   const { i18n } = useTranslation();
   const lang = i18n.language || 'tr';
 
@@ -93,10 +93,11 @@ const CustomDatePicker = ({ value, onChange, className, required, style, name, p
         name={name}
         placeholderText={placeholder || getDateFormat().toLowerCase()}
         showPopperArrow={false}
-        popperPlacement="bottom-start"
+        popperPlacement={popperPlacement || "bottom-start"}
         autoComplete="off"
         wrapperClassName="w-100"
         showMonthYearPicker={showMonthYearPicker}
+        portalId="root"
       />
     </div>
   );

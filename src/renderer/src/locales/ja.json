@@ -302,7 +302,9 @@
     "faq_q7": "建設現場の日誌から気象情報をどこで入手できますか?",
     "faq_a7": "[建設現場管理] ページで建設現場の位置情報 (例: 「イスタンブール、TR」) を入力した後、[日次ジャーナル] タブを開くと、システムは OpenWeather API を介して建設現場の位置に応じて自律的にその日の気象温度とステータス情報を自動的に取得します。インターネットがない場合、システムは現実的なシミュレーション値を割り当てます。",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "よくある質問を検索...",
+    "faq_no_results": "検索条件に一致する質問が見つかりませんでした。"
   },
   "projects": {
     "title": "建設現場（立地）管理",

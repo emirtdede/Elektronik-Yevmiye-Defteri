@@ -302,7 +302,9 @@
     "faq_q7": "Onde obter informações meteorológicas nos diários de bordo do canteiro de obras?",
     "faq_a7": "Quando você abre a guia Diário Diário após inserir as informações de localização do seu canteiro de obras (por exemplo, \"Istambul, TR\") na página Gerenciamento do canteiro de obras, o sistema recupera automaticamente a temperatura climática do dia e as informações de status de forma autônoma de acordo com a localização do canteiro de obras por meio da API OpenWeather. Caso não haja internet, o sistema atribui valores simulados realistas.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Pesquisar nas FAQs...",
+    "faq_no_results": "Nenhuma pergunta corresponde aos seus critérios de pesquisa."
   },
   "projects": {
     "title": "Gerenciamento de canteiro de obras (localização)",

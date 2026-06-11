@@ -65,6 +65,49 @@ function App() {
   const [editingWorker, setEditingWorker] = useState(null);
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [sidebarState, setSidebarState] = useState(() => {
+    return localStorage.getItem('sidebar_state') || 'full';
+  });
+  const [sidebarWidth, setSidebarWidth] = useState(() => {
+    return parseInt(localStorage.getItem('sidebar_width') || '290', 10);
+  });
+  const [isResizing, setIsResizing] = useState(false);
+
+  const handleSidebarStateChange = (state) => {
+    setSidebarState(state);
+    localStorage.setItem('sidebar_state', state);
+  };
+
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+
+  useEffect(() => {
+    if (!isResizing) return;
+
+    const handleMouseMove = (e) => {
+      const newWidth = Math.max(240, Math.min(480, e.clientX));
+      setSidebarWidth(newWidth);
+      localStorage.setItem('sidebar_width', newWidth.toString());
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+  }, [isResizing]);
 
   // Filtre State
   const [filterText, setFilterText] = useState('');
@@ -275,18 +318,81 @@ function App() {
 
   const activeProjectObj = projects.find(p => p.id === activeProjectId);
 
+  const getLayoutClass = () => {
+    if (sidebarState === 'collapsed') return 'sidebar-collapsed';
+    if (sidebarState === 'hidden') return 'sidebar-hidden';
+    return '';
+  };
+
   return (
     <>
-      <div className="app-layout">
+      {sidebarState === 'hidden' && (
+        <button
+          type="button"
+          onClick={() => handleSidebarStateChange('full')}
+          className="sidebar-restore-btn"
+          title={t('nav.expand', 'Genişlet')}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="7 8 12 12 7 16"></polyline><polyline points="13 8 18 12 13 16"></polyline></svg>
+        </button>
+      )}
+
+      <div 
+        className={`app-layout ${getLayoutClass()} ${isResizing ? 'is-resizing' : ''}`}
+        style={{ '--sidebar-width': sidebarState === 'full' ? `${sidebarWidth}px` : undefined }}
+      >
         {/* Left fixed Sidebar Navigation */}
         <aside className="sidebar">
+          {sidebarState === 'full' && (
+            <div 
+              className={`sidebar-resizer ${isResizing ? 'is-resizing' : ''}`}
+              onMouseDown={handleMouseDown}
+            />
+          )}
           <div className="sidebar-logo">
-            🏗️ ŞantiyemOS
+            {sidebarState === 'collapsed' ? (
+              <button 
+                type="button"
+                className="sidebar-collapsed-logo-btn"
+                onClick={() => handleSidebarStateChange('full')}
+                title={t('nav.expand', 'Genişlet')}
+              >
+                <span className="logo-icon">🏗️</span>
+                <span className="hover-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </button>
+            ) : (
+              <>
+                <div className="sidebar-logo-brand">
+                  <span>🏗️</span>
+                  <span className="sidebar-text">ŞantiyemOS</span>
+                </div>
+                <div className="sidebar-controls">
+                  <button 
+                    type="button" 
+                    onClick={() => handleSidebarStateChange('collapsed')}
+                    className="sidebar-control-btn"
+                    title={t('nav.collapse', 'Daralt')}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => handleSidebarStateChange('hidden')}
+                    className="sidebar-control-btn"
+                    title={t('nav.hide', 'Gizle')}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
+                </div>
+              </>
+            )}
           </div>
           
           {/* Active project badge */}
           {activeProjectObj ? (
-            <div style={{
+            <div className="sidebar-active-project" style={{
               background: 'rgba(139, 92, 246, 0.1)',
               border: '1px solid rgba(139, 92, 246, 0.2)',
               borderRadius: '8px',
@@ -298,39 +404,49 @@ function App() {
               <strong style={{ color: '#fff', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '0.15rem' }}>{activeProjectObj.name}</strong>
             </div>
           ) : (
-            <div style={{ color: 'var(--danger)', fontSize: '0.8rem', margin: '0 1rem 1.5rem 1rem', fontWeight: 'bold' }}>⚠️ {t('nav.no_project_selected', 'Şantiye Seçilmedi!')}</div>
+            <div className="sidebar-active-project" style={{ color: 'var(--danger)', fontSize: '0.8rem', margin: '0 1rem 1.5rem 1rem', fontWeight: 'bold' }}>⚠️ {t('nav.no_project_selected', 'Şantiye Seçilmedi!')}</div>
           )}
 
           <nav className="sidebar-nav">
             <div className={`sidebar-link ${view === 'list' || view === 'profile' ? 'active' : ''}`} onClick={() => { setView('list'); setSelectedWorkerProfile(null); }}>
-              👥 {t('nav.personnel')}
+              <span className="sidebar-icon">👥</span>
+              <span className="sidebar-text">{t('nav.personnel')}</span>
             </div>
             <div className={`sidebar-link ${view === 'projects' ? 'active' : ''}`} onClick={() => setView('projects')}>
-              🏗️ {t('nav.projects', 'Şantiyeler (Lokasyon)')}
+              <span className="sidebar-icon">🏗️</span>
+              <span className="sidebar-text">{t('nav.projects', 'Şantiyeler (Lokasyon)')}</span>
             </div>
             <div className={`sidebar-link ${view === 'production' ? 'active' : ''}`} onClick={() => setView('production')}>
-              📐 {t('nav.production', 'İmalat ve Metraj')}
+              <span className="sidebar-icon">📐</span>
+              <span className="sidebar-text">{t('nav.production', 'İmalat ve Metraj')}</span>
             </div>
             <div className={`sidebar-link ${view === 'materials' ? 'active' : ''}`} onClick={() => setView('materials')}>
-              📄 {t('nav.materials', 'İrsaliye & Malzeme')}
+              <span className="sidebar-icon">📄</span>
+              <span className="sidebar-text">{t('nav.materials', 'İrsaliye & Malzeme')}</span>
             </div>
             <div className={`sidebar-link ${view === 'journal' ? 'active' : ''}`} onClick={() => setView('journal')}>
-              📓 {t('nav.journal', 'Günlük Jurnal')}
+              <span className="sidebar-icon">📓</span>
+              <span className="sidebar-text">{t('nav.journal', 'Günlük Jurnal')}</span>
             </div>
             <div className={`sidebar-link ${view === 'quality' ? 'active' : ''}`} onClick={() => setView('quality')}>
-              🛡️ {t('nav.quality', 'Kalite Kontrol')}
+              <span className="sidebar-icon">🛡️</span>
+              <span className="sidebar-text">{t('nav.quality', 'Kalite Kontrol')}</span>
             </div>
             <div className={`sidebar-link ${view === 'subcontractor' ? 'active' : ''}`} onClick={() => setView('subcontractor')}>
-              🚜 {t('nav.subcontractors', 'Taşeron Carileri')}
+              <span className="sidebar-icon">🚜</span>
+              <span className="sidebar-text">{t('nav.subcontractors', 'Taşeron Carileri')}</span>
             </div>
             <div className={`sidebar-link ${view === 'media' ? 'active' : ''}`} onClick={() => setView('media')}>
-              📷 {t('nav.media', 'Medya Galerisi')}
+              <span className="sidebar-icon">📷</span>
+              <span className="sidebar-text">{t('nav.media', 'Medya Galerisi')}</span>
             </div>
             <div className={`sidebar-link ${view === 'kasa' ? 'active' : ''}`} onClick={() => setView('kasa')}>
-              💵 {t('nav.cash')}
+              <span className="sidebar-icon">💵</span>
+              <span className="sidebar-text">{t('nav.cash')}</span>
             </div>
             <div className={`sidebar-link ${view === 'hakkinda' ? 'active' : ''}`} onClick={() => setView('hakkinda')}>
-              ❓ {t('nav.help', 'Hakkında & Yardım')}
+              <span className="sidebar-icon">❓</span>
+              <span className="sidebar-text">{t('nav.help', 'Hakkında & Yardım')}</span>
             </div>
             <div>
               <div 
@@ -338,8 +454,11 @@ function App() {
                 onClick={() => setIsSettingsOpen(prev => !prev)}
                 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
               >
-                <span>⚙️ {t('nav.settings')}</span>
-                <span style={{ 
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <span className="sidebar-icon">⚙️</span>
+                  <span className="sidebar-text">{t('nav.settings')}</span>
+                </div>
+                <span className="sidebar-text" style={{ 
                   transform: isSettingsOpen ? 'rotate(180deg)' : 'rotate(0deg)', 
                   transition: 'transform 0.2s ease', 
                   fontSize: '0.7rem', 
@@ -348,7 +467,7 @@ function App() {
                 }}>▼</span>
               </div>
               
-              <div style={{
+              <div className="sidebar-submenu" style={{
                 maxHeight: isSettingsOpen ? '200px' : '0px',
                 overflow: 'hidden',
                 transition: 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',

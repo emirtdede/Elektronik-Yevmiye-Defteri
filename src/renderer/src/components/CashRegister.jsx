@@ -16,8 +16,8 @@ const CashRegister = () => {
   const [companyLogo, setCompanyLogo] = useState('');
   
   // Rapor State
-  const today = new Date();
-  const [reportDate, setReportDate] = useState({ year: today.getFullYear(), month: today.getMonth() + 1 });
+  const todayStr = new Date().toISOString().split('T')[0];
+  const [reportDate, setReportDate] = useState(todayStr);
   const [reportData, setReportData] = useState(null);
 
   // Filters State
@@ -62,7 +62,8 @@ const CashRegister = () => {
       setBalance(total);
       setTransactions(data);
       
-      fetchReportData(reportDate.year, reportDate.month);
+      const parts = reportDate.split('-');
+      fetchReportData(parseInt(parts[0]), parseInt(parts[1]));
       
       setLoading(false);
     }
@@ -82,7 +83,12 @@ const CashRegister = () => {
   }, []);
 
   useEffect(() => {
-    fetchReportData(reportDate.year, reportDate.month);
+    if (reportDate) {
+      const parts = reportDate.split('-');
+      if (parts.length >= 2) {
+        fetchReportData(parseInt(parts[0]), parseInt(parts[1]));
+      }
+    }
   }, [reportDate]);
 
   const handleChange = (e) => {
@@ -247,12 +253,11 @@ const CashRegister = () => {
             <div style={{ width: '12rem' }}>
               <CustomDatePicker
                 className="form-input"
-                showMonthYearPicker={true}
-                value={`${reportDate.year}-${reportDate.month.toString().padStart(2, '0')}`}
+                value={reportDate}
+                popperPlacement="bottom-end"
                 onChange={(e) => {
                   if (e.target.value) {
-                    const [y, m] = e.target.value.split('-');
-                    setReportDate({ year: parseInt(y), month: parseInt(m) });
+                    setReportDate(e.target.value);
                   }
                 }}
               />

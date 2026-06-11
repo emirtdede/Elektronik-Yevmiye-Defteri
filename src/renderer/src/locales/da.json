@@ -302,7 +302,9 @@
     "faq_q7": "Hvor får man vejroplysninger fra byggepladslogbøger?",
     "faq_a7": "Når du åbner fanen Daily Journal efter at have indtastet placeringsoplysningerne for din byggeplads (f.eks. \"Istanbul, TR\") på byggepladsstyringssiden, henter systemet automatisk dagens vejrtemperatur og statusoplysninger automatisk i henhold til byggepladsens placering via OpenWeather API. Hvis der ikke er noget internet, tildeler systemet realistiske simulerede værdier.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Søg i ofte stillede spørgsmål...",
+    "faq_no_results": "Der blev ikke fundet nogen spørgsmål, der matchede dine søgekriterier."
   },
   "projects": {
     "title": "Byggeplads (Location) Management",

@@ -151,7 +151,7 @@ const AboutHelp = () => {
           <input 
             type="text" 
             className="form-input" 
-            placeholder="Sıkça sorulan sorularda ara..." 
+            placeholder={t('about.faq_search_placeholder', 'Sıkça sorulan sorularda ara...')} 
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             style={{ maxWidth: '300px' }}
@@ -159,7 +159,7 @@ const AboutHelp = () => {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {filteredFaqs.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aradığınız kriterlere uygun soru bulunamadı.</div>
+            <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>{t('about.faq_no_results', 'Aradığınız kriterlere uygun soru bulunamadı.')}</div>
           ) : (
             filteredFaqs.map((faq, idx) => (
               <div 

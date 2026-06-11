@@ -302,7 +302,9 @@
     "faq_q7": "¿Dónde obtener información meteorológica de los cuadernos de bitácora de las obras de construcción?",
     "faq_a7": "Cuando abre la pestaña Diario después de ingresar la información de ubicación de su sitio de construcción (por ejemplo, \"Estambul, TR\") en la página Gestión del sitio de construcción, el sistema recupera automáticamente la temperatura del clima del día y la información de estado de forma autónoma según la ubicación del sitio de construcción a través de la API OpenWeather. En caso de que no haya internet, el sistema asigna valores simulados realistas.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Buscar en las preguntas frecuentes...",
+    "faq_no_results": "No se encontraron preguntas que coincidan con sus criterios de búsqueda."
   },
   "projects": {
     "title": "Gestión del sitio de construcción (ubicación)",

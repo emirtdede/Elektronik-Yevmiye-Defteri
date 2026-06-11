@@ -65,7 +65,7 @@ async function logAudit(db, table_name, record_id, action, old_values = null, ne
 
 async function readRecord(db, table, conditions = {}) {
   // Tables that do NOT have is_deleted column
-  const tablesWithoutSoftDelete = ['app_settings', 'work_types', 'audit_logs', 'worker_groups'];
+  const tablesWithoutSoftDelete = ['app_settings', 'audit_logs'];
   const hasSoftDelete = !tablesWithoutSoftDelete.includes(table);
 
   let query = `SELECT * FROM ${table}`;
@@ -122,12 +122,21 @@ async function deleteRecord(db, table, id) {
   // Get old record for audit
   const oldRecord = await db.get(`SELECT * FROM ${table} WHERE id = ?`, [id]);
   
-  const query = `UPDATE ${table} SET is_deleted = 1, deleted_at = CURRENT_TIMESTAMP WHERE id = ?`;
-  await db.run(query, [id]);
+  // Tables that do NOT have is_deleted column
+  const tablesWithoutSoftDelete = ['app_settings', 'audit_logs'];
+  const hasSoftDelete = !tablesWithoutSoftDelete.includes(table);
+
+  if (hasSoftDelete) {
+    const query = `UPDATE ${table} SET is_deleted = 1, deleted_at = CURRENT_TIMESTAMP WHERE id = ?`;
+    await db.run(query, [id]);
+    await logAudit(db, table, id, 'DELETE', oldRecord, { is_deleted: 1 });
+  } else {
+    const query = `DELETE FROM ${table} WHERE id = ?`;
+    await db.run(query, [id]);
+    await logAudit(db, table, id, 'DELETE', oldRecord, null);
+  }
   
-  await logAudit(db, table, id, 'DELETE', oldRecord, { is_deleted: 1 });
-  
-  return { success: true, message: 'Kayıt başarıyla çöp kutusuna taşındı.' };
+  return { success: true, message: 'Kayıt başarıyla silindi.' };
 }
 
 module.exports = {

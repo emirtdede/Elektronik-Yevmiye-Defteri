@@ -302,7 +302,9 @@
     "faq_q7": "Kde získat informace o počasí ze stavebních deníků?",
     "faq_a7": "Když po zadání informací o poloze vašeho staveniště (např. „Istanbul, TR“) na stránce Správa staveniště otevřete kartu Denní deník, systém automaticky načte denní teplotu počasí a informace o stavu autonomně podle polohy staveniště přes OpenWeather API. V případě, že není k dispozici internet, systém přiřadí realistické simulované hodnoty.",
     "search_faq": "Search in frequently asked questions...",
-    "no_faq_found": "No questions found matching your criteria."
+    "no_faq_found": "No questions found matching your criteria.",
+    "faq_search_placeholder": "Hledat v často kladených dotazech...",
+    "faq_no_results": "Nebyly nalezeny žádné otázky odpovídající vašim vyhledávacím kritériím."
   },
   "projects": {
     "title": "Správa staveniště (místa).",
