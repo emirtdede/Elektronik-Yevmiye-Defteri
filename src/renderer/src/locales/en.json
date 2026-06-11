@@ -44,7 +44,13 @@
     "company_name_placeholder": "e.g. ABC Construction Inc.",
     "company_logo_help": "* In PNG or JPG format. Automatically optimized.",
     "file_select_button": "Choose File",
-    "file_not_selected": "No file chosen"
+    "file_not_selected": "No file chosen",
+    "type_name_label": "Operation Type Name",
+    "delete_work_type_title": "Delete Operation Type",
+    "delete_work_type_msg": "Are you sure you want to delete this study type? Since the calculations in old scorecards are saved in the database, your historical data will not be corrupted.",
+    "group_name_label": "Group Name",
+    "delete_group_title": "Delete Worker Group",
+    "delete_group_msg": "Are you sure you want to delete this group? Workers in the group will have their group assignments removed (Workers will not be deleted)."
   },
   "dashboard": {
     "title": "Personnel Management",

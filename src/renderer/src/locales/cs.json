@@ -44,7 +44,13 @@
     "company_name_placeholder": "např. ABC Stavební s.r.o.",
     "company_logo_help": "* Ve formátu PNG nebo JPG. Automaticky optimalizováno.",
     "file_select_button": "Vybrat soubor",
-    "file_not_selected": "Soubor nebyl vybrán"
+    "file_not_selected": "Soubor nebyl vybrán",
+    "type_name_label": "Název typu operace",
+    "delete_work_type_title": "Odstranit typ operace",
+    "delete_work_type_msg": "Opravdu chcete smazat tento typ studie? Vzhledem k tomu, že výpočty ve starých skórovacích kartách jsou uloženy v databázi, vaše historická data nebudou poškozena.",
+    "group_name_label": "Název skupiny",
+    "delete_group_title": "Smazat skupinu pracovníků",
+    "delete_group_msg": "Opravdu chcete smazat tuto skupinu? Pracovníkům ve skupině budou odebrány jejich skupinové úkoly (pracovníci nebudou smazáni)."
   },
   "dashboard": {
     "title": "Správa personálu",

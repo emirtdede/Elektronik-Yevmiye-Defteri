@@ -44,7 +44,13 @@
     "company_name_placeholder": "z.B. ABC Bau GmbH",
     "company_logo_help": "* Im PNG- oder JPG-Format. Wird automatisch optimiert.",
     "file_select_button": "Datei auswählen",
-    "file_not_selected": "Keine Datei ausgewählt"
+    "file_not_selected": "Keine Datei ausgewählt",
+    "type_name_label": "Name des Vorgangstyps",
+    "delete_work_type_title": "Vorgangstyp löschen",
+    "delete_work_type_msg": "Sind Sie sicher, dass Sie diesen Studientyp löschen möchten? Da die Berechnungen in alten Scorecards in der Datenbank gespeichert werden, werden Ihre historischen Daten nicht beschädigt.",
+    "group_name_label": "Gruppenname",
+    "delete_group_title": "Arbeitergruppe löschen",
+    "delete_group_msg": "Sind Sie sicher, dass Sie diese Gruppe löschen möchten? Die Gruppenzuweisungen der Arbeiter in der Gruppe werden entfernt (Arbeiter werden nicht gelöscht)."
   },
   "dashboard": {
     "title": "Personalverwaltung",

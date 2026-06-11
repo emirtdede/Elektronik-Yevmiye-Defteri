@@ -44,7 +44,13 @@
     "company_name_placeholder": "f.eks. ABC Byg A/S",
     "company_logo_help": "* I PNG- eller JPG-format. Optimeres automatisk.",
     "file_select_button": "Vælg fil",
-    "file_not_selected": "Ingen fil valgt"
+    "file_not_selected": "Ingen fil valgt",
+    "type_name_label": "Operationstypenavn",
+    "delete_work_type_title": "Slet operationstype",
+    "delete_work_type_msg": "Er du sikker på, at du vil slette denne undersøgelsestype? Da beregningerne i gamle scorekort er gemt i databasen, vil dine historiske data ikke blive beskadiget.",
+    "group_name_label": "Gruppenavn",
+    "delete_group_title": "Slet arbejdsgruppe",
+    "delete_group_msg": "Er du sikker på, at du vil slette denne gruppe? Medarbejdere i gruppen vil få deres gruppeopgaver fjernet (medarbejdere bliver ikke slettet)."
   },
   "dashboard": {
     "title": "Personalestyring",

@@ -44,7 +44,13 @@
     "company_name_placeholder": "np. ABC Budownictwo Sp. z o.o.",
     "company_logo_help": "* W formacie PNG lub JPG. Automatycznie optymalizowane.",
     "file_select_button": "Wybierz plik",
-    "file_not_selected": "Nie wybrano pliku"
+    "file_not_selected": "Nie wybrano pliku",
+    "type_name_label": "Nazwa typu operacji",
+    "delete_work_type_title": "Usuń typ operacji",
+    "delete_work_type_msg": "Czy na pewno chcesz usunąć ten typ badania? Ponieważ obliczenia ze starych kart wyników są zapisywane w bazie danych, Twoje dane historyczne nie ulegną uszkodzeniu.",
+    "group_name_label": "Nazwa grupy",
+    "delete_group_title": "Usuń grupę pracowników",
+    "delete_group_msg": "Czy na pewno chcesz usunąć tę grupę? Przypisania grupowe dla pracowników w grupie zostaną usunięte (Pracownicy nie zostaną usunięci)."
   },
   "dashboard": {
     "title": "Zarządzanie personelem",

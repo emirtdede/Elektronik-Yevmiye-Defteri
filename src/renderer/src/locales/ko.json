@@ -44,7 +44,13 @@
     "company_name_placeholder": "예: ABC 건설 주식회사",
     "company_logo_help": "* PNG 또는 JPG 형식. 자동으로 최적화됩니다.",
     "file_select_button": "파일 선택",
-    "file_not_selected": "선택된 파일 없음"
+    "file_not_selected": "선택된 파일 없음",
+    "type_name_label": "작업 유형 이름",
+    "delete_work_type_title": "삭제 작업 유형",
+    "delete_work_type_msg": "이 연구 유형을 삭제하시겠습니까? 기존 스코어카드의 계산이 데이터베이스에 저장되므로 과거 데이터가 손상되지 않습니다.",
+    "group_name_label": "그룹 이름",
+    "delete_group_title": "작업자 그룹 삭제",
+    "delete_group_msg": "이 그룹을 삭제하시겠습니까? 그룹에 속한 작업자의 그룹 할당이 제거됩니다. (작업자는 삭제되지 않습니다.)"
   },
   "dashboard": {
     "title": "인사 관리",

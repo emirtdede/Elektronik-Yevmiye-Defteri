@@ -44,7 +44,13 @@
     "company_name_placeholder": "es. ABC Costruzioni S.p.A.",
     "company_logo_help": "* In formato PNG o JPG. Ottimizzato automaticamente.",
     "file_select_button": "Scegli file",
-    "file_not_selected": "Nessun file selezionato"
+    "file_not_selected": "Nessun file selezionato",
+    "type_name_label": "Nome del tipo di operazione",
+    "delete_work_type_title": "Elimina tipo di operazione",
+    "delete_work_type_msg": "Sei sicuro di voler eliminare questo tipo di studio? Poiché i calcoli nelle vecchie scorecard vengono salvati nel database, i dati storici non verranno danneggiati.",
+    "group_name_label": "Nome del gruppo",
+    "delete_group_title": "Elimina gruppo di lavoro",
+    "delete_group_msg": "Sei sicuro di voler eliminare questo gruppo? Ai lavoratori del gruppo verranno rimosse le assegnazioni di gruppo (i lavoratori non verranno eliminati)."
   },
   "dashboard": {
     "title": "Gestione del personale",

@@ -6,8 +6,8 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, confirm
   if (!isOpen) return null;
 
   return (
-    <div className="drawer-overlay" style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <div className="glass-card" style={{ width: '400px', maxWidth: '90%', animation: 'fadeIn 0.3s ease', background: 'var(--spotlight-bg)' }}>
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div className="glass-card" style={{ width: '400px', maxWidth: '90%', animation: 'fadeIn 0.3s ease', background: 'var(--spotlight-bg)', border: '1px solid var(--glass-border)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <h3 style={{ 
             fontSize: '1.25rem', 

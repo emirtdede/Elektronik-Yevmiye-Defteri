@@ -44,7 +44,13 @@
     "company_name_placeholder": "例: ABC建設株式会社",
     "company_logo_help": "※ PNGまたはJPG形式。自動的に最適化されます。",
     "file_select_button": "ファイルを選択",
-    "file_not_selected": "選択されていません"
+    "file_not_selected": "選択されていません",
+    "type_name_label": "操作タイプ名",
+    "delete_work_type_title": "削除操作の種類",
+    "delete_work_type_msg": "この研究タイプを削除してもよろしいですか?古いスコアカードの計算はデータベースに保存されるため、履歴データが破損することはありません。",
+    "group_name_label": "グループ名",
+    "delete_group_title": "ワーカーグループの削除",
+    "delete_group_msg": "このグループを削除してもよろしいですか?グループ内のワーカーのグループ割り当てが削除されます (ワーカーは削除されません)。"
   },
   "dashboard": {
     "title": "人事管理",

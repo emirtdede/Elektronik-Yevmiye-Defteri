@@ -44,7 +44,13 @@
     "company_name_placeholder": "ej. ABC Construcción S.A.",
     "company_logo_help": "* En formato PNG o JPG. Optimizado automáticamente.",
     "file_select_button": "Seleccionar archivo",
-    "file_not_selected": "Ningún archivo seleccionado"
+    "file_not_selected": "Ningún archivo seleccionado",
+    "type_name_label": "Nombre del tipo de operación",
+    "delete_work_type_title": "Eliminar tipo de operación",
+    "delete_work_type_msg": "¿Está seguro de que desea eliminar este tipo de estudio? Dado que los cálculos de los cuadros de mando antiguos se guardan en la base de datos, sus datos históricos no se dañarán.",
+    "group_name_label": "Nombre del grupo",
+    "delete_group_title": "Eliminar grupo de trabajadores",
+    "delete_group_msg": "¿Estás seguro de que deseas eliminar este grupo? Se eliminarán las asignaciones de grupo de los trabajadores del grupo (no se eliminarán los trabajadores)."
   },
   "dashboard": {
     "title": "Gestión de Personal",

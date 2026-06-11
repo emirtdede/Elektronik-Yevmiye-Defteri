@@ -44,7 +44,13 @@
     "company_name_placeholder": "t.ex. ABC Bygg AB",
     "company_logo_help": "* I PNG- eller JPG-format. Optimeras automatiskt.",
     "file_select_button": "Välj fil",
-    "file_not_selected": "Ingen fil vald"
+    "file_not_selected": "Ingen fil vald",
+    "type_name_label": "Operationstyps namn",
+    "delete_work_type_title": "Ta bort operationstyp",
+    "delete_work_type_msg": "Är du säker på att du vill ta bort den här studietypen? Eftersom beräkningarna i gamla styrkort sparas i databasen kommer dina historiska data inte att skadas.",
+    "group_name_label": "Gruppnamn",
+    "delete_group_title": "Ta bort arbetsgrupp",
+    "delete_group_msg": "Är du säker på att du vill ta bort den här gruppen? Arbetare i gruppen kommer att få sina gruppuppgifter borttagna (arbetare kommer inte att tas bort)."
   },
   "dashboard": {
     "title": "Personalhantering",

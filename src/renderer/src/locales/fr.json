@@ -44,7 +44,13 @@
     "company_name_placeholder": "ex. ABC Construction S.A.S.",
     "company_logo_help": "* Au format PNG ou JPG. Optimisé automatiquement.",
     "file_select_button": "Choisir un fichier",
-    "file_not_selected": "Aucun fichier choisi"
+    "file_not_selected": "Aucun fichier choisi",
+    "type_name_label": "Nom du type d'opération",
+    "delete_work_type_title": "Supprimer le type d'opération",
+    "delete_work_type_msg": "Êtes-vous sûr de vouloir supprimer ce type d'étude ? Étant donné que les calculs des anciennes cartes de pointage sont enregistrés dans la base de données, vos données historiques ne seront pas corrompues.",
+    "group_name_label": "Nom du groupe",
+    "delete_group_title": "Supprimer le groupe de travailleurs",
+    "delete_group_msg": "Êtes-vous sûr de vouloir supprimer ce groupe ? Les travailleurs du groupe verront leurs affectations de groupe supprimées (les travailleurs ne seront pas supprimés)."
   },
   "dashboard": {
     "title": "Gestion du Personnel",

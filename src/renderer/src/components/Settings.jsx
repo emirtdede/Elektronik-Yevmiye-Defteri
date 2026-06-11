@@ -108,8 +108,8 @@ const Settings = ({ activeTab = 'genel' }) => {
   const handleDeleteWorkType = async (id) => {
     setModalConfig({
       isOpen: true,
-      title: 'Çalışma Tipini Sil',
-      message: 'Bu çalışma tipini silmek istediğinize emin misiniz? Eski puantajlardaki hesaplamalar veritabanına kaydedildiği için geçmiş verileriniz bozulmayacaktır.',
+      title: t('settings.delete_work_type_title', 'Çalışma Tipini Sil'),
+      message: t('settings.delete_work_type_msg', 'Bu çalışma tipini silmek istediğinize emin misiniz? Eski puantajlardaki hesaplamalar veritabanına kaydedildiği için geçmiş verileriniz bozulmayacaktır.'),
       type: 'danger',
       onConfirm: async () => {
         await window.api.db.delete('work_types', id);
@@ -132,8 +132,8 @@ const Settings = ({ activeTab = 'genel' }) => {
   const handleDeleteGroup = async (id) => {
     setModalConfig({
       isOpen: true,
-      title: 'İşçi Grubunu Sil',
-      message: 'Bu grubu silmek istediğinize emin misiniz? Gruptaki işçilerin grup atamaları kaldırılacaktır (İşçiler silinmez).',
+      title: t('settings.delete_group_title', 'İşçi Grubunu Sil'),
+      message: t('settings.delete_group_msg', 'Bu grubu silmek istediğinize emin misiniz? Gruptaki işçilerin grup atamaları kaldırılacaktır (İşçiler silinmez).'),
       type: 'danger',
       onConfirm: async () => {
         await window.api.db.delete('worker_groups', id);
@@ -246,8 +246,8 @@ const Settings = ({ activeTab = 'genel' }) => {
   const handleVacuum = async () => {
     setModalConfig({
       isOpen: true,
-      title: 'Sistemi Optimize Et',
-      message: 'Veritabanı vakumlanarak silinmiş kayıtların kapladığı boşluklar geri kazanılacaktır. Bu işlem sistem hızınızı artırır.',
+      title: t('settings.vacuum_db', 'Sistemi Optimize Et'),
+      message: t('settings.vacuum_desc', 'Veritabanı vakumlanarak silinmiş kayıtların kapladığı boşluklar geri kazanılacaktır. Bu işlem sistem hızınızı artırır.'),
       type: 'primary',
       onConfirm: async () => {
         if (window.api && window.api.system.vacuumDB) {
@@ -562,7 +562,7 @@ const Settings = ({ activeTab = 'genel' }) => {
               
               <form onSubmit={handleAddWorkType} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end', borderTop: '1px solid var(--glass-border)', paddingTop: '1.25rem' }}>
                 <div style={{ flex: 2 }}>
-                  <label className="form-label">Çalışma Tipi Adı</label>
+                  <label className="form-label">{t('settings.type_name_label', 'Çalışma Tipi Adı')}</label>
                   <input 
                     type="text" 
                     className="form-input" 
@@ -572,7 +572,7 @@ const Settings = ({ activeTab = 'genel' }) => {
                   />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <label className="form-label">Çarpan</label>
+                  <label className="form-label">{t('settings.multiplier', 'Çarpan')}</label>
                   <input 
                     type="number" 
                     step="0.1"
@@ -582,7 +582,7 @@ const Settings = ({ activeTab = 'genel' }) => {
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-primary" style={{ padding: '0.75rem 1.25rem' }}>Ekle</button>
+                <button type="submit" className="btn btn-primary" style={{ padding: '0.75rem 1.25rem' }}>{t('settings.add', 'Ekle')}</button>
               </form>
             </div>
 
@@ -703,7 +703,7 @@ const Settings = ({ activeTab = 'genel' }) => {
 
               <form onSubmit={handleAddGroup} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end', borderTop: '1px solid var(--glass-border)', paddingTop: '1.25rem' }}>
                 <div style={{ flex: 1 }}>
-                  <label className="form-label">Grup Adı</label>
+                  <label className="form-label">{t('settings.group_name_label', 'Grup Adı')}</label>
                   <input 
                     type="text" 
                     className="form-input" 
@@ -712,7 +712,7 @@ const Settings = ({ activeTab = 'genel' }) => {
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-primary" style={{ padding: '0.75rem 1.25rem' }}>Ekle</button>
+                <button type="submit" className="btn btn-primary" style={{ padding: '0.75rem 1.25rem' }}>{t('settings.add', 'Ekle')}</button>
               </form>
             </div>
           </div>

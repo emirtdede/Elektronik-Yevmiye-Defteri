@@ -44,7 +44,13 @@
     "company_name_placeholder": "例如：ABC 建设有限公司",
     "company_logo_help": "* PNG 或 JPG 格式。自动优化。",
     "file_select_button": "选择文件",
-    "file_not_selected": "未选择文件"
+    "file_not_selected": "未选择文件",
+    "type_name_label": "操作类型名称",
+    "delete_work_type_title": "删除操作类型",
+    "delete_work_type_msg": "您确定要删除该研究类型吗？由于旧记分卡中的计算保存在数据库中，因此您的历史数据不会被损坏。",
+    "group_name_label": "群组名称",
+    "delete_group_title": "删除工作组",
+    "delete_group_msg": "您确定要删除该群组吗？组中的工作人员的组分配将被删除（工作人员不会被删除）。"
   },
   "dashboard": {
     "title": "人员管理",
