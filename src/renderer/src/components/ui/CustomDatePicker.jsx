@@ -28,63 +28,52 @@ const CustomDatePicker = ({ value, onChange, className, required, style, name, p
   const { i18n } = useTranslation();
   const lang = i18n.language || 'tr';
 
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(value ? new Date(value) : null);
 
   useEffect(() => {
     // Prevent timezone shift by parsing local parts
     if (value) {
       const parts = value.split('-');
-      if (showMonthYearPicker) {
-        if (parts.length >= 2) {
-          setDate(new Date(parts[0], parts[1] - 1, 1));
-        } else {
-          setDate(new Date(value));
-        }
+      if (parts.length === 3) {
+        setDate(new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])));
+      } else if (parts.length === 2) {
+        setDate(new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1));
       } else {
-        if (parts.length === 3) {
-          setDate(new Date(parts[0], parts[1] - 1, parts[2]));
-        } else {
-          setDate(new Date(value));
-        }
+        setDate(new Date(value));
       }
     } else {
       setDate(null);
     }
-  }, [value, showMonthYearPicker]);
+  }, [value]);
 
   const handleChange = (selectedDate) => {
     setDate(selectedDate);
     if (onChange) {
-      if (showMonthYearPicker) {
-        const yyyy = selectedDate ? selectedDate.getFullYear() : '';
-        const mm = selectedDate ? String(selectedDate.getMonth() + 1).padStart(2, '0') : '';
-        const finalVal = selectedDate ? `${yyyy}-${mm}` : '';
-
-        onChange({
-          target: {
-            name: name || '',
-            value: finalVal
-          }
-        });
-      } else {
-        // Extract YYYY-MM-DD
-        const yyyy = selectedDate ? selectedDate.getFullYear() : '';
-        const mm = selectedDate ? String(selectedDate.getMonth() + 1).padStart(2, '0') : '';
-        const dd = selectedDate ? String(selectedDate.getDate()).padStart(2, '0') : '';
-        const finalVal = selectedDate ? `${yyyy}-${mm}-${dd}` : '';
-
-        onChange({
-          target: {
-            name: name || '',
-            value: finalVal
-          }
-        });
+      let finalVal = '';
+      if (selectedDate) {
+        const yyyy = selectedDate.getFullYear();
+        const mm = String(selectedDate.getMonth() + 1).padStart(2, '0');
+        if (showMonthYearPicker) {
+          finalVal = `${yyyy}-${mm}`;
+        } else {
+          const dd = String(selectedDate.getDate()).padStart(2, '0');
+          finalVal = `${yyyy}-${mm}-${dd}`;
+        }
       }
+
+      onChange({
+        target: {
+          name: name || '',
+          value: finalVal
+        }
+      });
     }
   };
 
   const getDateFormat = () => {
-    if (showMonthYearPicker) return 'MMMM yyyy';
+    if (showMonthYearPicker) {
+      return 'MMMM yyyy';
+    }
     if (lang === 'en') return 'MM/dd/yyyy';
     if (['tr', 'de', 'fr', 'it', 'es', 'pt', 'ru', 'nl', 'cs', 'da', 'no', 'pl', 'sv'].includes(lang)) return 'dd.MM.yyyy';
     if (['zh', 'ja', 'ko'].includes(lang)) return 'yyyy-MM-dd';

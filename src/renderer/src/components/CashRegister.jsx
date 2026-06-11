@@ -244,9 +244,10 @@ const CashRegister = () => {
         <div className="glass-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h3 className="card-title">{t('cash.monthly_summary')}</h3>
+            <div style={{ width: '12rem' }}>
               <CustomDatePicker
-                showMonthYearPicker
-                style={{ width: '12rem' }}
+                className="form-input"
+                showMonthYearPicker={true}
                 value={`${reportDate.year}-${reportDate.month.toString().padStart(2, '0')}`}
                 onChange={(e) => {
                   if (e.target.value) {
@@ -256,6 +257,7 @@ const CashRegister = () => {
                 }}
               />
             </div>
+          </div>
             
             {reportData ? (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
