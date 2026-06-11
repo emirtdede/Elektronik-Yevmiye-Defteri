@@ -1,0 +1,131 @@
+################################################################################
+PROJE BAŞLANGICI
+################################################################################
+
+Eğer project_docs klasörü yoksa oluştur.
+
+Aşağıdaki dosyaları ve klasörü oluştur:
+
+  PROJECT_SPECIFICATION.md
+  ARCHITECTURE.md
+  DATABASE_SCHEMA.md
+  API_SPECIFICATION.md
+  UI_UX_GUIDELINES.md
+  DEVELOPMENT_ROADMAP.md
+  MEMORY.md
+  RULES.md
+  GLOSSARY.md
+  CHANGELOG.md
+  CHANGELOG_ARCHIVE/
+  TASKS.md
+  TECHNICAL_DEBT.md
+  DECISIONS.md
+  RISKS.md
+  FILE_STRUCTURE.md
+  TESTING_STATUS.md
+  ENVIRONMENT.md
+  SECURITY.md
+
+################################################################################
+GÖREV BAŞLAMADAN ÖNCE
+################################################################################
+
+Her görev öncesinde şu dosyaları sırayla oku:
+
+  1. MEMORY.md                 -> Projenin özeti
+  2. RULES.md                  -> Yasaklar ve zorunlular
+  3. TASKS.md                  -> Güncel görev listesi
+  4. PROJECT_SPECIFICATION.md  -> Kapsam dışına çıkma
+  5. ARCHITECTURE.md           -> Teknik sınırlar
+
+UYARI KONTROLÜ:
+MEMORY.md'nin "Son güncelleme" tarihine bak.
+Eğer 7 günden eskiyse kullanıcıyı şöyle uyar:
+
+"⚠️ MEMORY.md [X] gündür güncellenmemiş.
+Devam etmeden önce güncellemek ister misin?"
+
+Güvenlikle ilgili bir görevse SECURITY.md'yi de oku.
+Yeni bir terimle karşılaşırsan GLOSSARY.md'yi kontrol et.
+
+################################################################################
+ÇALIŞMA KURALLARI
+################################################################################
+
+KESİN YASAKLAR (kullanıcı izni olmadan):
+  - Dosya silme
+  - Teknoloji değiştirme
+  - Mimari değiştirme
+  - Çalışan sistemi yeniden yazma
+  - Gereksiz refactor
+  - Aynı anda birden fazla modülü değiştirme
+
+ZORUNLU KURALLAR:
+  - Büyük görevleri küçük adımlara böl
+  - Önce mevcut kodu oku, sonra değiştir
+  - Her değişiklik minimum etki prensibi ile yapılmalı
+  - Belirsiz durumda tahmin etme, kullanıcıya sor
+  - GLOSSARY.md'deki terimleri kullan
+  - Yeni mimari karar alındıysa DECISIONS.md'ye yaz
+  - Yeni bir özellik eklendiğinde veya bir düzenleme istendiğinde, anında ilk iş olarak TASKS.md güncellenmeli
+  - Tamamlanan her görevin sonunda mutlaka test gerçekleştirilmeli ve sonuçlar TESTING_STATUS.md'ye işlenmeli
+
+################################################################################
+GÖREV SONUNDA
+################################################################################
+
+ZORUNLU (her görev sonunda güncelle):
+
+  MEMORY.md
+    -> Durumu, son yapılan işi, sıradaki adımı güncelle
+    -> Maksimum 100 satır -> öz tut, aşma
+    -> "Son güncelleme" tarihini yaz
+    -> MEMORY.md güncellenmeden görev bitmez.
+
+  CHANGELOG.md
+    -> Tarih ve yapılan değişiklikleri ekle
+    -> 200 satırı geçince eski kayıtları
+      CHANGELOG_ARCHIVE/YYYY-MM.md dosyasına taşı
+
+  TASKS.md
+    -> Tamamlananları [x] işaretle
+    -> Ortaya çıkan yeni görevleri ekle
+
+GEREKİRSE güncelle:
+  DATABASE_SCHEMA.md    (Şema değiştiyse)
+  API_SPECIFICATION.md  (endpoint eklendi/değiştiyse)
+  FILE_STRUCTURE.md     (yeni dosya/klasör eklendiyse)
+  TECHNICAL_DEBT.md     (borç eklendi/ödendiyse)
+  DECISIONS.md          (mimari karar alındıysa)
+  RISKS.md              (yeni risk belirlendiyse)
+  TESTING_STATUS.md     (test yazıldıysa)
+  ENVIRONMENT.md        (yeni env değişkeni eklendiyse)
+  SECURITY.md           (güvenlik kuralı değiştiyse)
+
+################################################################################
+RAPORLAMA
+################################################################################
+
+Her görev sonunda kısa rapor ver:
+
+  - Oluşturulan dosyalar
+  - Değiştirilen dosyalar
+  - Silinen dosyalar (varsa)
+  - Tespit edilen riskler
+  - Önerilen sonraki adım
+
+################################################################################
+GIT
+################################################################################
+
+Önemli bir modül tamamlandığında commit öner.
+
+Commit formatı:
+  feat(modül): kısa açıklama
+  fix(modül): kısa açıklama
+  docs(modül): kısa açıklama
+  refactor(modül): kısa açıklama
+
+Örnek:
+  feat(auth): giriş ve kayıt endpoint'leri eklendi
+  fix(users): profil güncelleme validasyon hatası düzeltildi

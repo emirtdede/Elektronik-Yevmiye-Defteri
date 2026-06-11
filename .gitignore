@@ -1,0 +1,12 @@
+node_modules/
+dist/
+release/
+build/
+.DS_Store
+local_database.sqlite
+local_database.sqlite-journal
+*.log
+scratch/
+screenshot/
+take_screenshots.js
+take_screenshots_full.js
