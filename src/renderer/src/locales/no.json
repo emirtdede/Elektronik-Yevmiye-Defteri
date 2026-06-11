@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Personaladministrasjon",
     "cash": "Kasse",
-    "settings": "Innstillinger"
+    "settings": "Innstillinger",
+    "projects": "Byggeplasser (sted)",
+    "production": "Produksjon og mengde",
+    "materials": "Følgeseddel og materiale",
+    "journal": "Dagsbok",
+    "quality": "Kvalitetskontroll",
+    "subcontractors": "Underleverandørkunder",
+    "media": "Mediegalleri",
+    "help": "Om og hjelp",
+    "no_project_selected": "Byggeplass ikke valgt!",
+    "active_project": "Aktiv byggeplass"
   },
   "settings": {
     "title": "Systeminnstillinger",
@@ -168,13 +178,17 @@
     "export": "Eksporter logger",
     "level": "Nivå",
     "message": "Melding",
-    "date": "Dato"
+    "date": "Dato",
+    "no_logs": "Ingen logger funnet i det valgte området."
   },
   "common": {
     "cancel": "Avbryt",
     "confirm": "Bekreft",
     "delete": "Slett",
-    "empty_data": "Fant ingen data å vise."
+    "empty_data": "Fant ingen data å vise.",
+    "welcome_title": "Velkommen til ŞantiyemOS",
+    "welcome_msg": "For å kunne legge inn poster eller administrere personell, må du opprette en ny byggeplass fra venstremenyen eller velge et aktivt arbeidsområde.",
+    "select_project_msg": "Vennligst velg en aktiv byggeplass fra venstremenyen eller fra Byggeplassadministrasjon-siden."
   },
   "worker_modal": {
     "title_new": "Legg til ansatt",
@@ -267,6 +281,21 @@
     "how_4_title": "Sikkerhet:",
     "how_4_desc": "All data er kryptert lokalt.",
     "conclusion_1": "Byggeplassens økonomiske hukommelse.",
-    "conclusion_2": "Designet for at du skal kunne fokusere på jobben din."
+    "conclusion_2": "Designet for at du skal kunne fokusere på jobben din.",
+    "faq_q5": "Hvis jeg formaterer datamaskinen eller sletter applikasjonen, vil dataene mine gå tapt? Hvordan sikkerhetskopiere og gjenopprette?",
+    "faq_a5": "Ja, siden applikasjonen fungerer offline-først, lagres alle dataene dine på din lokale datamaskin. Slik beskytter du dataene dine før formatering:\n\n1. Ta sikkerhetskopi ved å klikke på \"Sikkerhetskopier hele databasen (.sqlite)\"-knappen på siden Innstillinger -> Systemsikkerhet.\n2. Gjenopprett systemet autonomt ved å åpne applikasjonen på den nye datamaskinen og dra og slippe denne .sqlite-filen inn i \"Gjenopprett sikkerhetskopidatabase\"-feltet på Innstillinger-siden (applikasjonen vil automatisk overskrive sikkerhetskopien og starte på nytt).",
+    "faq_q6": "Hvordan fungerer Local Area Network (LAN) Mobile Photo Uploader?",
+    "faq_a6": "Når du trykker på \"Last opp fra mobil (QR)\"-knappen mens du legger til materialleveringsnotat eller kvalitetskontrollrapporter, åpner applikasjonen en midlertidig lokal nettverksserver (LAN Express-server) på datamaskinen din. Når du skanner QR-koden med telefonen, lastes følgeseddelbildene du tar med telefonkameraet opp direkte til applikasjonen på datamaskinen din uten internett-/skykostnader.",
+    "faq_q7": "Hvor får man værinformasjon fra byggeplassloggbøker?",
+    "faq_a7": "Når du åpner fanen Daily Journal etter å ha lagt inn stedsinformasjonen til byggeplassen din (f.eks. \"Istanbul, TR\") på Byggeplassadministrasjon-siden, henter systemet automatisk dagens værtemperatur og statusinformasjon automatisk i henhold til plasseringen til byggeplassen via OpenWeather API. I tilfelle det ikke er internett, tildeler systemet realistiske simulerte verdier."
+  },
+  "projects": {
+    "title": "Byggeplass (plassering) forvaltning",
+    "name_label": "Byggested / prosjektnavn",
+    "name_ph": "Eks: Bygging av nordlige motorveiviadukter",
+    "location_label": "Sted / adresse",
+    "location_ph": "Eks: Istanbul / Çatalca",
+    "add_btn": "Legg til prosjekt",
+    "empty_state": "Ingen registrert byggeplass funnet. Du kan legge til din første byggeplass fra skjemaet ovenfor."
   }
 }

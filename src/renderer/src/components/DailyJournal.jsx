@@ -118,7 +118,7 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
     return (
       <div className="glass-card text-center" style={{ padding: '3rem' }}>
         <h2>Günlük Jurnal Takibi</h2>
-        <p className="text-muted" style={{ marginTop: '1rem' }}>Lütfen sol menüden veya Şantiye Yönetimi sayfasından aktif bir şantiye seçin.</p>
+        <p className="text-muted" style={{ marginTop: '1rem' }}>{t('common.select_project_msg', 'Lütfen sol menüden veya Şantiye Yönetimi sayfasından aktif bir şantiye seçin.')}</p>
       </div>
     );
   }

@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Personalverwaltung",
     "cash": "Kassenverwaltung",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "projects": "Baustellen (Standort)",
+    "production": "Herstellung und Menge",
+    "materials": "Lieferschein und Material",
+    "journal": "Tagesjournal",
+    "quality": "Qualitätskontrolle",
+    "subcontractors": "Subunternehmer-Kunden",
+    "media": "Mediengalerie",
+    "help": "Über & Hilfe",
+    "no_project_selected": "Baustelle nicht ausgewählt!",
+    "active_project": "Aktive Baustelle"
   },
   "settings": {
     "title": "Systemeinstellungen",
@@ -168,13 +178,17 @@
     "export": "Exportieren",
     "level": "Stufe",
     "message": "Nachricht",
-    "date": "Datum"
+    "date": "Datum",
+    "no_logs": "Im ausgewählten Bereich wurden keine Protokolle gefunden."
   },
   "common": {
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
     "delete": "Löschen",
-    "empty_data": "Es wurden keine Daten zur Anzeige gefunden."
+    "empty_data": "Es wurden keine Daten zur Anzeige gefunden.",
+    "welcome_title": "Willkommen bei ŞantiyemOS",
+    "welcome_msg": "Um Datensätze erfassen oder Personal verwalten zu können, erstellen Sie bitte im linken Menü eine neue Baustelle oder wählen Sie einen aktiven Arbeitsbereich aus.",
+    "select_project_msg": "Bitte wählen Sie im linken Menü oder auf der Seite „Baustellenverwaltung“ eine aktive Baustelle aus."
   },
   "worker_modal": {
     "title_new": "Neues Personal hinzufügen",
@@ -267,6 +281,21 @@
     "how_4_title": "Sicherheit:",
     "how_4_desc": "Alle Transaktionen sind lokal verschlüsselt gespeichert.",
     "conclusion_1": "Nicht nur ein Logbuch; das finanzielle Gedächtnis Ihrer Baustelle.",
-    "conclusion_2": "Entwickelt, um Komplexität zu reduzieren. Fokussieren Sie sich auf Ihr Geschäft."
+    "conclusion_2": "Entwickelt, um Komplexität zu reduzieren. Fokussieren Sie sich auf Ihr Geschäft.",
+    "faq_q5": "Gehen meine Daten verloren, wenn ich meinen Computer formatiere oder die Anwendung lösche? Wie kann ich ein Backup und eine Wiederherstellung durchführen?",
+    "faq_a5": "Ja, da die Anwendung zunächst offline funktioniert, werden alle Ihre Daten auf Ihrem lokalen Computer gespeichert. So schützen Sie Ihre Daten vor der Formatierung:\n\n1. Erstellen Sie Ihr Backup, indem Sie auf der Seite „Einstellungen -> Systemsicherheit“ auf die Schaltfläche „Gesamte Datenbank sichern (.sqlite)“ klicken.\n2. Stellen Sie Ihr System selbstständig wieder her, indem Sie die Anwendung auf dem neuen Computer öffnen und diese .sqlite-Datei per Drag & Drop in das Feld „Backup-Datenbank wiederherstellen“ auf der Seite „Einstellungen“ ziehen (die Anwendung überschreibt die Sicherung automatisch und startet neu).",
+    "faq_q6": "Wie funktioniert der mobile Foto-Uploader für ein lokales Netzwerk (LAN)?",
+    "faq_a6": "Wenn Sie beim Hinzufügen von Materiallieferscheinen oder Qualitätskontrollberichten auf die Schaltfläche „Von Mobilgeräten hochladen (QR)“ klicken, öffnet die Anwendung einen temporären lokalen Netzwerkserver (LAN Express-Server) auf Ihrem Computer. Wenn Sie den QR-Code mit Ihrem Telefon scannen, werden die mit der Kamera Ihres Telefons aufgenommenen Lieferscheinbilder direkt in die Anwendung auf Ihrem Computer hochgeladen, ohne dass Internet-/Cloud-Kosten anfallen.",
+    "faq_q7": "Wo erhält man Wetterinformationen aus Baustellentagebüchern?",
+    "faq_a7": "Wenn Sie die Registerkarte „Tagesjournal“ öffnen, nachdem Sie die Standortinformationen Ihrer Baustelle (z. B. „Istanbul, TR“) auf der Seite „Baustellenverwaltung“ eingegeben haben, ruft das System über die OpenWeather-API automatisch die Wettertemperatur und Statusinformationen des Tages entsprechend dem Standort der Baustelle automatisch ab. Falls kein Internet vorhanden ist, weist das System realistische Simulationswerte zu."
+  },
+  "projects": {
+    "title": "Baustellen-(Standort-)Management",
+    "name_label": "Baustelle/Projektname",
+    "name_ph": "Beispiel: Bau des Nordautobahnviadukts",
+    "location_label": "Standort/Adresse",
+    "location_ph": "Bsp.: Istanbul / Çatalca",
+    "add_btn": "Projekt hinzufügen",
+    "empty_state": "Keine angemeldete Baustelle gefunden. Sie können Ihre erste Baustelle über das Formular oben hinzufügen."
   }
 }

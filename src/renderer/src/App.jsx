@@ -284,31 +284,31 @@ function App() {
               👥 {t('nav.personnel')}
             </div>
             <div className={`sidebar-link ${view === 'projects' ? 'active' : ''}`} onClick={() => setView('projects')}>
-              🏗️ Şantiyeler (Lokasyon)
+              🏗️ {t('nav.projects', 'Şantiyeler (Lokasyon)')}
             </div>
             <div className={`sidebar-link ${view === 'production' ? 'active' : ''}`} onClick={() => setView('production')}>
-              📐 İmalat ve Metraj
+              📐 {t('nav.production', 'İmalat ve Metraj')}
             </div>
             <div className={`sidebar-link ${view === 'materials' ? 'active' : ''}`} onClick={() => setView('materials')}>
-              📄 İrsaliye & Malzeme
+              📄 {t('nav.materials', 'İrsaliye & Malzeme')}
             </div>
             <div className={`sidebar-link ${view === 'journal' ? 'active' : ''}`} onClick={() => setView('journal')}>
-              📓 Günlük Jurnal
+              📓 {t('nav.journal', 'Günlük Jurnal')}
             </div>
             <div className={`sidebar-link ${view === 'quality' ? 'active' : ''}`} onClick={() => setView('quality')}>
-              🛡️ Kalite Kontrol
+              🛡️ {t('nav.quality', 'Kalite Kontrol')}
             </div>
             <div className={`sidebar-link ${view === 'subcontractor' ? 'active' : ''}`} onClick={() => setView('subcontractor')}>
-              🚜 Taşeron Carileri
+              🚜 {t('nav.subcontractors', 'Taşeron Carileri')}
             </div>
             <div className={`sidebar-link ${view === 'media' ? 'active' : ''}`} onClick={() => setView('media')}>
-              📷 Medya Galerisi
+              📷 {t('nav.media', 'Medya Galerisi')}
             </div>
             <div className={`sidebar-link ${view === 'kasa' ? 'active' : ''}`} onClick={() => setView('kasa')}>
               💵 {t('nav.cash')}
             </div>
             <div className={`sidebar-link ${view === 'hakkinda' ? 'active' : ''}`} onClick={() => setView('hakkinda')}>
-              ❓ Hakkında & Yardım
+              ❓ {t('nav.help', 'Hakkında & Yardım')}
             </div>
             <div>
               <div 
@@ -437,8 +437,8 @@ function App() {
 
               {!activeProjectId ? (
                 <div className="glass-card text-center" style={{ padding: '4rem 2rem' }}>
-                  <h2>🏗️ ŞantiyemOS Hoş Geldiniz</h2>
-                  <p className="card-subtitle mt-4">Kayıt girişi yapabilmek veya personel yönetebilmek için lütfen sol menüden yeni bir Şantiye oluşturun veya aktif bir çalışma alanı seçin.</p>
+                  <h2>🏗️ {t('common.welcome_title', 'ŞantiyemOS Hoş Geldiniz')}</h2>
+                  <p className="card-subtitle mt-4">{t('common.welcome_msg', 'Kayıt girişi yapabilmek veya personel yönetebilmek için lütfen sol menüden yeni bir Şantiye oluşturun veya aktif bir çalışma alanı seçin.')}</p>
                 </div>
               ) : (
                 <div className="bento-grid">

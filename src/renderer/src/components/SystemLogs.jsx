@@ -98,7 +98,7 @@ const SystemLogs = () => {
         {loading ? (
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Yükleniyor...</div>
         ) : filteredLogs.length === 0 ? (
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>Seçili aralıkta log bulunamadı.</div>
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>{t('logs.no_logs', 'Seçili aralıkta log bulunamadı.')}</div>
         ) : (
           filteredLogs.map((logLine, idx) => {
             // Simple syntax highlighting based on log level or keywords

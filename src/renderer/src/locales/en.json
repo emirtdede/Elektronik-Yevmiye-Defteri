@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Personnel Management",
     "cash": "Cash Register",
-    "settings": "Settings"
+    "settings": "Settings",
+    "projects": "Construction Sites (Location)",
+    "production": "Manufacturing and Quantity",
+    "materials": "Delivery Note & Material",
+    "journal": "Daily Journal",
+    "quality": "Quality Control",
+    "subcontractors": "Subcontractor Clients",
+    "media": "Media Gallery",
+    "help": "About & Help",
+    "no_project_selected": "Construction Site Not Selected!",
+    "active_project": "Active Construction Site"
   },
   "settings": {
     "title": "System Settings",
@@ -168,13 +178,17 @@
     "export": "Export Logs",
     "level": "Level",
     "message": "Message",
-    "date": "Date"
+    "date": "Date",
+    "no_logs": "No logs found in the selected range."
   },
   "common": {
     "cancel": "Cancel",
     "confirm": "Confirm",
     "delete": "Delete",
-    "empty_data": "No data found to display."
+    "empty_data": "No data found to display.",
+    "welcome_title": "Welcome to ŞantiyemOS",
+    "welcome_msg": "To be able to enter records or manage personnel, please create a new Construction Site from the left menu or select an active workspace.",
+    "select_project_msg": "Please select an active construction site from the left menu or from the Construction Site Management page."
   },
   "worker_modal": {
     "title_new": "Add New Personnel",
@@ -267,6 +281,21 @@
     "how_4_title": "Security:",
     "how_4_desc": "All your transactions are stored encrypted and securely in your local database.",
     "conclusion_1": "Not just a logbook; the financial memory of your construction site.",
-    "conclusion_2": "Electronic Journal Ledger is designed to simplify complexity and let you focus on your work. Increase the abundance of your business with the trust of technology."
+    "conclusion_2": "Electronic Journal Ledger is designed to simplify complexity and let you focus on your work. Increase the abundance of your business with the trust of technology.",
+    "faq_q5": "If I format my computer or delete the application, will my data be lost? How to Backup and Restore?",
+    "faq_a5": "Yes, since the application works offline-first, all your data is stored on your local computer. To protect your data before formatting:\n\n1. Take your backup by clicking the \"Backup Entire Database (.sqlite)\" button on the Settings -> System Security page.\n2. Restore your system autonomously by opening the application on the new computer and dragging and dropping this .sqlite file into the \"Restore Backup Database\" field on the Settings page (the application will automatically overwrite the backup and restart).",
+    "faq_q6": "How does Local Area Network (LAN) Mobile Photo Uploader work?",
+    "faq_a6": "When you press the \"Upload from Mobile (QR)\" button while adding Material Delivery Note or Quality Control Reports, the application opens a temporary local network server (LAN Express server) on your computer. When you scan the QR code with your phone, the delivery note images you take with your phone camera are uploaded directly to the application on your computer without internet / cloud costs.",
+    "faq_q7": "Where to get weather information from construction site logbooks?",
+    "faq_a7": "When you open the Daily Journal tab after entering the location information of your construction site (e.g. \"Istanbul, TR\") on the Construction Site Management page, the system automatically retrieves the day's weather temperature and status information autonomously according to the location of the construction site via the OpenWeather API. In case there is no internet, the system assigns realistic simulated values."
+  },
+  "projects": {
+    "title": "Construction Site (Location) Management",
+    "name_label": "Construction Site / Project Name",
+    "name_ph": "Ex: Northern Motorway Viaduct Construction",
+    "location_label": "Location / Address",
+    "location_ph": "Ex: Istanbul / Çatalca",
+    "add_btn": "Add Project",
+    "empty_state": "No registered construction site found. You can add your first construction site from the form above."
   }
 }

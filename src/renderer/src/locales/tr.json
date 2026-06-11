@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Personel Yönetimi",
     "cash": "Kasa Yönetimi",
-    "settings": "Ayarlar"
+    "settings": "Ayarlar",
+    "projects": "Şantiyeler (Lokasyon)",
+    "production": "İmalat ve Metraj",
+    "materials": "İrsaliye & Malzeme",
+    "journal": "Günlük Jurnal",
+    "quality": "Kalite Kontrol",
+    "subcontractors": "Taşeron Carileri",
+    "media": "Medya Galerisi",
+    "help": "Hakkında & Yardım",
+    "no_project_selected": "Şantiye Seçilmedi!",
+    "active_project": "Aktif Şantiye"
   },
   "settings": {
     "title": "Sistem Ayarları",
@@ -51,6 +61,15 @@
     "company_logo_help": "* PNG veya JPG formatında. Otomatik olarak optimize edilir.",
     "file_select_button": "Dosya Seç",
     "file_not_selected": "Dosya seçilmedi"
+  },
+  "projects": {
+    "title": "Şantiye (Lokasyon) Yönetimi",
+    "name_label": "Şantiye / Proje Adı",
+    "name_ph": "Örn: Kuzey Otoyolu Viyadük İnşaatı",
+    "location_label": "Lokasyon / Adres",
+    "location_ph": "Örn: İstanbul / Çatalca",
+    "add_btn": "Proje Ekle",
+    "empty_state": "Kayıtlı şantiye bulunamadı. Yukarıdaki formdan ilk şantiyenizi ekleyebilirsiniz."
   },
   "dashboard": {
     "title": "Personel Yönetimi",
@@ -168,13 +187,17 @@
     "export": "Kayıtları Dışa Aktar",
     "level": "Seviye",
     "message": "Mesaj",
-    "date": "Tarih"
+    "date": "Tarih",
+    "no_logs": "Seçili aralıkta log bulunamadı."
   },
   "common": {
     "cancel": "İptal",
     "confirm": "Onayla",
     "delete": "Sil",
-    "empty_data": "Gösterilecek veri bulunamadı."
+    "empty_data": "Gösterilecek veri bulunamadı.",
+    "welcome_title": "ŞantiyemOS Hoş Geldiniz",
+    "welcome_msg": "Kayıt girişi yapabilmek veya personel yönetebilmek için lütfen sol menüden yeni bir Şantiye oluşturun veya aktif bir çalışma alanı seçin.",
+    "select_project_msg": "Lütfen sol menüden veya Şantiye Yönetimi sayfasından aktif bir şantiye seçin."
   },
   "worker_modal": {
     "title_new": "Yeni Personel Ekle",
@@ -221,6 +244,12 @@
     "faq_a3": "İndirdiğiniz taslaktaki sütun başlıklarını değiştirmeden doldurun. TC Kimlik alanına mutlaka 11 haneli geçerli bir numara girin.",
     "faq_q4": "Silinen verileri geri getirebilir miyim?",
     "faq_a4": "Puantaj ve Avans hesaplamaları silindiğinde sadece 'Çöp Kutusuna' taşınır (Soft Delete). Gelişmiş veri tabanı müdahaleleriyle kurtarılabilir.",
+    "faq_q5": "Bilgisayarıma format atarsam veya uygulamayı silersem verilerim gider mi? Yedekleme ve Geri Yükleme nasıl yapılır?",
+    "faq_a5": "Evet, uygulama çevrimdışı (offline-first) çalıştığı için tüm verileriniz yerel bilgisayarınızda saklanır. Format atmadan önce verilerinizi korumak için:\n\n1. Ayarlar -> Sistem Güvenliği sayfasındaki \"Tüm Veritabanını Yedekle (.sqlite)\" butonuna basarak yedeğinizi alın.\n2. Yeni bilgisayarda uygulamayı açıp, Ayarlar sayfasındaki \"Yedek Veritabanını Geri Yükle\" alanına bu .sqlite dosyasını sürükleyip bırakarak sisteminizi otonom geri yükleyin (uygulama otomatik olarak yedeğin üzerine yazıp yeniden başlayacaktır).",
+    "faq_q6": "Yerel Ağ (LAN) Mobil Fotoğraf Yükleyicisi nasıl çalışır?",
+    "faq_a6": "Malzeme İrsaliyesi veya Kalite Kontrol Tutanakları eklerken \"Mobilden Yükle (QR)\" butonuna bastığınızda, uygulama bilgisayarınızda geçici bir yerel ağ sunucusu (LAN Express server) açar. Telefonunuzla QR kodu okuttuğunuzda, telefon kamerasıyla çektiğiniz irsaliye resimleri internet / bulut maliyeti olmaksızın doğrudan bilgisayarınızdaki uygulamaya yüklenir.",
+    "faq_q7": "Şantiye jurnallerindeki hava durumu bilgisi nereden çekilir?",
+    "faq_a7": "Şantiye Yönetimi sayfasından şantiyenizin lokasyon bilgisini (örneğin \"İstanbul, TR\") girdikten sonra Günlük Jurnal sekmesini açtığınızda, sistem otomatik olarak OpenWeather API üzerinden günün hava sıcaklık ve durum bilgisini şantiyenin konumuna göre otonom olarak çeker. İnternet olmaması durumunda ise sistem gerçekçi simüle değerler atar.",
     "dev_info": "Geliştirici:",
     "cat_code": "Kodlama ve Teknoloji",
     "cat_prof": "Profesyonel Ağ",

@@ -21,16 +21,17 @@ const AboutHelp = () => {
     { q: t('about.faq_q3'), a: t('about.faq_a3') },
     { q: t('about.faq_q4'), a: t('about.faq_a4') },
     {
-      q: 'Bilgisayarıma format atarsam veya uygulamayı silersem verilerim gider mi? Yedekleme ve Geri Yükleme nasıl yapılır?',
-      a: 'Evet, uygulama çevrimdışı (offline-first) çalıştığı için tüm verileriniz yerel bilgisayarınızda saklanır. Format atmadan önce verilerinizi korumak için:\n\n1. Ayarlar -> Sistem Güvenliği sayfasındaki "Tüm Veritabanını Yedekle (.sqlite)" butonuna basarak yedeğinizi alın.\n2. Yeni bilgisayarda uygulamayı açıp, Ayarlar sayfasındaki "Yedek Veritabanını Geri Yükle" alanına bu .sqlite dosyasını sürükleyip bırakarak sisteminizi otonom geri yükleyin (uygulama otomatik olarak yedeğin üzerine yazıp yeniden başlayacaktır).'
+    {
+      q: t('about.faq_q5', 'Bilgisayarıma format atarsam veya uygulamayı silersem verilerim gider mi? Yedekleme ve Geri Yükleme nasıl yapılır?'),
+      a: t('about.faq_a5', 'Evet, uygulama çevrimdışı (offline-first) çalıştığı için tüm verileriniz yerel bilgisayarınızda saklanır. Format atmadan önce verilerinizi korumak için:\n\n1. Ayarlar -> Sistem Güvenliği sayfasındaki "Tüm Veritabanını Yedekle (.sqlite)" butonuna basarak yedeğinizi alın.\n2. Yeni bilgisayarda uygulamayı açıp, Ayarlar sayfasındaki "Yedek Veritabanını Geri Yükle" alanına bu .sqlite dosyasını sürükleyip bırakarak sisteminizi otonom geri yükleyin (uygulama otomatik olarak yedeğin üzerine yazıp yeniden başlayacaktır).')
     },
     {
-      q: 'Yerel Ağ (LAN) Mobil Fotoğraf Yükleyicisi nasıl çalışır?',
-      a: 'Malzeme İrsaliyesi veya Kalite Kontrol Tutanakları eklerken "Mobilden Yükle (QR)" butonuna bastığınızda, uygulama bilgisayarınızda geçici bir yerel ağ sunucusu (LAN Express server) açar. Telefonunuzla QR kodu okuttuğunuzda, telefon kamerasıyla çektiğiniz irsaliye resimleri internet / bulut maliyeti olmaksızın doğrudan bilgisayarınızdaki uygulamaya yüklenir.'
+      q: t('about.faq_q6', 'Yerel Ağ (LAN) Mobil Fotoğraf Yükleyicisi nasıl çalışır?'),
+      a: t('about.faq_a6', 'Malzeme İrsaliyesi veya Kalite Kontrol Tutanakları eklerken "Mobilden Yükle (QR)" butonuna bastığınızda, uygulama bilgisayarınızda geçici bir yerel ağ sunucusu (LAN Express server) açar. Telefonunuzla QR kodu okuttuğunuzda, telefon kamerasıyla çektiğiniz irsaliye resimleri internet / bulut maliyeti olmaksızın doğrudan bilgisayarınızdaki uygulamaya yüklenir.')
     },
     {
-      q: 'Şantiye jurnallerindeki hava durumu bilgisi nereden çekilir?',
-      a: 'Şantiye Yönetimi sayfasından şantiyenizin lokasyon bilgisini (örneğin "İstanbul, TR") girdikten sonra Günlük Jurnal sekmesini açtığınızda, sistem otomatik olarak OpenWeather API üzerinden günün hava sıcaklık ve durum bilgisini şantiyenin konumuna göre otonom olarak çeker. İnternet olmaması durumunda ise sistem gerçekçi simüle değerler atar.'
+      q: t('about.faq_q7', 'Şantiye jurnallerindeki hava durumu bilgisi nereden çekilir?'),
+      a: t('about.faq_a7', 'Şantiye Yönetimi sayfasından şantiyenizin lokasyon bilgisini (örneğin "İstanbul, TR") girdikten sonra Günlük Jurnal sekmesini açtığınızda, sistem otomatik olarak OpenWeather API üzerinden günün hava sıcaklık ve durum bilgisini şantiyenin konumuna göre otonom olarak çeker. İnternet olmaması durumunda ise sistem gerçekçi simüle değerler atar.')
     }
   ];
 

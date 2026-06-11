@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Personeelsbeheer",
     "cash": "Kassa",
-    "settings": "Instellingen"
+    "settings": "Instellingen",
+    "projects": "Bouwplaatsen (locatie)",
+    "production": "Productie en hoeveelheid",
+    "materials": "Leveringsbon en materiaal",
+    "journal": "Dagelijks Journaal",
+    "quality": "Kwaliteitscontrole",
+    "subcontractors": "Onderaannemers Klanten",
+    "media": "Mediagalerij",
+    "help": "Over & Hulp",
+    "no_project_selected": "Bouwplaats niet geselecteerd!",
+    "active_project": "Actieve bouwplaats"
   },
   "settings": {
     "title": "Systeeminstellingen",
@@ -168,13 +178,17 @@
     "export": "Exporteer",
     "level": "Niveau",
     "message": "Bericht",
-    "date": "Datum"
+    "date": "Datum",
+    "no_logs": "Geen logs gevonden in het geselecteerde bereik."
   },
   "common": {
     "cancel": "Annuleren",
     "confirm": "Bevestigen",
     "delete": "Verwijderen",
-    "empty_data": "Er zijn geen gegevens gevonden om weer te geven."
+    "empty_data": "Er zijn geen gegevens gevonden om weer te geven.",
+    "welcome_title": "Welkom bij ŞantiyemOS",
+    "welcome_msg": "Om gegevens in te voeren of personeel te beheren, maakt u een nieuwe Bouwplaats aan in het linkermenu of selecteert u een actieve werkruimte.",
+    "select_project_msg": "Selecteer een actieve bouwplaats in het linkermenu of op de pagina Bouwplaatsbeheer."
   },
   "worker_modal": {
     "title_new": "Toevoegen",
@@ -267,6 +281,21 @@
     "how_4_title": "Veiligheid:",
     "how_4_desc": "Alle gegevens worden lokaal en versleuteld opgeslagen.",
     "conclusion_1": "Het financiële geheugen van uw bouwplaats.",
-    "conclusion_2": "Ontworpen om u te laten focussen op uw echte werk."
+    "conclusion_2": "Ontworpen om u te laten focussen op uw echte werk.",
+    "faq_q5": "Als ik mijn computer formatteer of de applicatie verwijder, gaan mijn gegevens dan verloren? Hoe een back-up maken en herstellen?",
+    "faq_a5": "Ja, omdat de applicatie eerst offline werkt, worden al uw gegevens op uw lokale computer opgeslagen. Om uw gegevens te beschermen vóór het formatteren:\n\n1. Maak uw back-up door op de knop \"Back-up van volledige database (.sqlite)\" op de pagina Instellingen -> Systeembeveiliging te klikken.\n2. Herstel uw systeem autonoom door de applicatie op de nieuwe computer te openen en dit .sqlite-bestand naar het veld \"Back-updatabase terugzetten\" op de pagina Instellingen te slepen en neer te zetten (de applicatie overschrijft automatisch de back-up en start opnieuw op).",
+    "faq_q6": "Hoe werkt Local Area Network (LAN) mobiele foto-uploader?",
+    "faq_a6": "Wanneer u op de knop \"Uploaden vanaf mobiel (QR)\" drukt terwijl u materiaalleveringsnota's of kwaliteitscontrolerapporten toevoegt, opent de applicatie een tijdelijke lokale netwerkserver (LAN Express-server) op uw computer. Wanneer u de QR-code scant met uw telefoon, worden de afbeeldingen van de leveringsbon die u met de camera van uw telefoon maakt, rechtstreeks naar de applicatie op uw computer geüpload zonder internet-/cloudkosten.",
+    "faq_q7": "Waar kan ik weersinformatie uit bouwplaatslogboeken vinden?",
+    "faq_a7": "Wanneer u het tabblad Dagelijks journaal opent nadat u de locatie-informatie van uw bouwplaats (bijvoorbeeld \"Istanbul, TR\") op de pagina Bouwplaatsbeheer heeft ingevoerd, haalt het systeem automatisch de weerstemperatuur en statusinformatie van de dag op, afhankelijk van de locatie van de bouwplaats via de OpenWeather API. Als er geen internet is, kent het systeem realistische gesimuleerde waarden toe."
+  },
+  "projects": {
+    "title": "Bouwplaats(locatie)beheer",
+    "name_label": "Bouwplaats-/projectnaam",
+    "name_ph": "Bijv.: aanleg van viaduct op de noordelijke snelweg",
+    "location_label": "Locatie / Adres",
+    "location_ph": "Bijv.: Istanboel / Çatalca",
+    "add_btn": "Project toevoegen",
+    "empty_state": "Geen geregistreerde bouwplaats gevonden. Via het bovenstaande formulier kunt u uw eerste bouwplaats toevoegen."
   }
 }

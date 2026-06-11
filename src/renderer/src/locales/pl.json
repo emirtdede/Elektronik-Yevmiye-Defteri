@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Zarządzanie personelem",
     "cash": "Kasa",
-    "settings": "Ustawienia"
+    "settings": "Ustawienia",
+    "projects": "Place budowy (lokalizacja)",
+    "production": "Produkcja i ilość",
+    "materials": "Dowód dostawy i materiał",
+    "journal": "Dziennik codzienny",
+    "quality": "Kontrola jakości",
+    "subcontractors": "Klienci podwykonawcy",
+    "media": "Galeria multimediów",
+    "help": "Informacje i pomoc",
+    "no_project_selected": "Nie wybrano placu budowy!",
+    "active_project": "Aktywny plac budowy"
   },
   "settings": {
     "title": "Ustawienia systemu",
@@ -168,13 +178,17 @@
     "export": "Eksportuj",
     "level": "Poziom",
     "message": "Wiadomość",
-    "date": "Data"
+    "date": "Data",
+    "no_logs": "Nie znaleziono dzienników w wybranym zakresie."
   },
   "common": {
     "cancel": "Anuluj",
     "confirm": "Potwierdź",
     "delete": "Usuń",
-    "empty_data": "Nie znaleziono danych do wyświetlenia."
+    "empty_data": "Nie znaleziono danych do wyświetlenia.",
+    "welcome_title": "Witamy w ŞantiyemOS",
+    "welcome_msg": "Aby móc wprowadzać zapisy lub zarządzać personelem należy z lewego menu utworzyć nowy Plac Budowy lub wybrać aktywny obszar roboczy.",
+    "select_project_msg": "Proszę wybrać aktywny plac budowy z lewego menu lub ze strony Zarządzanie placem budowy."
   },
   "worker_modal": {
     "title_new": "Dodaj",
@@ -267,6 +281,21 @@
     "how_4_title": "Bezpieczeństwo:",
     "how_4_desc": "Wszystkie dane są lokalnie zaszyfrowane.",
     "conclusion_1": "Pamięć finansowa Twojej budowy.",
-    "conclusion_2": "Zaprojektowane, byś mógł skupić się na swojej pracy."
+    "conclusion_2": "Zaprojektowane, byś mógł skupić się na swojej pracy.",
+    "faq_q5": "Czy jeśli sformatuję komputer lub usunę aplikację, moje dane zostaną utracone? Jak tworzyć kopie zapasowe i przywracać?",
+    "faq_a5": "Tak, ponieważ aplikacja działa najpierw w trybie offline, wszystkie Twoje dane są przechowywane na Twoim komputerze lokalnym. Aby chronić swoje dane przed formatowaniem:\n\n1. Wykonaj kopię zapasową, klikając przycisk „Utwórz kopię zapasową całej bazy danych (.sqlite)” na stronie Ustawienia -> Bezpieczeństwo systemu.\n2. Przywróć system autonomicznie, otwierając aplikację na nowym komputerze i przeciągając i upuszczając plik .sqlite w polu „Przywróć bazę danych kopii zapasowej” na stronie Ustawienia (aplikacja automatycznie nadpisze kopię zapasową i uruchomi się ponownie).",
+    "faq_q6": "Jak działa mobilna aplikacja do przesyłania zdjęć w sieci lokalnej (LAN)?",
+    "faq_a6": "Po naciśnięciu przycisku „Prześlij z telefonu komórkowego (QR)” podczas dodawania dowodu dostawy materiału lub raportów kontroli jakości aplikacja otworzy na Twoim komputerze tymczasowy serwer sieci lokalnej (serwer LAN Express). Kiedy zeskanujesz kod QR za pomocą telefonu, zdjęcia listów przewozowych wykonane aparatem w telefonie zostaną przesłane bezpośrednio do aplikacji na Twoim komputerze, bez konieczności ponoszenia kosztów Internetu/chmury.",
+    "faq_q7": "Skąd czerpać informacje o pogodzie z dzienników budowy?",
+    "faq_a7": "Kiedy otworzysz zakładkę Daily Journal po wprowadzeniu informacji o lokalizacji placu budowy (np. „Stambuł, TR”) na stronie Zarządzanie placem budowy, system automatycznie automatycznie pobierze informacje o temperaturze i statusie pogody w ciągu dnia, w sposób autonomiczny, w zależności od lokalizacji placu budowy za pośrednictwem API OpenWeather. W przypadku braku Internetu system przypisuje realistyczne symulowane wartości."
+  },
+  "projects": {
+    "title": "Zarządzanie placem budowy (lokalizacją).",
+    "name_label": "Nazwa placu budowy/projektu",
+    "name_ph": "Przykład: Budowa wiaduktu na autostradzie północnej",
+    "location_label": "Lokalizacja / Adres",
+    "location_ph": "Np.: Stambuł/Çatalca",
+    "add_btn": "Dodaj projekt",
+    "empty_state": "Nie znaleziono zarejestrowanego placu budowy. Z formularza powyżej możesz dodać swoją pierwszą plac budowy."
   }
 }

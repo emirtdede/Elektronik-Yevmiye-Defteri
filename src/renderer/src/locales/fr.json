@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Gestion du Personnel",
     "cash": "Gestion de Caisse",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "projects": "Chantiers de construction (emplacement)",
+    "production": "Fabrication et quantité",
+    "materials": "Bon de livraison et matériel",
+    "journal": "Journal quotidien",
+    "quality": "Contrôle de qualité",
+    "subcontractors": "Clients sous-traitants",
+    "media": "Galerie Média",
+    "help": "À propos et aide",
+    "no_project_selected": "Chantier de construction non sélectionné !",
+    "active_project": "Chantier de construction actif"
   },
   "settings": {
     "title": "Paramètres du Système",
@@ -168,13 +178,17 @@
     "export": "Exporter",
     "level": "Niveau",
     "message": "Message",
-    "date": "Date"
+    "date": "Date",
+    "no_logs": "Aucun journal trouvé dans la plage sélectionnée."
   },
   "common": {
     "cancel": "Annuler",
     "confirm": "Confirmer",
     "delete": "Supprimer",
-    "empty_data": "Aucune donnée à afficher trouvée."
+    "empty_data": "Aucune donnée à afficher trouvée.",
+    "welcome_title": "Bienvenue sur SantiyemOS",
+    "welcome_msg": "Pour pouvoir saisir des enregistrements ou gérer du personnel, veuillez créer un nouveau chantier de construction dans le menu de gauche ou sélectionner un espace de travail actif.",
+    "select_project_msg": "Veuillez sélectionner un chantier de construction actif dans le menu de gauche ou depuis la page Gestion des chantiers de construction."
   },
   "worker_modal": {
     "title_new": "Ajouter du Personnel",
@@ -267,6 +281,21 @@
     "how_4_title": "Sécurité :",
     "how_4_desc": "Base de données locale et entièrement chiffrée.",
     "conclusion_1": "La mémoire financière de votre chantier.",
-    "conclusion_2": "Conçu pour vous laisser vous concentrer sur votre travail."
+    "conclusion_2": "Conçu pour vous laisser vous concentrer sur votre travail.",
+    "faq_q5": "Si je formate mon ordinateur ou supprime l'application, mes données seront-elles perdues ? Comment sauvegarder et restaurer ?",
+    "faq_a5": "Oui, puisque l'application fonctionne d'abord hors ligne, toutes vos données sont stockées sur votre ordinateur local. Pour protéger vos données avant le formatage :\n\n1. Effectuez votre sauvegarde en cliquant sur le bouton « Sauvegarder l'intégralité de la base de données (.sqlite) » sur la page Paramètres -> Sécurité du système.\n2. Restaurez votre système de manière autonome en ouvrant l'application sur le nouvel ordinateur et en glissant-déposant ce fichier .sqlite dans le champ \"Restaurer la base de données de sauvegarde\" de la page Paramètres (l'application écrasera automatiquement la sauvegarde et redémarrera).",
+    "faq_q6": "Comment fonctionne le téléchargeur de photos mobile en réseau local (LAN) ?",
+    "faq_a6": "Lorsque vous appuyez sur le bouton « Télécharger depuis un mobile (QR) » lors de l'ajout d'un bon de livraison de matériel ou de rapports de contrôle qualité, l'application ouvre un serveur de réseau local temporaire (serveur LAN Express) sur votre ordinateur. Lorsque vous scannez le code QR avec votre téléphone, les images du bon de livraison que vous prenez avec l'appareil photo de votre téléphone sont téléchargées directement sur l'application sur votre ordinateur sans frais Internet/cloud.",
+    "faq_q7": "Où obtenir des informations météorologiques à partir des journaux de chantier ?",
+    "faq_a7": "Lorsque vous ouvrez l'onglet Journal quotidien après avoir saisi les informations de localisation de votre chantier de construction (par exemple \"Istanbul, TR\") sur la page Gestion du chantier de construction, le système récupère automatiquement la température météo du jour et les informations d'état de manière autonome en fonction de l'emplacement du chantier de construction via l'API OpenWeather. En l'absence d'Internet, le système attribue des valeurs simulées réalistes."
+  },
+  "projects": {
+    "title": "Gestion du chantier (emplacement)",
+    "name_label": "Chantier de construction/nom du projet",
+    "name_ph": "Ex : Construction du viaduc de l'autoroute du Nord",
+    "location_label": "Localisation/Adresse",
+    "location_ph": "Ex : Istanbul / Çatalca",
+    "add_btn": "Ajouter un projet",
+    "empty_state": "Aucun chantier enregistré trouvé. Vous pouvez ajouter votre premier chantier à partir du formulaire ci-dessus."
   }
 }

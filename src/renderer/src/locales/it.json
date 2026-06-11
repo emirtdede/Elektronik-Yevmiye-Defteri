@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Gestione del personale",
     "cash": "Registratore di cassa",
-    "settings": "Impostazioni"
+    "settings": "Impostazioni",
+    "projects": "Cantieri (Posizione)",
+    "production": "Produzione e quantità",
+    "materials": "Nota di consegna e materiale",
+    "journal": "Diario quotidiano",
+    "quality": "Controllo di qualità",
+    "subcontractors": "Clienti subappaltatori",
+    "media": "Galleria multimediale",
+    "help": "Informazioni e aiuto",
+    "no_project_selected": "Cantiere non selezionato!",
+    "active_project": "Cantiere attivo"
   },
   "settings": {
     "title": "Impostazioni di sistema",
@@ -168,13 +178,17 @@
     "export": "Esporta",
     "level": "Livello",
     "message": "Messaggio",
-    "date": "Data"
+    "date": "Data",
+    "no_logs": "Nessun log trovato nell'intervallo selezionato."
   },
   "common": {
     "cancel": "Annulla",
     "confirm": "Conferma",
     "delete": "Elimina",
-    "empty_data": "Nessun dato trovato da visualizzare."
+    "empty_data": "Nessun dato trovato da visualizzare.",
+    "welcome_title": "Benvenuto su ŞantiyemOS",
+    "welcome_msg": "Per poter inserire record o gestire il personale, crea un nuovo Cantiere dal menu di sinistra o seleziona un'area di lavoro attiva.",
+    "select_project_msg": "Seleziona un cantiere attivo dal menu a sinistra o dalla pagina Gestione Cantieri."
   },
   "worker_modal": {
     "title_new": "Aggiungi",
@@ -267,6 +281,21 @@
     "how_4_title": "Sicurezza:",
     "how_4_desc": "Database locale cifrato al 100%.",
     "conclusion_1": "La memoria finanziaria del tuo cantiere.",
-    "conclusion_2": "Progettato per farti concentrare sul lavoro vero e proprio."
+    "conclusion_2": "Progettato per farti concentrare sul lavoro vero e proprio.",
+    "faq_q5": "Se formatto il computer o elimino l'applicazione, i miei dati andranno persi? Come eseguire il backup e il ripristino?",
+    "faq_a5": "Sì, poiché l'applicazione funziona prima offline, tutti i tuoi dati vengono archiviati sul tuo computer locale. Per proteggere i dati prima della formattazione:\n\n1. Effettua il backup facendo clic sul pulsante \"Backup dell'intero database (.sqlite)\" nella pagina Impostazioni -> Sicurezza del sistema.\n2. Ripristina il tuo sistema in modo autonomo aprendo l'applicazione sul nuovo computer e trascinando e rilasciando questo file .sqlite nel campo \"Ripristina database di backup\" nella pagina Impostazioni (l'applicazione sovrascriverà automaticamente il backup e si riavvierà).",
+    "faq_q6": "Come funziona il dispositivo di caricamento foto mobile della rete locale (LAN)?",
+    "faq_a6": "Quando premi il pulsante \"Carica da dispositivo mobile (QR)\" mentre aggiungi la nota di consegna del materiale o i rapporti di controllo qualità, l'applicazione apre un server di rete locale temporaneo (server LAN Express) sul tuo computer. Quando scannerizzi il codice QR con il tuo telefono, le immagini della bolla di consegna scattate con la fotocamera del tuo telefono vengono caricate direttamente nell'applicazione sul tuo computer senza costi internet/cloud.",
+    "faq_q7": "Dove ottenere informazioni meteorologiche dai registri di cantiere?",
+    "faq_a7": "Quando apri la scheda Giornale quotidiano dopo aver inserito le informazioni sulla posizione del tuo cantiere (ad esempio \"Istanbul, TR\") nella pagina Gestione cantiere, il sistema recupera automaticamente la temperatura meteorologica del giorno e le informazioni sullo stato in modo autonomo in base alla posizione del cantiere tramite l'API OpenWeather. Nel caso in cui non sia disponibile Internet, il sistema assegna valori simulati realistici."
+  },
+  "projects": {
+    "title": "Gestione del cantiere (ubicazione).",
+    "name_label": "Nome del cantiere/progetto",
+    "name_ph": "Es: Costruzione del viadotto dell'autostrada Nord",
+    "location_label": "Posizione/Indirizzo",
+    "location_ph": "Esempio: Istanbul/Çatalca",
+    "add_btn": "Aggiungi progetto",
+    "empty_state": "Nessun cantiere registrato trovato. Puoi aggiungere il tuo primo cantiere dal modulo sopra."
   }
 }

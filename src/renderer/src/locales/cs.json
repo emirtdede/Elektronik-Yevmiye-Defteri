@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Správa personálu",
     "cash": "Pokladna",
-    "settings": "Nastavení"
+    "settings": "Nastavení",
+    "projects": "Staveniště (umístění)",
+    "production": "Výroba a množství",
+    "materials": "Dodací list a materiál",
+    "journal": "Denní deník",
+    "quality": "Kontrola kvality",
+    "subcontractors": "Subdodavatelské klienty",
+    "media": "Galerie médií",
+    "help": "O a Nápověda",
+    "no_project_selected": "Místo stavby není vybráno!",
+    "active_project": "Aktivní staveniště"
   },
   "settings": {
     "title": "Nastavení systému",
@@ -168,13 +178,17 @@
     "export": "Exportovat",
     "level": "Úroveň",
     "message": "Zpráva",
-    "date": "Datum"
+    "date": "Datum",
+    "no_logs": "Ve vybraném rozsahu nebyly nalezeny žádné protokoly."
   },
   "common": {
     "cancel": "Zrušit",
     "confirm": "Potvrdit",
     "delete": "Odstranit",
-    "empty_data": "Nebyla nalezena žádná data k zobrazení."
+    "empty_data": "Nebyla nalezena žádná data k zobrazení.",
+    "welcome_title": "Vítejte v ŞantiyemOS",
+    "welcome_msg": "Abyste mohli zadávat záznamy nebo řídit personál, vytvořte si prosím nové staveniště z levé nabídky nebo vyberte aktivní pracovní plochu.",
+    "select_project_msg": "Vyberte prosím aktivní staveniště z levého menu nebo ze stránky Správa staveniště."
   },
   "worker_modal": {
     "title_new": "Přidat",
@@ -267,6 +281,21 @@
     "how_4_title": "Bezpečnost:",
     "how_4_desc": "Všechny vaše transakce jsou bezpečně a šifrovaně uloženy ve vaší lokální databázi.",
     "conclusion_1": "Nejen kniha jízd; finanční paměť vašeho staveniště.",
-    "conclusion_2": "Elektronický účetní deník je navržen tak, aby zjednodušil složitost a umožnil vám soustředit se na vaši práci. Zvyšte hojnost svého podnikání s důvěrou v technologie."
+    "conclusion_2": "Elektronický účetní deník je navržen tak, aby zjednodušil složitost a umožnil vám soustředit se na vaši práci. Zvyšte hojnost svého podnikání s důvěrou v technologie.",
+    "faq_q5": "If I format my computer or delete the application, will my data be lost? Jak zálohovat a obnovovat?",
+    "faq_a5": "Ano, protože aplikace funguje nejprve offline, všechna vaše data jsou uložena na vašem místním počítači. Pro ochranu dat před formátováním:\n\n1. Vytvořte zálohu kliknutím na tlačítko \"Zálohovat celou databázi (.sqlite)\" na stránce Nastavení -> Zabezpečení systému.\n2. Obnovte svůj systém autonomně otevřením aplikace na novém počítači a přetažením tohoto souboru .sqlite do pole „Obnovit záložní databázi“ na stránce Nastavení (aplikace automaticky přepíše zálohu a restartuje se).",
+    "faq_q6": "Jak funguje aplikace Mobile Photo Uploader v místní síti (LAN)?",
+    "faq_a6": "Když stisknete tlačítko \"Nahrát z mobilu (QR)\" při přidávání dodacího listu materiálu nebo zpráv o kontrole kvality, aplikace otevře dočasný místní síťový server (server LAN Express) na vašem počítači. Když telefonem naskenujete QR kód, snímky dodacího listu, které pořídíte fotoaparátem telefonu, se nahrají přímo do aplikace ve vašem počítači bez poplatků za internet / cloud.",
+    "faq_q7": "Kde získat informace o počasí ze stavebních deníků?",
+    "faq_a7": "Když po zadání informací o poloze vašeho staveniště (např. „Istanbul, TR“) na stránce Správa staveniště otevřete kartu Denní deník, systém automaticky načte denní teplotu počasí a informace o stavu autonomně podle polohy staveniště přes OpenWeather API. V případě, že není k dispozici internet, systém přiřadí realistické simulované hodnoty."
+  },
+  "projects": {
+    "title": "Správa staveniště (místa).",
+    "name_label": "Staveniště / Název projektu",
+    "name_ph": "Příklad: Výstavba viaduktu severní dálnice",
+    "location_label": "Umístění / adresa",
+    "location_ph": "Příklad: Istanbul / Çatalca",
+    "add_btn": "Přidat projekt",
+    "empty_state": "Nebylo nalezeno žádné registrované staveniště. Své první staveniště můžete přidat z výše uvedeného formuláře."
   }
 }

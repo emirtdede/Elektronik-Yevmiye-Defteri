@@ -54,33 +54,33 @@ const ProjectManagement = ({ onSelectProject, activeProjectId }) => {
   return (
     <div className="glass-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
       <header style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 className="card-title" style={{ fontSize: '1.5rem' }}>🏗️ Şantiye (Lokasyon) Yönetimi</h2>
+        <h2 className="card-title" style={{ fontSize: '1.5rem' }}>🏗️ {t('projects.title', 'Şantiye (Lokasyon) Yönetimi')}</h2>
       </header>
 
       {/* Add Project Form */}
       <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
         <div className="form-group" style={{ flex: 2, marginBottom: 0, minWidth: '200px' }}>
-          <label className="form-label">Şantiye / Proje Adı</label>
+          <label className="form-label">{t('projects.name_label', 'Şantiye / Proje Adı')}</label>
           <input 
             type="text" 
             className="form-input" 
-            placeholder="Örn: Kuzey Otoyolu Viyadük İnşaatı" 
+            placeholder={t('projects.name_ph', 'Örn: Kuzey Otoyolu Viyadük İnşaatı')} 
             value={formData.name}
             onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
             required
           />
         </div>
         <div className="form-group" style={{ flex: 1.5, marginBottom: 0, minWidth: '150px' }}>
-          <label className="form-label">Lokasyon / Adres</label>
+          <label className="form-label">{t('projects.location_label', 'Lokasyon / Adres')}</label>
           <input 
             type="text" 
             className="form-input" 
-            placeholder="Örn: İstanbul / Çatalca" 
+            placeholder={t('projects.location_ph', 'Örn: İstanbul / Çatalca')} 
             value={formData.location}
             onChange={e => setFormData(prev => ({ ...prev, location: e.target.value }))}
           />
         </div>
-        <button type="submit" className="btn btn-primary" style={{ height: '42px' }}>Proje Ekle</button>
+        <button type="submit" className="btn btn-primary" style={{ height: '42px' }}>{t('projects.add_btn', 'Proje Ekle')}</button>
       </form>
 
       {/* Projects List */}
@@ -88,7 +88,7 @@ const ProjectManagement = ({ onSelectProject, activeProjectId }) => {
         <div className="skeleton" style={{ height: '150px', width: '100%' }}></div>
       ) : projects.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-          Kayıtlı şantiye bulunamadı. Yukarıdaki formdan ilk şantiyenizi ekleyebilirsiniz.
+          {t('projects.empty_state', 'Kayıtlı şantiye bulunamadı. Yukarıdaki formdan ilk şantiyenizi ekleyebilirsiniz.')}
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

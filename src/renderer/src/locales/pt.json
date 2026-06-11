@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Gestão de Pessoal",
     "cash": "Gestão de Caixa",
-    "settings": "Configurações"
+    "settings": "Configurações",
+    "projects": "Canteiros de obras (localização)",
+    "production": "Fabricação e Quantidade",
+    "materials": "Nota de entrega e material",
+    "journal": "Diário Diário",
+    "quality": "Controle de qualidade",
+    "subcontractors": "Clientes subcontratados",
+    "media": "Galeria de mídia",
+    "help": "Sobre e Ajuda",
+    "no_project_selected": "Canteiro de obras não selecionado!",
+    "active_project": "Canteiro de obras ativo"
   },
   "settings": {
     "title": "Configurações do Sistema",
@@ -168,13 +178,17 @@
     "export": "Exportar",
     "level": "Nível",
     "message": "Mensagem",
-    "date": "Data"
+    "date": "Data",
+    "no_logs": "Nenhum registro encontrado no intervalo selecionado."
   },
   "common": {
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "delete": "Excluir",
-    "empty_data": "Nenhum dado encontrado para exibição."
+    "empty_data": "Nenhum dado encontrado para exibição.",
+    "welcome_title": "Bem-vindo ao ŞantiyemOS",
+    "welcome_msg": "Para poder inserir registros ou gerenciar pessoal, crie um novo canteiro de obras no menu esquerdo ou selecione um espaço de trabalho ativo.",
+    "select_project_msg": "Selecione um canteiro de obras ativo no menu esquerdo ou na página Gerenciamento do canteiro de obras."
   },
   "worker_modal": {
     "title_new": "Adicionar Novo Pessoal",
@@ -267,6 +281,21 @@
     "how_4_title": "Segurança:",
     "how_4_desc": "Todos os dados são armazenados localmente com criptografia.",
     "conclusion_1": "A memória financeira da sua obra.",
-    "conclusion_2": "Projetado para que você possa focar no que importa."
+    "conclusion_2": "Projetado para que você possa focar no que importa.",
+    "faq_q5": "Se eu formatar meu computador ou excluir o aplicativo, meus dados serão perdidos? Como fazer backup e restaurar?",
+    "faq_a5": "Sim, como o aplicativo funciona primeiro offline, todos os seus dados são armazenados no seu computador local. Para proteger seus dados antes da formatação:\n\n1. Faça seu backup clicando no botão \"Fazer backup de todo o banco de dados (.sqlite)\" na página Configurações -> Segurança do sistema.\n2. Restaure seu sistema de forma autônoma abrindo o aplicativo no novo computador e arrastando e soltando este arquivo .sqlite no campo \"Restaurar banco de dados de backup\" na página Configurações (o aplicativo substituirá automaticamente o backup e reiniciará).",
+    "faq_q6": "Como funciona o Mobile Photo Uploader de rede local (LAN)?",
+    "faq_a6": "Ao pressionar o botão \"Upload from Mobile (QR)\" ao adicionar Nota de Entrega de Material ou Relatórios de Controle de Qualidade, o aplicativo abre um servidor de rede local temporário (servidor LAN Express) em seu computador. Ao escanear o código QR com seu telefone, as imagens da nota de entrega tiradas com a câmera do telefone são carregadas diretamente no aplicativo em seu computador, sem custos de internet/nuvem.",
+    "faq_q7": "Onde obter informações meteorológicas nos diários de bordo do canteiro de obras?",
+    "faq_a7": "Quando você abre a guia Diário Diário após inserir as informações de localização do seu canteiro de obras (por exemplo, \"Istambul, TR\") na página Gerenciamento do canteiro de obras, o sistema recupera automaticamente a temperatura climática do dia e as informações de status de forma autônoma de acordo com a localização do canteiro de obras por meio da API OpenWeather. Caso não haja internet, o sistema atribui valores simulados realistas."
+  },
+  "projects": {
+    "title": "Gerenciamento de canteiro de obras (localização)",
+    "name_label": "Canteiro de obras/Nome do projeto",
+    "name_ph": "Ex: Construção de Viaduto da Autoestrada Norte",
+    "location_label": "Localização/Endereço",
+    "location_ph": "Ex: Istambul / Çatalca",
+    "add_btn": "Adicionar projeto",
+    "empty_state": "Nenhum canteiro de obras cadastrado encontrado. Você pode adicionar seu primeiro canteiro de obras no formulário acima."
   }
 }

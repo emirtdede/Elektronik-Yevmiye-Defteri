@@ -2,7 +2,17 @@
   "nav": {
     "personnel": "Personalhantering",
     "cash": "Kassaregister",
-    "settings": "Inställningar"
+    "settings": "Inställningar",
+    "projects": "Byggarbetsplatser (plats)",
+    "production": "Tillverkning och kvantitet",
+    "materials": "Leveranssedel & Material",
+    "journal": "Dagstidning",
+    "quality": "Kvalitetskontroll",
+    "subcontractors": "Underleverantörskunder",
+    "media": "Mediagalleri",
+    "help": "Om & Hjälp",
+    "no_project_selected": "Byggplats ej vald!",
+    "active_project": "Aktiv byggarbetsplats"
   },
   "settings": {
     "title": "Systeminställningar",
@@ -168,13 +178,17 @@
     "export": "Exportera loggar",
     "level": "Nivå",
     "message": "Meddelande",
-    "date": "Datum"
+    "date": "Datum",
+    "no_logs": "Inga loggar hittades i det valda intervallet."
   },
   "common": {
     "cancel": "Avbryt",
     "confirm": "Bekräfta",
     "delete": "Radera",
-    "empty_data": "Inga data hittades att visa."
+    "empty_data": "Inga data hittades att visa.",
+    "welcome_title": "Välkommen till ŞantiyemOS",
+    "welcome_msg": "För att kunna lägga in register eller hantera personal, skapa en ny byggarbetsplats från vänstermenyn eller välj en aktiv arbetsyta.",
+    "select_project_msg": "Välj en aktiv byggarbetsplats från vänstermenyn eller från sidan Byggplatshantering."
   },
   "worker_modal": {
     "title_new": "Lägg till ny personal",
@@ -267,6 +281,21 @@
     "how_4_title": "Säkerhet:",
     "how_4_desc": "All data är lokalt krypterad.",
     "conclusion_1": "Din byggarbetsplats finansiella minne.",
-    "conclusion_2": "Designad för att låta dig fokusera på ditt jobb."
+    "conclusion_2": "Designad för att låta dig fokusera på ditt jobb.",
+    "faq_q5": "Om jag formaterar min dator eller tar bort programmet, kommer mina data att gå förlorade? Hur säkerhetskopierar och återställer man?",
+    "faq_a5": "Ja, eftersom applikationen fungerar offline-först, lagras all din data på din lokala dator. Så här skyddar du dina data innan du formaterar:\n\n1. Ta din säkerhetskopia genom att klicka på knappen \"Säkerhetskopiera hela databasen (.sqlite)\" på sidan Inställningar -> Systemsäkerhet.\n2. Återställ ditt system självständigt genom att öppna programmet på den nya datorn och dra och släppa denna .sqlite-fil i fältet \"Återställ säkerhetskopieringsdatabas\" på sidan Inställningar (programmet kommer automatiskt att skriva över säkerhetskopian och starta om).",
+    "faq_q6": "Hur fungerar Local Area Network (LAN) Mobile Photo Uploader?",
+    "faq_a6": "När du trycker på knappen \"Ladda upp från mobil (QR)\" medan du lägger till materialleveransnotis eller kvalitetskontrollrapporter, öppnar applikationen en tillfällig lokal nätverksserver (LAN Express-server) på din dator. När du skannar QR-koden med din telefon laddas följesedelbilderna du tar med din telefonkamera upp direkt till applikationen på din dator utan internet/molnkostnader.",
+    "faq_q7": "Var får man väderinformation från byggplatsloggböcker?",
+    "faq_a7": "När du öppnar fliken Daily Journal efter att ha angett platsinformationen för din byggarbetsplats (t.ex. \"Istanbul, TR\") på sidan Byggplatshantering, hämtar systemet automatiskt dagens vädertemperatur och statusinformation självständigt enligt platsen för byggarbetsplatsen via OpenWeather API. Om det inte finns något internet tilldelar systemet realistiska simulerade värden."
+  },
+  "projects": {
+    "title": "Byggarbetsplats (plats) förvaltning",
+    "name_label": "Byggplats/projektnamn",
+    "name_ph": "Ex: Norra motorvägsviaduktens konstruktion",
+    "location_label": "Plats/adress",
+    "location_ph": "Ex: Istanbul / Çatalca",
+    "add_btn": "Lägg till projekt",
+    "empty_state": "Ingen registrerad byggarbetsplats hittades. Du kan lägga till din första byggarbetsplats från formuläret ovan."
   }
 }
