@@ -85,6 +85,7 @@ const CustomDatePicker = ({ value, onChange, className, required, style, name, p
         popperPlacement="bottom-start"
         autoComplete="off"
         wrapperClassName="w-100"
+        portalId="root-portal"
       />
     </div>
   );
