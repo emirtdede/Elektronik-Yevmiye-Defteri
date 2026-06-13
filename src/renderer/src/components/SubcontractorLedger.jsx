@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ConfirmationModal from './ui/ConfirmationModal';
+import GuideDrawer from './ui/GuideDrawer';
+import { formatCurrency } from '../utils/formatUtils';
 
 const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [contractors, setContractors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingId, setEditingId] = useState(null);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const containerRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
     service_type: '',
@@ -14,6 +19,35 @@ const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
     status: 'active'
   });
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, id: null });
+
+  const handleStartEdit = (c) => {
+    setEditingId(c.id);
+    setFormData({
+      name: c.name,
+      service_type: c.service_type,
+      phone: c.phone || '',
+      daily_wage: c.daily_wage.toString(),
+      status: c.status || 'active'
+    });
+  };
+
+  // Search & Pagination states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('default');
+  const [filterStatus, setFilterStatus] = useState(''); // '' | 'active' | 'passive'
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, sortBy, filterStatus]);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [currentPage]);
 
   const activeProject = projects.find(p => p.id === activeProjectId);
 
@@ -31,19 +65,31 @@ const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
     fetchContractors();
   }, [activeProjectId]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!activeProjectId || !formData.name || !formData.service_type || !formData.daily_wage) return;
 
     if (window.api && window.api.db) {
-      await window.api.db.create('subcontractor_ledgers', {
+      const payload = {
         project_id: activeProjectId,
         name: formData.name,
         service_type: formData.service_type,
         phone: formData.phone,
         daily_wage: Number(formData.daily_wage),
         status: formData.status
-      });
+      };
+
+      if (editingId) {
+        await window.api.db.update('subcontractor_ledgers', editingId, payload);
+        setEditingId(null);
+      } else {
+        await window.api.db.create('subcontractor_ledgers', payload);
+      }
+
       setFormData({
         name: '',
         service_type: '',
@@ -67,6 +113,32 @@ const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
     }
   };
 
+  // Filter and paginated subcontractors
+  const filteredContractors = contractors.filter(c => {
+    const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          c.service_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          (c.phone && c.phone.includes(searchQuery));
+    const matchesStatus = !filterStatus || c.status === filterStatus;
+    return matchesSearch && matchesStatus;
+  });
+
+  // Apply sorting
+  filteredContractors.sort((a, b) => {
+    if (sortBy === 'wage_asc') {
+      const wageA = a.daily_wage ? parseFloat(a.daily_wage) : 0;
+      const wageB = b.daily_wage ? parseFloat(b.daily_wage) : 0;
+      return wageA - wageB;
+    } else if (sortBy === 'wage_desc') {
+      const wageA = a.daily_wage ? parseFloat(a.daily_wage) : 0;
+      const wageB = b.daily_wage ? parseFloat(b.daily_wage) : 0;
+      return wageB - wageA;
+    }
+    return 0;
+  });
+
+  const totalPages = Math.ceil(filteredContractors.length / itemsPerPage);
+  const paginatedContractors = filteredContractors.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   if (!activeProjectId) {
     return (
       <div className="glass-card text-center" style={{ padding: '3rem' }}>
@@ -77,48 +149,68 @@ const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', alignItems: 'start' }}>
+    <div ref={containerRef} style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem', alignItems: 'start', position: 'relative' }}>
       {/* Main List and Form */}
       <div className="glass-card">
-        <h2 className="card-title" style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>🚜 Taşeron ve Alt Yüklenici Carileri</h2>
-        <p className="card-subtitle" style={{ marginBottom: '1.5rem' }}>Aktif Şantiye: <span style={{ color: 'var(--primary)', fontWeight: '600' }}>{activeProject?.name}</span></p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <div>
+            <h2 className="card-title" style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>{t('subcontractor.title', '🚜 Taşeron ve Alt Yüklenici Carileri')}</h2>
+            <p className="card-subtitle" style={{ marginBottom: 0 }}>{t('common.active_project', 'Aktif Şantiye:')} <span style={{ color: 'var(--primary)', fontWeight: '600' }}>{activeProject?.name}</span></p>
+          </div>
+          <span 
+            onClick={() => setHelpOpen(true)}
+            style={{ 
+              cursor: 'pointer', 
+              opacity: 0.4, 
+              transition: 'opacity 0.25s ease-in-out', 
+              fontSize: '1.6rem',
+              userSelect: 'none',
+              padding: '0.25rem'
+            }}
+            onMouseEnter={e => e.currentTarget.style.opacity = 1}
+            onMouseLeave={e => e.currentTarget.style.opacity = 0.4}
+            title={t('common.page_guide', 'Sayfa Kılavuzu')}
+          >
+            💡
+          </span>
+        </div>
 
         {/* Add Record Form */}
         <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginBottom: '2rem', alignItems: 'flex-end' }}>
           <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Taşeron Adı / Ünvanı</label>
+            <label className="form-label">{t('subcontractor.name', 'Taşeron Adı / Ünvanı')}</label>
             <input 
               type="text" 
               className="form-input" 
-              placeholder="Örn: Öz Karadeniz Hafriyat" 
+              placeholder={t('subcontractor.name_ph', 'Örn: Öz Karadeniz Hafriyat')} 
               value={formData.name}
               onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
               required
             />
           </div>
           <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Hizmet Alanı</label>
+            <label className="form-label">{t('subcontractor.service', 'Hizmet Alanı')}</label>
             <input 
               type="text" 
               className="form-input" 
-              placeholder="Örn: Kepçe Kiralama / Hafriyat" 
+              placeholder={t('subcontractor.service_ph', 'Örn: Kepçe Kiralama / Hafriyat')} 
               value={formData.service_type}
               onChange={e => setFormData(prev => ({ ...prev, service_type: e.target.value }))}
               required
             />
           </div>
           <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Telefon</label>
+            <label className="form-label">{t('common.phone', 'Telefon')}</label>
             <input 
               type="text" 
               className="form-input" 
-              placeholder="05XX XXX XX XX" 
+              placeholder={t('worker_modal.phone_ph', '05XX XXX XX XX')} 
               value={formData.phone}
               onChange={e => setFormData(prev => ({ ...prev, phone: e.target.value }))}
             />
           </div>
           <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Yevmiye / Günlük Bedel (₺)</label>
+            <label className="form-label">{t('subcontractor.wage', 'Yevmiye / Günlük Bedel (₺)')}</label>
             <input 
               type="number" 
               className="form-input" 
@@ -129,72 +221,225 @@ const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary" style={{ height: '42px' }}>Ekle</button>
+          <div style={{ display: 'flex', gap: '0.5rem', height: '42px' }}>
+            <button type="submit" className="btn btn-primary" style={{ flex: 1, height: '42px' }}>
+              {editingId ? t('common.save', 'Güncelle') : t('common.add', 'Ekle')}
+            </button>
+            {editingId && (
+              <button 
+                type="button" 
+                className="btn" 
+                onClick={() => {
+                  setEditingId(null);
+                  setFormData({
+                    name: '',
+                    service_type: '',
+                    phone: '',
+                    daily_wage: '',
+                    status: 'active'
+                  });
+                }}
+                style={{ height: '42px' }}
+              >
+                {t('common.cancel', 'Vazgeç')}
+              </button>
+            )}
+          </div>
         </form>
+
+        {/* Filters & Search Bar */}
+        {contractors.length > 0 && (
+          <div style={{ 
+            background: 'rgba(255, 255, 255, 0.02)', 
+            border: '1px solid var(--glass-border)', 
+            borderRadius: '12px', 
+            padding: '1rem', 
+            marginBottom: '1.5rem',
+            display: 'flex', 
+            gap: '1rem', 
+            alignItems: 'center', 
+            flexWrap: 'wrap' 
+          }}>
+            <div style={{ position: 'relative', flex: 2, minWidth: '200px', display: 'flex', alignItems: 'center' }}>
+              <input 
+                type="text"
+                className="form-input"
+                placeholder={t('filters.search_subcontractors', 'Taşeron adı, hizmet veya telefonda ara...')}
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                style={{ paddingRight: '2.5rem', width: '100%', marginBottom: 0 }}
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    padding: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 10
+                  }}
+                  title={t('common.clear', 'Temizle')}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            <select 
+              className="form-input" 
+              value={sortBy} 
+              onChange={e => setSortBy(e.target.value)}
+              style={{ flex: 1, minWidth: '150px', marginBottom: 0 }}
+            >
+              <option value="default">{t('filters.default_sort', 'Varsayılan Sıralama')}</option>
+              <option value="wage_asc">{t('filters.wage_asc', 'Günlük Ücret: Artan')}</option>
+              <option value="wage_desc">{t('filters.wage_desc', 'Günlük Ücret: Azalan')}</option>
+            </select>
+
+            <select 
+              className="form-input" 
+              value={filterStatus} 
+              onChange={e => setFilterStatus(e.target.value)}
+              style={{ flex: 1, minWidth: '130px', marginBottom: 0 }}
+            >
+              <option value="">{t('filters.all_status', 'Tümü (Durum)')}</option>
+              <option value="active">{t('filters.active', 'Aktif')}</option>
+              <option value="passive">{t('filters.passive', 'Pasif')}</option>
+            </select>
+          </div>
+        )}
 
         {/* Contractors List */}
         {loading ? (
           <div className="skeleton" style={{ height: '200px', width: '100%' }}></div>
-        ) : contractors.length === 0 ? (
+        ) : filteredContractors.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-            Bu şantiyeye kayıtlı taşeron/alt yüklenici bulunamadı.
+            {searchQuery ? t('subcontractor.no_results', 'Arama kriterlerine uygun taşeron kaydı bulunamadı.') : t('subcontractor.empty_state', 'Bu şantiyeye kayıtlı taşeron/alt yüklenici bulunamadı.')}
           </div>
         ) : (
           <div className="fin-table-container">
             <table className="fin-table">
               <thead>
                 <tr>
-                  <th>Taşeron / Firma</th>
-                  <th>Hizmet Alanı</th>
-                  <th>Telefon</th>
-                  <th style={{ textAlign: 'right' }}>Günlük Bedel</th>
-                  <th>Durum</th>
-                  <th style={{ textAlign: 'right' }}>İşlem</th>
+                  <th>{t('subcontractor.table_name', 'Taşeron / Firma')}</th>
+                  <th>{t('subcontractor.service', 'Hizmet Alanı')}</th>
+                  <th>{t('common.phone', 'Telefon')}</th>
+                  <th style={{ textAlign: 'right' }}>{t('subcontractor.table_wage', 'Günlük Bedel')}</th>
+                  <th>{t('subcontractor.table_status', 'Durum')}</th>
+                  <th style={{ textAlign: 'right' }}>{t('subcontractor.table_action', 'İşlem')}</th>
                 </tr>
               </thead>
               <tbody>
-                {contractors.map(c => (
+                {paginatedContractors.map(c => (
                   <tr key={c.id}>
                     <td style={{ fontWeight: '600' }}>{c.name}</td>
                     <td>{c.service_type}</td>
                     <td>{c.phone || '-'}</td>
-                    <td style={{ textAlign: 'right', fontWeight: 'bold', color: 'var(--primary)' }}>{c.daily_wage} ₺</td>
+                    <td style={{ textAlign: 'right', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(c.daily_wage, i18n.language)}</td>
                     <td>
-                      <span style={{ fontSize: '0.8rem', padding: '2px 8px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.15)', color: 'var(--success)' }}>
-                        AKTİF
+                      <span style={{ 
+                        fontSize: '0.8rem', 
+                        padding: '2px 8px', 
+                        borderRadius: '10px', 
+                        background: c.status === 'passive' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)', 
+                        color: c.status === 'passive' ? 'var(--danger)' : 'var(--success)' 
+                      }}>
+                        {c.status === 'passive' ? t('filters.passive', 'PASİF') : t('filters.active', 'AKTİF')}
                       </span>
                     </td>
                     <td style={{ textAlign: 'right' }}>
-                      <button 
-                        className="btn btn-danger" 
-                        onClick={() => handleDelete(c.id)}
-                        style={{ padding: '0.3rem 0.6rem', fontSize: '0.8rem' }}
-                      >
-                        Sil
-                      </button>
+                      <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'flex-end' }}>
+                        <button 
+                          className="btn" 
+                          onClick={() => handleStartEdit(c)}
+                          style={{ padding: '0.3rem 0.5rem', fontSize: '0.8rem' }}
+                        >
+                          {t('dashboard.edit', 'Düzenle')}
+                        </button>
+                        <button 
+                          className="btn btn-danger" 
+                          onClick={() => handleDelete(c.id)}
+                          style={{ padding: '0.3rem 0.5rem', fontSize: '0.8rem' }}
+                        >
+                          {t('common.delete', 'Sil')}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div style={{
+                position: 'sticky',
+                bottom: 0,
+                background: 'var(--option-bg, #0f172a)',
+                borderTop: '1px solid var(--glass-border)',
+                zIndex: 10,
+                padding: '1rem',
+                marginTop: '1.5rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '1rem',
+                backdropFilter: 'blur(10px)',
+                borderRadius: '0 0 12px 12px'
+              }}>
+                <button 
+                  className="btn" 
+                  disabled={currentPage === 1} 
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+                >
+                  {t('common.prev', 'Önceki')}
+                </button>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                  {t('common.page_info', 'Sayfa')} {currentPage} / {totalPages}
+                </span>
+                <button 
+                  className="btn" 
+                  disabled={currentPage === totalPages} 
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+                >
+                  {t('common.next', 'Sonraki')}
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* Side Help Card */}
-      <div className="glass-card">
-        <h3 className="card-title" style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>💡 Taşeron Yönetimi</h3>
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-          Taşeron ve Alt Yüklenici modülü, sahada yevmiyeli veya kiralık hizmet veren dış firmaların/şahısların günlük yevmiye bedellerini ve iletişim detaylarını arşivlemenizi sağlar.
-        </p>
-      </div>
+      <GuideDrawer 
+        isOpen={helpOpen} 
+        onClose={() => setHelpOpen(false)} 
+        title={t('subcontractor.help_title')} 
+        desc={t('subcontractor.help_desc')} 
+        h1={t('subcontractor.help_h1')} 
+        p1={t('subcontractor.help_p1')} 
+        h2={t('subcontractor.help_h2')} 
+        p2={t('subcontractor.help_p2')} 
+        h3={t('subcontractor.help_h3')} 
+        p3={t('subcontractor.help_p3')} 
+      />
 
       <ConfirmationModal 
         isOpen={confirmModal.isOpen}
         onClose={() => setConfirmModal({ isOpen: false, id: null })}
         onConfirm={confirmDelete}
-        title="Taşeronu Sil"
-        message="Bu taşeron kaydını silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+        title={t('subcontractor.delete_title', 'Taşeronu Sil')}
+        message={t('subcontractor.delete_confirm', 'Bu taşeron kaydını silmek istediğinize emin misiniz? Bu işlem geri alınamaz.')}
       />
     </div>
   );

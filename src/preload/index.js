@@ -21,7 +21,7 @@ contextBridge.exposeInMainWorld('api', {
   },
   system: {
     backupDB: () => ipcRenderer.invoke('system:backup-db'),
-    readLogs: (params) => ipcRenderer.invoke('system:read-logs', params),
+    readLogs: (startDate, endDate) => ipcRenderer.invoke('system:read-logs', { startDate, endDate }),
     vacuumDB: () => ipcRenderer.invoke('system:vacuum-db'),
     setCloudFolder: () => ipcRenderer.invoke('system:set-cloud-folder'),
     getWeather: (params) => ipcRenderer.invoke('system:get-weather', params),
@@ -39,6 +39,7 @@ contextBridge.exposeInMainWorld('api', {
   media: {
     selectPhoto: () => ipcRenderer.invoke('media:select-photo'),
     savePhoto: (params) => ipcRenderer.invoke('media:save-photo', params),
+    savePhotoBase64: (params) => ipcRenderer.invoke('media:save-photo-base64', params),
     readPhoto: (params) => ipcRenderer.invoke('media:read-photo', params)
   }
 });

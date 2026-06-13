@@ -394,7 +394,7 @@ const Settings = ({ activeTab = 'genel' }) => {
                           📁 {t('settings.file_select_button')}
                         </label>
                         <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                          {setting.setting_value ? 'Logo yüklendi' : t('settings.file_not_selected')}
+                          {setting.setting_value ? t('settings.logo_uploaded', 'Logo yüklendi') : t('settings.file_not_selected')}
                         </span>
                         <input 
                           id={`logo-upload-input-${setting.id}`}

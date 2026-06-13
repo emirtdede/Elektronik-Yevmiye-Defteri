@@ -7,6 +7,7 @@ import AnomalyPanel from './components/AnomalyPanel';
 import GroupReportPanel from './components/GroupReportPanel';
 import ConfirmationModal from './components/ui/ConfirmationModal';
 import Spotlight from './components/ui/Spotlight';
+import GuideDrawer from './components/ui/GuideDrawer';
 
 // New ERP Modules
 import ProjectManagement from './components/ProjectManagement';
@@ -21,6 +22,7 @@ import AboutHelp from './components/AboutHelp';
 import { exportToExcel, exportToCSV, exportToJSON, generateExcelTemplate } from './utils/exportUtils';
 import { readWorkersFromExcel } from './utils/importUtils';
 import { useTranslation } from 'react-i18next';
+import { formatCurrency } from './utils/formatUtils';
 import './index.css';
 
 function App() {
@@ -65,6 +67,7 @@ function App() {
   const [editingWorker, setEditingWorker] = useState(null);
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [dashboardHelpOpen, setDashboardHelpOpen] = useState(false);
   const [sidebarState, setSidebarState] = useState(() => {
     return localStorage.getItem('sidebar_state') || 'full';
   });
@@ -408,13 +411,13 @@ function App() {
           )}
 
           <nav className="sidebar-nav">
-            <div className={`sidebar-link ${view === 'list' || view === 'profile' ? 'active' : ''}`} onClick={() => { setView('list'); setSelectedWorkerProfile(null); }}>
-              <span className="sidebar-icon">👥</span>
-              <span className="sidebar-text">{t('nav.personnel')}</span>
-            </div>
             <div className={`sidebar-link ${view === 'projects' ? 'active' : ''}`} onClick={() => setView('projects')}>
               <span className="sidebar-icon">🏗️</span>
               <span className="sidebar-text">{t('nav.projects', 'Şantiyeler (Lokasyon)')}</span>
+            </div>
+            <div className={`sidebar-link ${view === 'list' || view === 'profile' ? 'active' : ''}`} onClick={() => { setView('list'); setSelectedWorkerProfile(null); }}>
+              <span className="sidebar-icon">👥</span>
+              <span className="sidebar-text">{t('nav.personnel')}</span>
             </div>
             <div className={`sidebar-link ${view === 'production' ? 'active' : ''}`} onClick={() => setView('production')}>
               <span className="sidebar-icon">📐</span>
@@ -547,8 +550,26 @@ function App() {
           ) : (
             // Bento Grid Dashboard Layout
             <div style={{ animation: 'fadeIn 0.3s ease' }}>
-              <header className="header" style={{ marginBottom: '1.5rem' }}>
-                <h1>{t('dashboard.title')}</h1>
+              <header className="header" style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <h1 style={{ margin: 0 }}>{t('dashboard.title')}</h1>
+                  <span 
+                    onClick={() => setDashboardHelpOpen(true)}
+                    style={{ 
+                      cursor: 'pointer', 
+                      opacity: 0.4, 
+                      transition: 'opacity 0.25s ease-in-out', 
+                      fontSize: '1.4rem',
+                      userSelect: 'none',
+                      padding: '0.25rem'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                    onMouseLeave={e => e.currentTarget.style.opacity = 0.4}
+                    title={t('common.page_guide', 'Sayfa Kılavuzu')}
+                  >
+                    💡
+                  </span>
+                </div>
                 
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <input 
@@ -590,14 +611,39 @@ function App() {
                   {/* Left Column: Personnel List (span 8) */}
                   <div style={{ gridColumn: 'span 8', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <div className="glass-card" style={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'center', padding: '1rem' }}>
-                      <input 
-                        type="text" 
-                        className="form-input" 
-                        placeholder={t('dashboard.search')} 
-                        value={filterText}
-                        onChange={e => setFilterText(e.target.value)}
-                        style={{ flex: 2 }}
-                      />
+                      <div style={{ position: 'relative', flex: 2, display: 'flex', alignItems: 'center' }}>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          placeholder={t('dashboard.search')} 
+                          value={filterText}
+                          onChange={e => setFilterText(e.target.value)}
+                          style={{ width: '100%', paddingRight: '2.5rem' }}
+                        />
+                        {filterText && (
+                          <button
+                            type="button"
+                            onClick={() => setFilterText('')}
+                            style={{
+                              position: 'absolute',
+                              right: '12px',
+                              background: 'transparent',
+                              border: 'none',
+                              color: 'var(--text-muted)',
+                              cursor: 'pointer',
+                              fontSize: '1rem',
+                              padding: '4px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              zIndex: 10
+                            }}
+                            title={t('common.clear', 'Temizle')}
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
                       <select 
                         className="form-input" 
                         value={filterGroup} 
@@ -615,66 +661,84 @@ function App() {
                       <div className="skeleton" style={{ height: '300px', width: '100%' }}></div>
                     ) : filteredWorkers.length === 0 ? (
                       <div className="glass-card text-center" style={{ padding: '4rem 2rem' }}>
-                        <h2 className="card-title">{t('dashboard.empty_state')}</h2>
-                        <p className="card-subtitle mt-4">{t('dashboard.empty_state_sub')}</p>
+                        {filterText || filterGroup ? (
+                          <h2 className="card-title" style={{ margin: 0 }}>Arama kriterlerine uygun personel kaydı bulunamadı.</h2>
+                        ) : (
+                          <>
+                            <h2 className="card-title">{t('dashboard.empty_state')}</h2>
+                            <p className="card-subtitle mt-4">{t('dashboard.empty_state_sub')}</p>
+                          </>
+                        )}
                       </div>
-                    ) : (
-                      <div className="workers-grid">
-                        {filteredWorkers.map((worker) => {
-                          const bal = balances[worker.id] || 0;
-                          const isPositive = bal >= 0;
-                          const group = workerGroups.find(g => g.id === worker.group_id);
-                          return (
-                            <div key={worker.id} className="glass-card" onClick={() => openProfile(worker)} style={{ cursor: 'pointer', position: 'relative' }}>
-                              {group && (
-                                <span style={{
-                                  position: 'absolute', top: '-10px', left: '10px',
-                                  background: '#3b82f6', color: '#fff', padding: '2px 8px',
-                                  borderRadius: '12px', fontSize: '0.75rem', fontWeight: 'bold'
-                                }}>
-                                  {group.name}
+                                        ) : (() => {
+                      const grouped = filteredWorkers.reduce((acc, w) => {
+                        const g = workerGroups.find(group => group.id === w.group_id);
+                        const gName = g ? g.name : t('group_report.no_group', 'Grupsuz');
+                        if (!acc[gName]) acc[gName] = [];
+                        acc[gName].push(w);
+                        return acc;
+                      }, {});
+                      const sortedNames = Object.keys(grouped).sort((a, b) => a.localeCompare(b, i18n.language || 'tr'));
+                      return (
+                        <div className="workers-grouped-container" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                          {sortedNames.map((groupName) => (
+                            <div key={groupName}>
+                              <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: 'var(--text-main)', borderLeft: '4px solid var(--accent)', paddingLeft: '0.6rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <span>👥 {groupName}</span>
+                                <span style={{ fontSize: '0.75rem', background: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', padding: '0.2rem 0.5rem', borderRadius: '10px' }}>
+                                  {grouped[groupName].length} {t('group_report.person_count')}
                                 </span>
-                              )}
-                              <div className="card-header">
-                                <div>
-                                  <h3 className="card-title">{worker.full_name}</h3>
-                                  <p className="card-subtitle">{worker.phone || t('dashboard.phone_not_found')}</p>
-                                </div>
-                                <div style={{ textAlign: 'right' }}>
-                                  <div style={{ fontWeight: 'bold', color: isPositive ? '#34d399' : '#ef4444', fontSize: '1.2rem' }}>
-                                    {bal} ₺
-                                  </div>
-                                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('dashboard.net_balance')}</div>
-                                </div>
-                              </div>
-                              
-                              <div className="card-actions" onClick={e => e.stopPropagation()}>
-                                <button 
-                                  className="btn" 
-                                  onClick={() => handleOpenDrawer(worker)}
-                                  style={{ flex: 1 }}
-                                >
-                                  {t('dashboard.edit')}
-                                </button>
-                                <button 
-                                  className="btn btn-danger" 
-                                  onClick={() => handleDeleteWorker(worker.id)}
-                                  style={{ flex: 1 }}
-                                >
-                                  {t('dashboard.delete')}
-                                </button>
+                              </h3>
+                              <div className="workers-grid">
+                                {grouped[groupName].map((worker) => {
+                                  const bal = balances[worker.id] || 0;
+                                  const isPositive = bal >= 0;
+                                  return (
+                                    <div key={worker.id} className="glass-card" onClick={() => openProfile(worker)} style={{ cursor: 'pointer', position: 'relative' }}>
+                                      <div className="card-header">
+                                        <div>
+                                          <h3 className="card-title">{worker.full_name}</h3>
+                                          <p className="card-subtitle">{worker.phone || t('dashboard.phone_not_found')}</p>
+                                        </div>
+                                        <div style={{ textAlign: 'right' }}>
+                                          <div style={{ fontWeight: 'bold', color: isPositive ? '#34d399' : '#ef4444', fontSize: '1.2rem' }}>
+                                            {formatCurrency(bal, i18n.language)}
+                                          </div>
+                                          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('dashboard.net_balance')}</div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div className="card-actions" onClick={e => e.stopPropagation()}>
+                                        <button 
+                                          className="btn" 
+                                          onClick={() => handleOpenDrawer(worker)}
+                                          style={{ flex: 1 }}
+                                        >
+                                          {t('dashboard.edit')}
+                                        </button>
+                                        <button 
+                                          className="btn btn-danger" 
+                                          onClick={() => handleDeleteWorker(worker.id)}
+                                          style={{ flex: 1 }}
+                                        >
+                                          {t('dashboard.delete')}
+                                        </button>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
                               </div>
                             </div>
-                          )
-                        })}
-                      </div>
-                    )}
+                          ))}
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Right Column: Widgets / Anomaly & Reports (span 4) */}
                   <div style={{ gridColumn: 'span 4', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                    <GroupReportPanel />
-                    <AnomalyPanel workers={workers} balances={balances} />
+                    <AnomalyPanel workers={filteredWorkers} balances={balances} />
+                    <GroupReportPanel activeProjectId={activeProjectId} workers={workers} balances={balances} />
                   </div>
                 </div>
               )}
@@ -710,6 +774,19 @@ function App() {
         onConfirm={confirmModalState.onConfirm}
         title={confirmModalState.title}
         message={confirmModalState.message}
+      />
+
+      <GuideDrawer 
+        isOpen={dashboardHelpOpen} 
+        onClose={() => setDashboardHelpOpen(false)} 
+        title={t('dashboard.help_title')} 
+        desc={t('dashboard.help_desc')} 
+        h1={t('dashboard.help_h1')} 
+        p1={t('dashboard.help_p1')} 
+        h2={t('dashboard.help_h2')} 
+        p2={t('dashboard.help_p2')} 
+        h3={t('dashboard.help_h3')} 
+        p3={t('dashboard.help_p3')} 
       />
 
       {undoAvailable && (

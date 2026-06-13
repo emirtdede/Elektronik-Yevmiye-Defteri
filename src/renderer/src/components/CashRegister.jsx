@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { exportToExcel, exportToCSV, exportToJSON } from '../utils/exportUtils';
 import TagInput from './ui/TagInput';
 import ConfirmationModal from './ui/ConfirmationModal';
 import CustomDatePicker from './ui/CustomDatePicker';
+import { formatCurrency } from '../utils/formatUtils';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import GuideDrawer from './ui/GuideDrawer';
 
 const CashRegister = () => {
   const { t, i18n } = useTranslation();
   const [transactions, setTransactions] = useState([]);
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [helpOpen, setHelpOpen] = useState(false);
   const [companyName, setCompanyName] = useState('LALEPERDE');
   const [companyLogo, setCompanyLogo] = useState('');
   
@@ -20,10 +23,24 @@ const CashRegister = () => {
   const [reportDate, setReportDate] = useState(todayStr);
   const [reportData, setReportData] = useState(null);
 
+  const getFirstDayOfCurrentMonth = () => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+  };
+
+  const getLastDayOfCurrentMonth = () => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
+  };
+
   // Filters State
-  const [filterStartDate, setFilterStartDate] = useState('');
-  const [filterEndDate, setFilterEndDate] = useState('');
+  const [filterStartDate, setFilterStartDate] = useState(getFirstDayOfCurrentMonth());
+  const [filterEndDate, setFilterEndDate] = useState(getLastDayOfCurrentMonth());
   const [filterType, setFilterType] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+  const cashListBodyRef = useRef(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -41,6 +58,19 @@ const CashRegister = () => {
     message: '',
     onConfirm: () => {}
   });
+
+  useEffect(() => {
+    if (cashListBodyRef.current) {
+      cashListBodyRef.current.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterStartDate, filterEndDate, filterType]);
 
   const fetchCashData = async () => {
     if (window.api) {
@@ -132,26 +162,50 @@ const CashRegister = () => {
     let matchStart = true;
     let matchEnd = true;
     let matchType = true;
+    let matchSearch = true;
     
     if (filterStartDate) matchStart = t.trans_date >= filterStartDate;
     if (filterEndDate) matchEnd = t.trans_date <= filterEndDate;
     if (filterType) matchType = t.type === filterType;
+    if (searchQuery) matchSearch = t.description && t.description.toLowerCase().includes(searchQuery.toLowerCase());
     
-    return matchStart && matchEnd && matchType;
+    return matchStart && matchEnd && matchType && matchSearch;
   });
+
+  const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+  const paginatedTransactions = filteredTransactions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const generatePDF = () => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
+    const getFormatFromBase64 = (base64) => {
+      if (!base64) return 'PNG';
+      const match = base64.match(/^data:image\/([a-zA-Z+]+);base64,/);
+      if (match && match[1]) {
+        const ext = match[1].toUpperCase();
+        if (ext === 'JPEG' || ext === 'JPG') return 'JPEG';
+        if (ext === 'PNG') return 'PNG';
+        if (ext === 'WEBP') return 'WEBP';
+        return ext;
+      }
+      return 'PNG';
+    };
+
     const trMap = { 'ç':'c', 'ğ':'g', 'ş':'s', 'ö':'o', 'ü':'u', 'ı':'i', 'Ç':'C', 'Ğ':'G', 'Ş':'S', 'Ö':'O', 'Ü':'U', 'İ':'I' };
-    const toEn = (str) => str ? String(str).replace(/[çğşöüıÇĞŞÖÜİ]/g, letter => trMap[letter]) : '';
+    const toEn = (str) => {
+      if (!str) return '';
+      let s = String(str);
+      s = s.replace(/[çğşöüıÇĞŞÖÜİ]/g, letter => trMap[letter]);
+      s = s.replace(/₺/g, 'TL');
+      return s;
+    };
     
     // Header
     let textStartY = 20;
 
     if (companyLogo) {
       try {
-        doc.addImage(companyLogo, 'PNG', pageWidth / 2 - 15, 10, 30, 15);
+        doc.addImage(companyLogo, getFormatFromBase64(companyLogo), pageWidth / 2 - 15, 10, 30, 15);
         textStartY = 35;
       } catch (err) {
         console.error('Error adding logo to PDF', err);
@@ -223,9 +277,27 @@ const CashRegister = () => {
   };
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-      <header className="header" style={{ marginBottom: '2rem' }}>
-        <h2>{t('cash.title')}</h2>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative' }}>
+      <header className="header" style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <h2 style={{ margin: 0 }}>{t('cash.title')}</h2>
+          <span 
+            onClick={() => setHelpOpen(true)}
+            style={{ 
+              cursor: 'pointer', 
+              opacity: 0.4, 
+              transition: 'opacity 0.25s ease-in-out', 
+              fontSize: '1.4rem',
+              userSelect: 'none',
+              padding: '0.25rem'
+            }}
+            onMouseEnter={e => e.currentTarget.style.opacity = 1}
+            onMouseLeave={e => e.currentTarget.style.opacity = 0.4}
+            title={t('common.page_guide', 'Sayfa Kılavuzu')}
+          >
+            💡
+          </span>
+        </div>
       </header>
 
       <div className="profile-grid">
@@ -242,7 +314,7 @@ const CashRegister = () => {
               color: isPositive ? 'var(--success-text)' : 'var(--danger-text)',
               textShadow: isPositive ? 'var(--success-shadow)' : 'var(--danger-shadow)'
             }}>
-              {balance} ₺
+              {formatCurrency(balance, i18n.language)}
             </div>
           </div>
 
@@ -268,20 +340,20 @@ const CashRegister = () => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div style={{ background: 'var(--accent-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--accent-border)' }}>
                   <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('cash.wage_cost')}</div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--accent)' }}>{reportData.summary.totalWageCost} ₺</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--accent)' }}>{formatCurrency(reportData.summary.totalWageCost, i18n.language)}</div>
                 </div>
                 <div style={{ background: 'var(--success-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--success-border)' }}>
                   <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('cash.monthly_in')}</div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--success-text)' }}>{reportData.summary.totalCashIn} ₺</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--success-text)' }}>{formatCurrency(reportData.summary.totalCashIn, i18n.language)}</div>
                 </div>
                 <div style={{ background: 'var(--danger-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--danger-border)' }}>
                   <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('cash.monthly_out')}</div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--danger-text)' }}>{reportData.summary.totalCashOut} ₺</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--danger-text)' }}>{formatCurrency(reportData.summary.totalCashOut, i18n.language)}</div>
                 </div>
                 <div style={{ background: 'var(--glass-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)', boxShadow: 'var(--card-shadow)' }}>
                   <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('cash.net_change')}</div>
                   <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: reportData.summary.netCashFlow >= 0 ? 'var(--success-text)' : 'var(--danger-text)' }}>
-                    {reportData.summary.netCashFlow > 0 ? '+' : ''}{reportData.summary.netCashFlow} ₺
+                    {reportData.summary.netCashFlow > 0 ? '+' : ''}{formatCurrency(reportData.summary.netCashFlow, i18n.language)}
                   </div>
                 </div>
               </div>
@@ -291,7 +363,7 @@ const CashRegister = () => {
           </div>
 
           <div className="glass-card">
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>Yeni Nakit İşlemi</h3>
+            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>{t('cash.new_transaction', 'Yeni Nakit İşlemi')}</h3>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label className="form-label">{t('cash.table.date')}</label>
@@ -358,12 +430,48 @@ const CashRegister = () => {
               </select>
             </div>
           </div>
+
+          <div style={{ marginBottom: '1.5rem', position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <input 
+              type="text" 
+              className="form-input" 
+              placeholder={t('cash.search_placeholder', 'Açıklamalarda ara...')} 
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              style={{ paddingRight: '2.5rem', width: '100%' }}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  padding: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10
+                }}
+                title={t('common.clear', 'Temizle')}
+              >
+                ✕
+              </button>
+            )}
+          </div>
           
           {filteredTransactions.length === 0 ? (
-            <p className="text-muted text-center" style={{ marginTop: '2rem' }}>{t('common.empty_data') || 'Veri bulunmuyor.'}</p>
+            <p className="text-muted" style={{ marginTop: '2rem', textAlign: 'center' }}>
+              {searchQuery ? 'Arama kriterlerine uygun kasa hareketi bulunamadı.' : (t('common.empty_data') || 'Gösterilecek veri bulunamadı.')}
+            </p>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '800px', overflowY: 'auto', paddingRight: '10px' }}>
-              {filteredTransactions.map(tr => {
+            <div ref={cashListBodyRef} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '800px', overflowY: 'auto', paddingRight: '10px' }}>
+              {paginatedTransactions.map(tr => {
                 const isIncome = tr.type === 'Nakit Girişi';
                 return (
                   <div key={tr.id} style={{ 
@@ -392,7 +500,7 @@ const CashRegister = () => {
                     </div>
                     <div style={{ textAlign: 'right' }}>
                       <div style={{ fontWeight: 'bold', color: isIncome ? 'var(--success-text)' : 'var(--danger-text)', fontSize: '1.1rem' }}>
-                        {isIncome ? '+' : '-'}{tr.amount} ₺
+                        {isIncome ? '+' : '-'}{formatCurrency(tr.amount, i18n.language)}
                       </div>
                       <button 
                         onClick={() => handleDelete(tr.id)} 
@@ -404,6 +512,45 @@ const CashRegister = () => {
                   </div>
                 );
               })}
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div style={{
+                  position: 'sticky',
+                  bottom: 0,
+                  background: 'var(--option-bg, #0f172a)',
+                  borderTop: '1px solid var(--glass-border)',
+                  zIndex: 10,
+                  padding: '1rem',
+                  marginTop: '1.5rem',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '0 0 12px 12px'
+                }}>
+                  <button 
+                    className="btn" 
+                    disabled={currentPage === 1} 
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+                  >
+                    {t('common.prev', 'Önceki')}
+                  </button>
+                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                    {t('common.page_info', 'Sayfa')} {currentPage} / {totalPages}
+                  </span>
+                  <button 
+                    className="btn" 
+                    disabled={currentPage === totalPages} 
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+                  >
+                    {t('common.next', 'Sonraki')}
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -415,6 +562,19 @@ const CashRegister = () => {
         onConfirm={confirmModalState.onConfirm}
         title={confirmModalState.title}
         message={confirmModalState.message}
+      />
+
+      <GuideDrawer 
+        isOpen={helpOpen} 
+        onClose={() => setHelpOpen(false)} 
+        title={t('cash.help_title')} 
+        desc={t('cash.help_desc')} 
+        h1={t('cash.help_h1')} 
+        p1={t('cash.help_p1')} 
+        h2={t('cash.help_h2')} 
+        p2={t('cash.help_p2')} 
+        h3={t('cash.help_h3')} 
+        p3={t('cash.help_p3')} 
       />
     </div>
   );

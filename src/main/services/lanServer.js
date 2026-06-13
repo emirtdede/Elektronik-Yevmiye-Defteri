@@ -165,17 +165,53 @@ function startLANServer(mainWindow) {
 
           document.getElementById('uploadForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const formData = new FormData();
-            formData.append('photo', fileInput.files[0]);
+            const file = fileInput.files[0];
+            if (!file) return;
 
             submitBtn.style.display = 'none';
             fileLabel.style.display = 'none';
             loader.style.display = 'block';
             statusMsg.className = 'status';
-            statusMsg.textContent = 'Yükleniyor...';
+            statusMsg.textContent = 'Görsel sıkıştırılıyor ve formatı optimize ediliyor...';
 
             try {
-              const res = await fetch('/upload?projectId=${projectId}', {
+              const compressAndGetBlob = (inputFile) => {
+                return new Promise((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                      const canvas = document.createElement('canvas');
+                      let width = img.width;
+                      let height = img.height;
+                      const maxWidth = 1200;
+                      if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                      }
+                      canvas.width = width;
+                      canvas.height = height;
+                      const ctx = canvas.getContext('2d');
+                      ctx.drawImage(img, 0, 0, width, height);
+                      canvas.toBlob((blob) => {
+                        resolve(blob || inputFile);
+                      }, 'image/webp', 0.8);
+                    };
+                    img.onerror = () => reject(new Error('Görsel yüklenemedi.'));
+                    img.src = event.target.result;
+                  };
+                  reader.onerror = () => reject(new Error('Dosya okunamadı.'));
+                  reader.readAsDataURL(inputFile);
+                });
+              };
+
+              const webpBlob = await compressAndGetBlob(file);
+              const formData = new FormData();
+              formData.append('photo', webpBlob, 'mobile_photo.webp');
+
+              statusMsg.textContent = 'Yükleniyor...';
+
+              const res = await fetch('/upload?projectId=' + '${projectId}', {
                 method: 'POST',
                 body: formData
               });
@@ -198,7 +234,7 @@ function startLANServer(mainWindow) {
             } catch (err) {
               loader.style.display = 'none';
               statusMsg.className = 'status error';
-              statusMsg.textContent = 'Bağlantı hatası oluştu.';
+              statusMsg.textContent = 'Bağlantı hatası: ' + err.message;
               submitBtn.style.display = 'block';
               fileLabel.style.display = 'inline-block';
             }

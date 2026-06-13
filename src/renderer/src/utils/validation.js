@@ -23,7 +23,8 @@ export const isValidTCKN = (tc) => {
   }
   
   // 2nd Rule: Sum of first 10 digits mod 10 should give the 11th digit.
-  const sumFirstTen = digits.slice(0, 10).reduce((acc, curr) => acc + curr, 0);
+  // Instead of recalculating using reduce, we reuse sumOdd + sumEven + digits[9]
+  const sumFirstTen = sumOdd + sumEven + digits[9];
   const eleventhDigit = sumFirstTen % 10;
   
   if (eleventhDigit !== digits[10]) {

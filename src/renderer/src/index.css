@@ -957,4 +957,43 @@ input[type="month"]::-webkit-calendar-picker-indicator {
   opacity: 1;
 }
 
+/* Modal and Drawer Overlay & Content Styles */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.drawer-content {
+  background: var(--spotlight-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 2.2rem;
+  width: 500px;
+  max-width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), var(--shadow-glow);
+  animation: slideDown 0.25s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.text-center {
+  text-align: center;
+}
+
 

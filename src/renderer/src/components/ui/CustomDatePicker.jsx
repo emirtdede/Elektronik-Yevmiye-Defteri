@@ -81,6 +81,11 @@ const CustomDatePicker = ({ value, onChange, className, required, style, name, p
     return 'yyyy-MM-dd';
   };
 
+  const handleClear = (e) => {
+    e.stopPropagation();
+    handleChange(null);
+  };
+
   return (
     <div style={{ width: '100%', position: 'relative', display: 'flex', ...style }} className="custom-datepicker-wrapper">
       <DatePicker
@@ -99,6 +104,31 @@ const CustomDatePicker = ({ value, onChange, className, required, style, name, p
         showMonthYearPicker={showMonthYearPicker}
         portalId="root"
       />
+      {date && !required && (
+        <button
+          type="button"
+          onClick={handleClear}
+          style={{
+            position: 'absolute',
+            right: '38px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            background: 'transparent',
+            border: 'none',
+            color: 'var(--text-muted)',
+            cursor: 'pointer',
+            fontSize: '0.9rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '4px',
+            zIndex: 10
+          }}
+          title="Temizle"
+        >
+          ✕
+        </button>
+      )}
     </div>
   );
 };

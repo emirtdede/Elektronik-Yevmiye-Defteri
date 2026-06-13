@@ -166,7 +166,7 @@ async function generateCompanyFinancialSummary(db, year, month) {
   }
 }
 
-async function generateGroupStatement(db, start_date, end_date) {
+async function generateGroupStatement(db, start_date, end_date, project_id) {
   try {
     if (new Date(start_date) > new Date(end_date)) {
       const temp = start_date;
@@ -174,7 +174,14 @@ async function generateGroupStatement(db, start_date, end_date) {
       end_date = temp;
     }
     const groups = await db.all('SELECT * FROM worker_groups');
-    const workers = await db.all('SELECT * FROM workers WHERE is_deleted = 0');
+    
+    let workersQuery = 'SELECT * FROM workers WHERE is_deleted = 0';
+    const params = [];
+    if (project_id) {
+      workersQuery += ' AND project_id = ?';
+      params.push(project_id);
+    }
+    const workers = await db.all(workersQuery, params);
     
     // We will build an array of group summaries
     const groupSummaries = [];
@@ -192,42 +199,59 @@ async function generateGroupStatement(db, start_date, end_date) {
 
       for (const w of groupWorkers) {
         // 1. Fetch timesheets and transactions within the date range
-        const timesheets = await db.all(
-          `SELECT SUM(earned_amount) as total FROM timesheets WHERE worker_id = ? AND is_deleted = 0 AND work_date >= ? AND work_date <= ?`,
-          [w.id, start_date, end_date]
-        );
+        let tsQuery = `SELECT SUM(earned_amount) as total FROM timesheets WHERE worker_id = ? AND is_deleted = 0 AND work_date >= ? AND work_date <= ?`;
+        let tsParams = [w.id, start_date, end_date];
+        let trQuery = `SELECT SUM(amount) as total FROM transactions WHERE worker_id = ? AND is_deleted = 0 AND trans_date >= ? AND trans_date <= ?`;
+        let trParams = [w.id, start_date, end_date];
 
-        const transactions = await db.all(
-          `SELECT SUM(amount) as total FROM transactions WHERE worker_id = ? AND is_deleted = 0 AND trans_date >= ? AND trans_date <= ?`,
-          [w.id, start_date, end_date]
-        );
+        if (project_id) {
+          tsQuery += ` AND (project_id = ? OR (project_id IS NULL AND ?))`;
+          tsParams.push(project_id, project_id);
+          trQuery += ` AND (project_id = ? OR (project_id IS NULL AND ?))`;
+          trParams.push(project_id, project_id);
+        }
+
+        const timesheets = await db.all(tsQuery, tsParams);
+        const transactions = await db.all(trQuery, trParams);
 
         periodEarned += timesheets[0]?.total || 0;
         periodAdvance += transactions[0]?.total || 0;
 
         // 2. Fetch previous balance (before start_date)
-        const prevTimesheets = await db.all(
-          `SELECT SUM(earned_amount) as total FROM timesheets WHERE worker_id = ? AND is_deleted = 0 AND work_date < ?`,
-          [w.id, start_date]
-        );
-        const prevTransactions = await db.all(
-          `SELECT SUM(amount) as total FROM transactions WHERE worker_id = ? AND is_deleted = 0 AND trans_date < ?`,
-          [w.id, start_date]
-        );
+        let prevTsQuery = `SELECT SUM(earned_amount) as total FROM timesheets WHERE worker_id = ? AND is_deleted = 0 AND work_date < ?`;
+        let prevTsParams = [w.id, start_date];
+        let prevTrQuery = `SELECT SUM(amount) as total FROM transactions WHERE worker_id = ? AND is_deleted = 0 AND trans_date < ?`;
+        let prevTrParams = [w.id, start_date];
+
+        if (project_id) {
+          prevTsQuery += ` AND (project_id = ? OR (project_id IS NULL AND ?))`;
+          prevTsParams.push(project_id, project_id);
+          prevTrQuery += ` AND (project_id = ? OR (project_id IS NULL AND ?))`;
+          prevTrParams.push(project_id, project_id);
+        }
+
+        const prevTimesheets = await db.all(prevTsQuery, prevTsParams);
+        const prevTransactions = await db.all(prevTrQuery, prevTrParams);
 
         const prevEarned = prevTimesheets[0]?.total || 0;
         const prevAdvance = prevTransactions[0]?.total || 0;
         previousBalance += (prevEarned - prevAdvance);
 
         // 3. Fetch absolute total balance (up to infinity/today)
-        const allTimesheets = await db.all(
-          `SELECT SUM(earned_amount) as total FROM timesheets WHERE worker_id = ? AND is_deleted = 0`,
-          [w.id]
-        );
-        const allTransactions = await db.all(
-          `SELECT SUM(amount) as total FROM transactions WHERE worker_id = ? AND is_deleted = 0`,
-          [w.id]
-        );
+        let allTsQuery = `SELECT SUM(earned_amount) as total FROM timesheets WHERE worker_id = ? AND is_deleted = 0`;
+        let allTsParams = [w.id];
+        let allTrQuery = `SELECT SUM(amount) as total FROM transactions WHERE worker_id = ? AND is_deleted = 0`;
+        let allTrParams = [w.id];
+
+        if (project_id) {
+          allTsQuery += ` AND (project_id = ? OR (project_id IS NULL AND ?))`;
+          allTsParams.push(project_id, project_id);
+          allTrQuery += ` AND (project_id = ? OR (project_id IS NULL AND ?))`;
+          allTrParams.push(project_id, project_id);
+        }
+
+        const allTimesheets = await db.all(allTsQuery, allTsParams);
+        const allTransactions = await db.all(allTrQuery, allTrParams);
         
         const allEarned = allTimesheets[0]?.total || 0;
         const allAdvance = allTransactions[0]?.total || 0;

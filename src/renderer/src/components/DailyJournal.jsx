@@ -1,15 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ConfirmationModal from './ui/ConfirmationModal';
 import CustomDatePicker from './ui/CustomDatePicker';
+import GuideDrawer from './ui/GuideDrawer';
 
 const DailyJournal = ({ activeProjectId, projects = [] }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [journals, setJournals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [weatherLoading, setWeatherLoading] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const containerRef = useRef(null);
+  const getLocalDateString = () => {
+    const d = new Date();
+    const offset = d.getTimezoneOffset();
+    const localDate = new Date(d.getTime() - (offset * 60 * 1000));
+    return localDate.toISOString().split('T')[0];
+  };
+
+  const todayStr = getLocalDateString();
+
   const [formData, setFormData] = useState({
-    journal_date: new Date().toISOString().split('T')[0],
+    journal_date: todayStr,
     weather_temp: '',
     weather_desc: '',
     weather_icon: '',
@@ -18,7 +31,35 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
   });
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, id: null });
 
+  // Search & Pagination states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('date_desc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, sortBy]);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [currentPage]);
+
   const activeProject = projects.find(p => p.id === activeProjectId);
+
+  const handleStartEdit = (j) => {
+    setEditingId(j.id);
+    setFormData({
+      journal_date: j.journal_date,
+      weather_temp: j.weather_temp !== null && j.weather_temp !== undefined ? j.weather_temp.toString() : '',
+      weather_desc: j.weather_desc || '',
+      weather_icon: j.weather_icon || '',
+      worker_count: j.worker_count !== null && j.worker_count !== undefined ? j.worker_count.toString() : '0',
+      notes: j.notes || ''
+    });
+  };
 
   const fetchJournals = async () => {
     if (!activeProjectId) return;
@@ -34,13 +75,17 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
     fetchJournals();
   }, [activeProjectId]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
   // Fetch weather automatically when location or date changes
   useEffect(() => {
     const fetchWeather = async () => {
       if (!activeProject || !activeProject.location) return;
       setWeatherLoading(true);
       if (window.api && window.api.system.getWeather) {
-        const res = await window.api.system.getWeather({ location: activeProject.location });
+        const res = await window.api.system.getWeather({ location: activeProject.location, lang: i18n.language });
         if (res.success) {
           setFormData(prev => ({
             ...prev,
@@ -72,28 +117,31 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
     if (!activeProjectId || !formData.journal_date) return;
 
     if (window.api && window.api.db) {
-      // Check if journal already exists for this date on this project
-      const existing = journals.find(j => j.journal_date === formData.journal_date);
-      if (existing) {
-        // Update it
-        await window.api.db.update('daily_journals', existing.id, {
-          weather_temp: Number(formData.weather_temp),
-          weather_desc: formData.weather_desc,
-          weather_icon: formData.weather_icon,
-          worker_count: Number(formData.worker_count),
-          notes: formData.notes
-        });
+      const payload = {
+        weather_temp: formData.weather_temp ? Number(formData.weather_temp) : null,
+        weather_desc: formData.weather_desc,
+        weather_icon: formData.weather_icon,
+        worker_count: formData.worker_count ? Number(formData.worker_count) : 0,
+        notes: formData.notes
+      };
+
+      if (editingId) {
+        await window.api.db.update('daily_journals', editingId, payload);
+        setEditingId(null);
       } else {
-        // Create new
-        await window.api.db.create('daily_journals', {
-          project_id: activeProjectId,
-          journal_date: formData.journal_date,
-          weather_temp: Number(formData.weather_temp),
-          weather_desc: formData.weather_desc,
-          weather_icon: formData.weather_icon,
-          worker_count: Number(formData.worker_count),
-          notes: formData.notes
-        });
+        // Check if journal already exists for this date on this project
+        const existing = journals.find(j => j.journal_date === formData.journal_date);
+        if (existing) {
+          // Update it
+          await window.api.db.update('daily_journals', existing.id, payload);
+        } else {
+          // Create new
+          await window.api.db.create('daily_journals', {
+            project_id: activeProjectId,
+            journal_date: formData.journal_date,
+            ...payload
+          });
+        }
       }
       setFormData(prev => ({
         ...prev,
@@ -115,6 +163,34 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
     }
   };
 
+  // Filter and paginated journals
+  const filteredJournals = journals.filter(j => 
+    j.notes.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    (j.weather_desc && j.weather_desc.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    j.journal_date.includes(searchQuery)
+  );
+
+  // Apply sorting
+  filteredJournals.sort((a, b) => {
+    if (sortBy === 'date_desc') {
+      return b.journal_date.localeCompare(a.journal_date);
+    } else if (sortBy === 'date_asc') {
+      return a.journal_date.localeCompare(b.journal_date);
+    } else if (sortBy === 'workers_desc') {
+      const wa = a.worker_count ? parseInt(a.worker_count, 10) : 0;
+      const wb = b.worker_count ? parseInt(b.worker_count, 10) : 0;
+      return wb - wa;
+    } else if (sortBy === 'workers_asc') {
+      const wa = a.worker_count ? parseInt(a.worker_count, 10) : 0;
+      const wb = b.worker_count ? parseInt(b.worker_count, 10) : 0;
+      return wa - wb;
+    }
+    return 0;
+  });
+
+  const totalPages = Math.ceil(filteredJournals.length / itemsPerPage);
+  const paginatedJournals = filteredJournals.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   if (!activeProjectId) {
     return (
       <div className="glass-card text-center" style={{ padding: '3rem' }}>
@@ -125,17 +201,37 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', alignItems: 'start' }}>
+    <div ref={containerRef} style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem', alignItems: 'start', position: 'relative' }}>
       {/* Main List and Form */}
       <div className="glass-card">
-        <h2 className="card-title" style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>📓 Şantiye Günlük Jurnali</h2>
-        <p className="card-subtitle" style={{ marginBottom: '1.5rem' }}>Aktif Şantiye: <span style={{ color: 'var(--primary)', fontWeight: '600' }}>{activeProject?.name}</span></p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <div>
+            <h2 className="card-title" style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>{t('journal.title', '📓 Şantiye Günlük Jurnali')}</h2>
+            <p className="card-subtitle" style={{ marginBottom: 0 }}>{t('common.active_project', 'Aktif Şantiye:')} <span style={{ color: 'var(--primary)', fontWeight: '600' }}>{activeProject?.name}</span></p>
+          </div>
+          <span 
+            onClick={() => setHelpOpen(true)}
+            style={{ 
+              cursor: 'pointer', 
+              opacity: 0.4, 
+              transition: 'opacity 0.25s ease-in-out', 
+              fontSize: '1.6rem',
+              userSelect: 'none',
+              padding: '0.25rem'
+            }}
+            onMouseEnter={e => e.currentTarget.style.opacity = 1}
+            onMouseLeave={e => e.currentTarget.style.opacity = 0.4}
+            title={t('common.page_guide', 'Sayfa Kılavuzu')}
+          >
+            💡
+          </span>
+        </div>
 
         {/* Add/Edit Journal Form */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
-              <label className="form-label">Tarih</label>
+              <label className="form-label">{t('common.date', 'Tarih')}</label>
               <CustomDatePicker 
                 className="form-input" 
                 value={formData.journal_date}
@@ -145,7 +241,7 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
             </div>
             
             <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
-              <label className="form-label">Çalışan Personel Sayısı</label>
+              <label className="form-label">{t('journal.worker_count', 'Çalışan Personel Sayısı')}</label>
               <input 
                 type="number" 
                 className="form-input" 
@@ -159,22 +255,22 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
 
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)' }}>
             <div style={{ flex: 1 }}>
-              <span className="form-label" style={{ marginBottom: '0.25rem' }}>Hava Durumu</span>
+              <span className="form-label" style={{ marginBottom: '0.25rem' }}>{t('journal.weather', 'Hava Durumu')}</span>
               {weatherLoading ? (
-                <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Bulutlardan okunuyor...</span>
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{t('journal.weather_loading', 'Bulutlardan okunuyor...')}</span>
               ) : formData.weather_desc ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <img src={`http://openweathermap.org/img/wn/${formData.weather_icon}.png`} alt="Weather Icon" style={{ width: '30px', height: '30px' }} />
                   <strong style={{ fontSize: '0.95rem', color: '#fff' }}>{formData.weather_temp} °C, {formData.weather_desc.toUpperCase()}</strong>
                 </div>
               ) : (
-                <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Şantiye konumu girilmediği için çekilemedi.</span>
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{t('journal.weather_no_location', 'Şantiye konumu girilmediği için çekilemedi.')}</span>
               )}
             </div>
             
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <div className="form-group" style={{ width: '80px', marginBottom: 0 }}>
-                <label className="form-label">Sıcaklık (°C)</label>
+                <label className="form-label">{t('journal.temperature', 'Sıcaklık (°C)')}</label>
                 <input 
                   type="number" 
                   className="form-input" 
@@ -182,8 +278,8 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
                   onChange={e => setFormData(prev => ({ ...prev, weather_temp: e.target.value }))}
                 />
               </div>
-              <div className="form-group" style={{ width: '120px', marginBottom: 0 }}>
-                <label className="form-label">Açıklama</label>
+              <div className="form-group" style={{ width: '180px', marginBottom: 0 }}>
+                <label className="form-label">{t('common.description', 'Açıklama')}</label>
                 <input 
                   type="text" 
                   className="form-input" 
@@ -195,10 +291,10 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
           </div>
 
           <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Günlük Jurnal Notları / Yapılan İşler</label>
+            <label className="form-label">{t('journal.notes', 'Günlük Jurnal Notları / Yapılan İşler')}</label>
             <textarea 
               className="form-input" 
-              placeholder="Örn: 2. kat kolon demirleri bağlandı, C30 beton dökümü gerçekleştirildi..." 
+              placeholder={t('journal.notes_ph', 'Örn: 2. kat kolon demirleri bağlandı, C30 beton dökümü gerçekleştirildi...')} 
               rows="4"
               value={formData.notes}
               onChange={e => setFormData(prev => ({ ...prev, notes: e.target.value }))}
@@ -207,19 +303,103 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
             ></textarea>
           </div>
 
-          <button type="submit" className="btn btn-primary" style={{ alignSelf: 'flex-end' }}>Jurnali Kaydet / Güncelle</button>
+          <div style={{ display: 'flex', gap: '0.5rem', alignSelf: 'flex-end' }}>
+            <button type="submit" className="btn btn-primary">
+              {editingId ? t('common.save', 'Güncelle') : t('journal.save_btn', 'Jurnali Kaydet / Güncelle')}
+            </button>
+            {editingId && (
+              <button 
+                type="button" 
+                className="btn" 
+                onClick={() => {
+                  setEditingId(null);
+                  setFormData({
+                    journal_date: todayStr,
+                    weather_temp: '',
+                    weather_desc: '',
+                    weather_icon: '',
+                    worker_count: '0',
+                    notes: ''
+                  });
+                }}
+              >
+                {t('common.cancel', 'Vazgeç')}
+              </button>
+            )}
+          </div>
         </form>
+
+        {/* Filters & Search Bar */}
+        {journals.length > 0 && (
+          <div style={{ 
+            background: 'rgba(255, 255, 255, 0.02)', 
+            border: '1px solid var(--glass-border)', 
+            borderRadius: '12px', 
+            padding: '1rem', 
+            marginBottom: '1.5rem',
+            display: 'flex', 
+            gap: '1rem', 
+            alignItems: 'center', 
+            flexWrap: 'wrap' 
+          }}>
+            <div style={{ position: 'relative', flex: 2, minWidth: '200px', display: 'flex', alignItems: 'center' }}>
+              <input 
+                type="text"
+                className="form-input"
+                placeholder={t('filters.search_journal', 'Jurnal notlarında, hava durumunda veya tarihte ara...')}
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                style={{ paddingRight: '2.5rem', width: '100%', marginBottom: 0 }}
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    padding: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 10
+                  }}
+                  title={t('common.clear', 'Temizle')}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            <select 
+              className="form-input" 
+              value={sortBy} 
+              onChange={e => setSortBy(e.target.value)}
+              style={{ flex: 1, minWidth: '200px', marginBottom: 0 }}
+            >
+              <option value="date_desc">{t('filters.newest', 'Tarih: Yeniden Eskiye')}</option>
+              <option value="date_asc">{t('filters.oldest', 'Tarih: Eskiden Yeniye')}</option>
+              <option value="workers_desc">{t('filters.workers_desc', 'İşçi Sayısı: En Çoktan En Aza')}</option>
+              <option value="workers_asc">{t('filters.workers_asc', 'İşçi Sayısı: En Azdan En Çoğa')}</option>
+            </select>
+          </div>
+        )}
 
         {/* Journals List */}
         {loading ? (
           <div className="skeleton" style={{ height: '200px', width: '100%' }}></div>
-        ) : journals.length === 0 ? (
+        ) : filteredJournals.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-            Henüz günlük jurnal kaydı bulunmuyor.
+            {searchQuery ? t('journal.no_results', 'Arama kriterlerine uygun jurnal kaydı bulunamadı.') : t('journal.empty_state', 'Henüz günlük jurnal kaydı bulunmuyor.')}
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {journals.map(j => (
+            {paginatedJournals.map(j => (
               <div key={j.id} className="glass-card" style={{ padding: '1.25rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.75rem', marginBottom: '0.75rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -231,42 +411,93 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
                       </span>
                     )}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span style={{ fontSize: '0.8rem', background: 'rgba(59, 130, 246, 0.15)', color: '#93c5fd', padding: '2px 8px', borderRadius: '10px' }}>
-                      👷 {j.worker_count} Çalışan
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span style={{ fontSize: '0.8rem', background: 'rgba(59, 130, 246, 0.15)', color: '#93c5fd', padding: '2px 8px', borderRadius: '10px', marginRight: '0.5rem' }}>
+                      👷 {j.worker_count} {t('journal.worker_count_badge', 'Çalışan')}
                     </span>
+                    {j.journal_date === todayStr && (
+                      <button 
+                        className="btn" 
+                        onClick={() => handleStartEdit(j)}
+                        style={{ padding: '0.3rem 0.6rem', fontSize: '0.8rem' }}
+                      >
+                        {t('dashboard.edit', 'Düzenle')}
+                      </button>
+                    )}
                     <button 
                       className="btn btn-danger" 
                       onClick={() => handleDelete(j.id)}
                       style={{ padding: '0.3rem 0.6rem', fontSize: '0.8rem' }}
                     >
-                      Sil
+                      {t('common.delete', 'Sil')}
                     </button>
                   </div>
                 </div>
                 <p style={{ fontSize: '0.95rem', lineHeight: '1.5', whiteSpace: 'pre-wrap', color: 'var(--text-main)' }}>{j.notes}</p>
               </div>
             ))}
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div style={{
+                position: 'sticky',
+                bottom: 0,
+                background: 'var(--option-bg, #0f172a)',
+                borderTop: '1px solid var(--glass-border)',
+                zIndex: 10,
+                padding: '1rem',
+                marginTop: '1rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '1rem',
+                backdropFilter: 'blur(10px)',
+                borderRadius: '0 0 12px 12px'
+              }}>
+                <button 
+                  className="btn" 
+                  disabled={currentPage === 1} 
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+                >
+                  {t('common.prev', 'Önceki')}
+                </button>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                  {t('common.page_info', 'Sayfa')} {currentPage} / {totalPages}
+                </span>
+                <button 
+                  className="btn" 
+                  disabled={currentPage === totalPages} 
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+                >
+                  {t('common.next', 'Sonraki')}
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* Info Widget Panel */}
-      <div className="glass-card">
-        <h3 className="card-title" style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>💡 Şantiye Günlüğü Hakkında</h3>
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-          Günlük Jurnal modülü, o gün sahada yapılan işleri, çalışan kişi sayılarını ve hava koşullarını otonom arşivler.
-          <br /><br />
-          Şantiyenin **lokasyon** bilgisi girildiğinde, sistem OpenWeather API üzerinden sıcaklık ve durum bilgisini o gün için otomatik olarak çeker.
-        </p>
-      </div>
+      <GuideDrawer 
+        isOpen={helpOpen} 
+        onClose={() => setHelpOpen(false)} 
+        title={t('journal.help_title')} 
+        desc={t('journal.help_desc')} 
+        h1={t('journal.help_h1')} 
+        p1={t('journal.help_p1')} 
+        h2={t('journal.help_h2')} 
+        p2={t('journal.help_p2')} 
+        h3={t('journal.help_h3')} 
+        p3={t('journal.help_p3')} 
+      />
 
       <ConfirmationModal 
         isOpen={confirmModal.isOpen}
         onClose={() => setConfirmModal({ isOpen: false, id: null })}
         onConfirm={confirmDelete}
-        title="Jurnali Sil"
-        message="Bu günlük jurnal kaydını silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+        title={t('journal.delete_title', 'Jurnali Sil')}
+        message={t('journal.delete_confirm', 'Bu günlük jurnal kaydını silmek istediğinize emin misiniz? Bu işlem geri alınamaz.')}
       />
     </div>
   );

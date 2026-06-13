@@ -148,14 +148,39 @@ const AboutHelp = () => {
       <div className="glass-card" style={{ marginBottom: '2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
           <h3 className="card-title" style={{ margin: 0 }}>{t('about.faq')}</h3>
-          <input 
-            type="text" 
-            className="form-input" 
-            placeholder={t('about.faq_search_placeholder', 'Sıkça sorulan sorularda ara...')} 
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            style={{ maxWidth: '300px' }}
-          />
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%', maxWidth: '300px' }}>
+            <input 
+              type="text" 
+              className="form-input" 
+              placeholder={t('about.faq_search_placeholder', 'Sıkça sorulan sorularda ara...')} 
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              style={{ width: '100%', paddingRight: '2.5rem' }}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  padding: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10
+                }}
+                title={t('common.clear', 'Temizle')}
+              >
+                ✕
+              </button>
+            )}
+          </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {filteredFaqs.length === 0 ? (

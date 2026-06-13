@@ -2,27 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomDatePicker from './ui/CustomDatePicker';
 import { exportToExcel, exportToJSON } from '../utils/exportUtils';
+import { formatCurrency } from '../utils/formatUtils';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-const GroupReportPanel = () => {
-  const { t } = useTranslation();
+const GroupReportPanel = ({ activeProjectId, workers, balances }) => {
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
   
   const today = new Date();
   const firstDay = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
   const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().split('T')[0];
-
+ 
   const [startDate, setStartDate] = useState(firstDay);
   const [endDate, setEndDate] = useState(lastDay);
   const [companyName, setCompanyName] = useState('LALEPERDE');
   const [companyLogo, setCompanyLogo] = useState('');
-
+ 
   const fetchGroupReport = async () => {
     if (window.api && window.api.finance) {
       setLoading(true);
-      const res = await window.api.finance.groupStatement({ start_date: startDate, end_date: endDate });
+      // Auto-correct dates if start is after end
+      let sDate = startDate;
+      let eDate = endDate;
+      if (new Date(sDate) > new Date(eDate)) {
+        sDate = endDate;
+        eDate = startDate;
+        setStartDate(sDate);
+        setEndDate(eDate);
+      }
+      const res = await window.api.finance.groupStatement({ start_date: sDate, end_date: eDate, project_id: activeProjectId });
       if (res.success) {
         setReportData(res.groups);
       } else {
@@ -37,23 +47,42 @@ const GroupReportPanel = () => {
       setLoading(false);
     }
   };
-
+ 
   useEffect(() => {
     fetchGroupReport();
-  }, [startDate, endDate]);
+  }, [startDate, endDate, activeProjectId, workers, balances]);
 
   const generatePDF = () => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
+    const getFormatFromBase64 = (base64) => {
+      if (!base64) return 'PNG';
+      const match = base64.match(/^data:image\/([a-zA-Z+]+);base64,/);
+      if (match && match[1]) {
+        const ext = match[1].toUpperCase();
+        if (ext === 'JPEG' || ext === 'JPG') return 'JPEG';
+        if (ext === 'PNG') return 'PNG';
+        if (ext === 'WEBP') return 'WEBP';
+        return ext;
+      }
+      return 'PNG';
+    };
+
     const trMap = { 'ç':'c', 'ğ':'g', 'ş':'s', 'ö':'o', 'ü':'u', 'ı':'i', 'Ç':'C', 'Ğ':'G', 'Ş':'S', 'Ö':'O', 'Ü':'U', 'İ':'I' };
-    const toEn = (str) => str ? String(str).replace(/[çğşöüıÇĞŞÖÜİ]/g, letter => trMap[letter]) : '';
+    const toEn = (str) => {
+      if (!str) return '';
+      let s = String(str);
+      s = s.replace(/[çğşöüıÇĞŞÖÜİ]/g, letter => trMap[letter]);
+      s = s.replace(/₺/g, 'TL');
+      return s;
+    };
     
     // Header
     let textStartY = 20;
 
     if (companyLogo) {
       try {
-        doc.addImage(companyLogo, 'PNG', pageWidth / 2 - 15, 10, 30, 15);
+        doc.addImage(companyLogo, getFormatFromBase64(companyLogo), pageWidth / 2 - 15, 10, 30, 15);
         textStartY = 35;
       } catch (err) {
         console.error('Error adding logo to PDF', err);
@@ -77,9 +106,9 @@ const GroupReportPanel = () => {
       const rowData = [
         toEn(g.group_name === 'Grupsuz Personeller' ? t('group_report.no_group') : g.group_name),
         `${g.worker_count}`,
-        `${g.period_earned} TL`,
-        `${g.period_advance} TL`,
-        `${g.absolute_balance} TL`
+        toEn(formatCurrency(g.period_earned, i18n.language)),
+        toEn(formatCurrency(g.period_advance, i18n.language)),
+        toEn(formatCurrency(g.absolute_balance, i18n.language))
       ];
       tableRows.push(rowData);
     });
@@ -101,9 +130,9 @@ const GroupReportPanel = () => {
     const dataToExport = reportData.map(g => ({
       'Grup Adı': g.group_name === 'Grupsuz Personeller' ? t('group_report.no_group') : g.group_name,
       'Kişi Sayısı': g.worker_count,
-      'Bu Dönem Hak Ediş (TL)': g.period_earned,
-      'Bu Dönem Avans/Ödeme (TL)': g.period_advance,
-      'Genel Toplam Bakiye (TL)': g.absolute_balance
+      'Bu Dönem Hak Ediş': formatCurrency(g.period_earned, i18n.language),
+      'Bu Dönem Avans/Ödeme': formatCurrency(g.period_advance, i18n.language),
+      'Genel Toplam Bakiye': formatCurrency(g.absolute_balance, i18n.language)
     }));
 
     if (format === 'excel') exportToExcel(dataToExport, `Grup_Raporu_${startDate}_${endDate}`);
@@ -125,27 +154,27 @@ const GroupReportPanel = () => {
 
   return (
     <div className="glass-card" style={{ marginBottom: '2rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
         <h3 className="card-title" style={{ marginBottom: 0 }}>{t('group_report.title')}</h3>
-        
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <div>
-            <label className="form-label" style={{ fontSize: '0.8rem', marginBottom: '0.2rem' }}>{t('group_report.start_date')}</label>
-            <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={startDate} onChange={e => setStartDate(e.target.value)} />
-          </div>
-          <div>
-            <label className="form-label" style={{ fontSize: '0.8rem', marginBottom: '0.2rem' }}>{t('group_report.end_date')}</label>
-            <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={endDate} onChange={e => setEndDate(e.target.value)} />
-          </div>
-          <select className="btn" style={{ padding: '0.5rem', alignSelf: 'flex-end', height: '100%', marginBottom: '2px' }} onChange={e => {
-              if(e.target.value) handleExport(e.target.value);
-              e.target.value = '';
-            }} value="">
-            <option value="" disabled>{t('group_report.export')}</option>
-            <option value="pdf">PDF (.pdf)</option>
-            <option value="excel">Excel (.xlsx)</option>
-            <option value="json">JSON (.json)</option>
-          </select>
+        <select className="btn" style={{ padding: '0.5rem', height: '38px' }} onChange={e => {
+            if(e.target.value) handleExport(e.target.value);
+            e.target.value = '';
+          }} value="">
+          <option value="" disabled>{t('group_report.export')}</option>
+          <option value="pdf">PDF (.pdf)</option>
+          <option value="excel">Excel (.xlsx)</option>
+          <option value="json">JSON (.json)</option>
+        </select>
+      </div>
+
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 150px' }}>
+          <label className="form-label" style={{ fontSize: '0.8rem', marginBottom: '0.2rem' }}>{t('group_report.start_date')}</label>
+          <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={startDate} onChange={e => setStartDate(e.target.value)} />
+        </div>
+        <div style={{ flex: '1 1 150px' }}>
+          <label className="form-label" style={{ fontSize: '0.8rem', marginBottom: '0.2rem' }}>{t('group_report.end_date')}</label>
+          <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={endDate} onChange={e => setEndDate(e.target.value)} />
         </div>
       </div>
 
@@ -174,11 +203,11 @@ const GroupReportPanel = () => {
                   <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t('group_report.period')}</div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>
                     <span>{t('group_report.earned')}</span>
-                    <span style={{ color: '#34d399' }}>+{group.period_earned} ₺</span>
+                    <span style={{ color: '#34d399' }}>+{formatCurrency(group.period_earned, i18n.language)}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
                     <span>{t('group_report.advance')}</span>
-                    <span style={{ color: '#ef4444' }}>-{group.period_advance} ₺</span>
+                    <span style={{ color: '#ef4444' }}>-{formatCurrency(group.period_advance, i18n.language)}</span>
                   </div>
                 </div>
 
@@ -189,7 +218,7 @@ const GroupReportPanel = () => {
                     fontWeight: 'bold', 
                     color: group.absolute_balance >= 0 ? '#34d399' : '#ef4444' 
                   }}>
-                    {group.absolute_balance} ₺
+                    {formatCurrency(group.absolute_balance, i18n.language)}
                   </div>
                 </div>
               </div>

@@ -58,6 +58,7 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
       });
       setTags([]);
     }
+    setTcError(''); // Clear error state on open/reset
   }, [worker, isOpen]);
 
   const handleChange = (e) => {
@@ -87,15 +88,22 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="drawer-overlay" onClick={onClose}>
-      <div className="drawer-content" onClick={e => e.stopPropagation()}>
-        <div className="drawer-header">
-          <h2 className="drawer-title">{worker ? t('worker_modal.title_edit') : t('worker_modal.title_new')}</h2>
-          <button className="btn" onClick={onClose} style={{ padding: '0.5rem 1rem' }}>✕</button>
+    <div className="drawer-overlay">
+      <div className="drawer-content" style={{ display: 'flex', flexDirection: 'column', padding: '2rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.75rem' }}>
+          <h2 className="drawer-title" style={{ margin: 0, fontSize: '1.3rem', fontWeight: 'bold' }}>{worker ? t('worker_modal.title_edit') : t('worker_modal.title_new')}</h2>
+          <button 
+            type="button"
+            className="btn btn-danger" 
+            onClick={onClose} 
+            style={{ width: '32px', height: '32px', padding: 0, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', border: 'none' }}
+          >
+            ✕
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-          <div className="form-group">
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">{t('worker_modal.name')}</label>
             <input 
               type="text" 
@@ -108,7 +116,7 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">{t('worker_modal.tc')}</label>
             <input 
               type="text" 
@@ -123,12 +131,12 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
             {tcError && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{tcError}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">{t('worker_modal.tags')}</label>
             <TagInput tags={tags} setTags={setTags} placeholder={t('worker_modal.tags_ph')} />
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">{t('worker_modal.status')}</label>
             <select name="status" className="form-input" value={formData.status} onChange={handleChange}>
               <option value="active">{t('worker_modal.status_active')}</option>
@@ -136,7 +144,7 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
             </select>
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">{t('worker_modal.group')}</label>
             <select 
               name="group_id" 
@@ -151,7 +159,7 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
             </select>
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">{t('worker_modal.phone')}</label>
             <input 
               type="text" 
@@ -163,7 +171,7 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">{t('worker_modal.wage')}</label>
             <input 
               type="number" 
@@ -176,7 +184,7 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">{t('worker_modal.start_date')}</label>
             <CustomDatePicker 
               name="start_date" 
@@ -187,9 +195,9 @@ const WorkerDrawer = ({ isOpen, onClose, onSave, worker }) => {
             />
           </div>
 
-          <div className="drawer-footer">
-            <button type="button" className="btn" onClick={onClose}>{t('worker_modal.cancel')}</button>
-            <button type="submit" className="btn btn-primary">{t('worker_modal.save')}</button>
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', borderTop: '1px solid var(--glass-border)', paddingTop: '1.25rem' }}>
+            <button type="button" className="btn" onClick={onClose} style={{ flex: 1, fontWeight: 'bold' }}>{t('worker_modal.cancel')}</button>
+            <button type="submit" className="btn btn-primary" style={{ flex: 1, fontWeight: 'bold' }}>{t('worker_modal.save')}</button>
           </div>
         </form>
       </div>

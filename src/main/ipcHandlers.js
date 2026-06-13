@@ -133,8 +133,8 @@ async function setupHandlers() {
     return await generateCompanyFinancialSummary(db, year, month);
   });
 
-  ipcMain.handle('finance:group-statement', async (_, { start_date, end_date }) => {
-    return await generateGroupStatement(db, start_date, end_date);
+  ipcMain.handle('finance:group-statement', async (_, { start_date, end_date, project_id }) => {
+    return await generateGroupStatement(db, start_date, end_date, project_id);
   });
 
   // --- SYSTEM API ---
@@ -230,7 +230,7 @@ async function setupHandlers() {
   });
 
   // --- NEW WEATHER AND MEDIA IPC HANDLERS ---
-  ipcMain.handle('system:get-weather', async (_, { location }) => {
+  ipcMain.handle('system:get-weather', async (_, { location, lang }) => {
     try {
       if (!location) {
         return { success: false, message: 'Lokasyon belirtilmedi.' };
@@ -239,13 +239,57 @@ async function setupHandlers() {
       const apiKeySetting = await db.get("SELECT setting_value FROM app_settings WHERE setting_key = 'weather_api_key'");
       const apiKey = apiKeySetting ? apiKeySetting.setting_value : '895284fb665f874747e05a1216616b51'; 
       
+      const openWeatherLangMap = {
+        ar: 'ar',
+        cs: 'cz',
+        da: 'da',
+        de: 'de',
+        es: 'es',
+        fr: 'fr',
+        hi: 'hi',
+        it: 'it',
+        ja: 'ja',
+        ko: 'kr',
+        nl: 'nl',
+        no: 'no',
+        pl: 'pl',
+        pt: 'pt',
+        ru: 'ru',
+        sv: 'sv',
+        zh: 'zh_cn',
+        tr: 'tr',
+        en: 'en'
+      };
+      const apiLang = openWeatherLangMap[lang] || 'tr';
+
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${apiKey}&units=metric&lang=tr`
+        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${apiKey}&units=metric&lang=${apiLang}`
       ).catch(() => null);
 
       if (!response || !response.ok) {
         // Fallback to simulated weather if offline or API key invalid
-        const conditions = ['Güneşli', 'Parçalı Bulutlu', 'Bulutlu', 'Yağmurlu', 'Rüzgarlı'];
+        const weatherSimulations = {
+          tr: ['Güneşli', 'Parçalı Bulutlu', 'Bulutlu', 'Yağmurlu', 'Rüzgarlı'],
+          en: ['Sunny', 'Partly Cloudy', 'Cloudy', 'Rainy', 'Windy'],
+          ar: ['مشمس', 'غائم جزئيا', 'غائم', 'ممطر', 'عاصف'],
+          cs: ['Slunečno', 'Polojasno', 'Zataženo', 'Deštivo', 'Větrno'],
+          da: ['Solrigt', 'Delvist skyet', 'Overskyet', 'Regnfuldt', 'Blæsende'],
+          de: ['Sonnig', 'Teils bewölkt', 'Bewölkt', 'Regnerisch', 'Windig'],
+          es: ['Soleado', 'Parcialmente nublado', 'Nublado', 'Lluvioso', 'Ventoso'],
+          fr: ['Ensoleillé', 'Partiellement nuageux', 'Nuageux', 'Pluvieux', 'Venteux'],
+          hi: ['धूप', 'आंशिक रूप से बादल छाए रहेंगे', 'बादल छाए रहेंगे', 'बरसात', 'हवादार'],
+          it: ['Soleggiato', 'Parzialmente nuvoloso', 'Nuvoloso', 'Piovoso', 'Ventoso'],
+          ja: ['晴れ', '晴れのち曇り', '曇り', '雨', '風が強い'],
+          ko: ['맑음', '구름 조금', '흐림', '비', '바람 불어'],
+          nl: ['Zonnig', 'Half bewolkt', 'Bewolkt', 'Regenachtig', 'Winderig'],
+          no: ['Solfylt', 'Delvis skyet', 'Overskyet', 'Regnfullt', 'Vindfullt'],
+          pl: ['Słonecznie', 'Częściowo zachmurzenie', 'Pochmurno', 'Deszczowo', 'Wietrznie'],
+          pt: ['Ensolarado', 'Parcialmente nublado', 'Nublado', 'Chuvoso', 'Ventoso'],
+          ru: ['Ясно', 'Переменная облачность', 'Пасмурно', 'Дождливо', 'Ветрено'],
+          sv: ['Soligt', 'Delvis molnigt', 'Mulet', 'Regnigt', 'Blåsigt'],
+          zh: ['晴朗', '多云', '阴天', '下雨', '有风']
+        };
+        const conditions = weatherSimulations[lang] || weatherSimulations['tr'];
         const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
         const randomTemp = Math.floor(Math.random() * 15) + 15; // 15-30 degrees
         return {
@@ -306,8 +350,38 @@ async function setupHandlers() {
       fs.copyFileSync(filePath, destPath);
 
       return { success: true, relativePath: `project_${projectId}/${uniqueName}` };
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  });
+
+  ipcMain.handle('media:save-photo-base64', async (_, { projectId, base64Data }) => {
+    try {
+      if (!base64Data) return { success: false, message: 'Veri boş' };
+
+      const isDev = process.env.NODE_ENV === 'development';
+      const baseDir = isDev 
+        ? path.join(__dirname, '../../media')
+        : path.join(app.getPath('userData'), 'media');
+
+      const projectDir = path.join(baseDir, `project_${projectId}`);
+      if (!fs.existsSync(projectDir)) {
+        fs.mkdirSync(projectDir, { recursive: true });
+      }
+
+      // base64Data: "data:image/webp;base64,..."
+      const commaIdx = base64Data.indexOf(',');
+      const cleanBase64 = commaIdx !== -1 ? base64Data.slice(commaIdx + 1) : base64Data;
+      const buffer = Buffer.from(cleanBase64, 'base64');
+
+      const uniqueName = `${Date.now()}_${Math.floor(Math.random() * 10000)}.webp`;
+      const destPath = path.join(projectDir, uniqueName);
+
+      fs.writeFileSync(destPath, buffer);
+
+      return { success: true, relativePath: `project_${projectId}/${uniqueName}` };
     } catch (error) {
-      console.error('Save photo error:', error);
+      console.error('Save photo base64 error:', error);
       return { success: false, message: error.message };
     }
   });

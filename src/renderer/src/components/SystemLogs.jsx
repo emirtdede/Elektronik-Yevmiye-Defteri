@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { exportToExcel, exportToCSV, exportToJSON, exportToText, exportToMarkdown } from '../utils/exportUtils';
 import CustomDatePicker from './ui/CustomDatePicker';
@@ -12,6 +12,21 @@ const SystemLogs = () => {
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
   const [filterText, setFilterText] = useState('');
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterText, startDate, endDate]);
 
   const fetchLogs = async () => {
     if (window.api) {
@@ -36,6 +51,9 @@ const SystemLogs = () => {
     }
     return true;
   }).reverse(); // Show latest first
+
+  const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
+  const paginatedLogs = filteredLogs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const handleExport = (format) => {
     const filename = `Sistem_Loglari_${startDate}_${endDate}`;
@@ -91,17 +109,49 @@ const SystemLogs = () => {
         </div>
         <div style={{ flex: 2 }}>
           <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.filter.search')}</label>
-          <input type="text" className="form-input" placeholder={t('worker_profile.filter.search')} value={filterText} onChange={e => setFilterText(e.target.value)} />
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <input 
+              type="text" 
+              className="form-input" 
+              placeholder={t('worker_profile.filter.search')} 
+              value={filterText} 
+              onChange={e => setFilterText(e.target.value)} 
+              style={{ width: '100%', paddingRight: '2.5rem' }}
+            />
+            {filterText && (
+              <button
+                type="button"
+                onClick={() => setFilterText('')}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  padding: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10
+                }}
+                title={t('common.clear', 'Temizle')}
+              >
+                ✕
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
-      <div style={{ flex: 1, background: 'var(--log-bg)', borderRadius: '8px', padding: '1rem', overflowY: 'auto', border: '1px solid var(--log-border)', fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--log-text)', display: 'flex', flexDirection: 'column' }}>
+      <div ref={containerRef} style={{ flex: 1, background: 'var(--log-bg)', borderRadius: '8px', padding: '1rem', overflowY: 'auto', border: '1px solid var(--log-border)', fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--log-text)', display: 'flex', flexDirection: 'column', position: 'relative' }}>
         {loading ? (
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Yükleniyor...</div>
         ) : filteredLogs.length === 0 ? (
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>{t('logs.no_logs', 'Seçili aralıkta log bulunamadı.')}</div>
         ) : (
-          filteredLogs.map((logLine, idx) => {
+          paginatedLogs.map((logLine, idx) => {
             // Simple syntax highlighting based on log level or keywords
             let color = 'var(--log-text)';
             if (logLine.includes('[error]')) color = 'var(--danger-text)';
@@ -117,6 +167,45 @@ const SystemLogs = () => {
           })
         )}
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div style={{
+          position: 'sticky',
+          bottom: 0,
+          background: 'var(--option-bg, #0f172a)',
+          borderTop: '1px solid var(--glass-border)',
+          zIndex: 10,
+          padding: '1rem',
+          marginTop: '1rem',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '1rem',
+          backdropFilter: 'blur(10px)',
+          borderRadius: '0 0 8px 8px'
+        }}>
+          <button 
+            className="btn" 
+            disabled={currentPage === 1} 
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+          >
+            {t('common.prev', 'Önceki')}
+          </button>
+          <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            {t('common.page_info', 'Sayfa')} {currentPage} / {totalPages}
+          </span>
+          <button 
+            className="btn" 
+            disabled={currentPage === totalPages} 
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+          >
+            {t('common.next', 'Sonraki')}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

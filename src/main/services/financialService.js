@@ -45,7 +45,7 @@ async function createTransactionAndCash(db, data) {
   try {
     await db.run('BEGIN TRANSACTION');
 
-    const { worker_id, trans_date, trans_type, amount, notes } = data;
+    const { worker_id, trans_date, trans_type, amount, notes, project_id } = data;
     
     // We only create cash out if it's an Avans (Cash Out / Nakit Çıkışı).
     // The user requirement says: "Kullanıcı bir işçiye 'Avans' verdiğinde... 'Kasa' tablosuna otomatik işlenmesi".
@@ -54,28 +54,28 @@ async function createTransactionAndCash(db, data) {
 
     if (trans_type === 'Avans') {
       // 1. Create cash_register record
-      const cashQuery = `INSERT INTO cash_register (trans_date, type, amount, description) VALUES (?, ?, ?, ?)`;
+      const cashQuery = `INSERT INTO cash_register (trans_date, type, amount, description, project_id) VALUES (?, ?, ?, ?, ?)`;
       // Cash out type: 'Çıkış' or 'Gider'
-      const cashResult = await db.run(cashQuery, [trans_date, 'Nakit Çıkışı', amount, notes || 'Personel Avansı']);
+      const cashResult = await db.run(cashQuery, [trans_date, 'Nakit Çıkışı', amount, notes || 'Personel Avansı', project_id || null]);
       linked_cash_id = cashResult.lastID;
 
       // Audit log for cash_register
       await db.run(
         'INSERT INTO audit_logs (table_name, record_id, action, old_values, new_values) VALUES (?, ?, ?, ?, ?)',
-        ['cash_register', linked_cash_id, 'CREATE', null, JSON.stringify({ trans_date, type: 'Nakit Çıkışı', amount, description: notes || 'Personel Avansı' })]
+        ['cash_register', linked_cash_id, 'CREATE', null, JSON.stringify({ trans_date, type: 'Nakit Çıkışı', amount, description: notes || 'Personel Avansı', project_id })]
       );
       logger.info(`[DB CREATE] [cash_register] Kasaya yeni işlem girildi. Tutar: ${amount} TL (Nakit Çıkışı)`);
     }
 
     // 2. Create transactions record
-    const transQuery = `INSERT INTO transactions (worker_id, trans_date, trans_type, amount, notes, linked_cash_id) VALUES (?, ?, ?, ?, ?, ?)`;
-    const transResult = await db.run(transQuery, [worker_id, trans_date, trans_type, amount, notes, linked_cash_id]);
+    const transQuery = `INSERT INTO transactions (worker_id, trans_date, trans_type, amount, notes, linked_cash_id, project_id) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const transResult = await db.run(transQuery, [worker_id, trans_date, trans_type, amount, notes, linked_cash_id, project_id || null]);
     const transaction_id = transResult.lastID;
 
     // Audit log for transactions
     await db.run(
       'INSERT INTO audit_logs (table_name, record_id, action, old_values, new_values) VALUES (?, ?, ?, ?, ?)',
-      ['transactions', transaction_id, 'CREATE', null, JSON.stringify({ worker_id, trans_date, trans_type, amount, notes, linked_cash_id })]
+      ['transactions', transaction_id, 'CREATE', null, JSON.stringify({ worker_id, trans_date, trans_type, amount, notes, linked_cash_id, project_id })]
     );
     logger.info(`[DB CREATE] [transactions] Yeni avans/işlem eklendi. Tutar: ${amount} TL`);
 

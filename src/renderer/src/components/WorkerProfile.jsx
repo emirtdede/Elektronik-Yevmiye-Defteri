@@ -6,11 +6,16 @@ import { exportToExcel, exportToCSV, exportToJSON } from '../utils/exportUtils';
 import TagInput from './ui/TagInput';
 import ConfirmationModal from './ui/ConfirmationModal';
 import CustomDatePicker from './ui/CustomDatePicker';
+import { formatCurrency } from '../utils/formatUtils';
+import GuideDrawer from './ui/GuideDrawer';
 
 const WorkerProfile = ({ worker, onBack }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [projectName, setProjectName] = useState('');
+  const [groupName, setGroupName] = useState('');
   const [workTypes, setWorkTypes] = useState([]);
   const [timesheets, setTimesheets] = useState([]);
   const [transactions, setTransactions] = useState([]);
@@ -60,12 +65,27 @@ const WorkerProfile = ({ worker, onBack }) => {
       
       const wTypes = await window.api.db.read('work_types');
       setWorkTypes(wTypes);
+      
+      // Select 'Tam Gün' or the one with multiplier 1.0 by default
+      if (wTypes && wTypes.length > 0 && !formData.work_type_id) {
+        const defaultType = wTypes.find(wt => wt.name === 'Tam Gün') || wTypes.find(wt => wt.multiplier === 1.0) || wTypes[0];
+        if (defaultType) {
+          setFormData(prev => ({ ...prev, work_type_id: defaultType.id }));
+        }
+      }
 
       const settings = await window.api.db.read('app_settings');
       const cName = settings.find(s => s.setting_key === 'company_name')?.setting_value;
       const cLogo = settings.find(s => s.setting_key === 'company_logo')?.setting_value;
       if (cName) setCompanyName(cName);
       if (cLogo) setCompanyLogo(cLogo);
+      
+      const allProjects = await window.api.db.read('projects');
+      const allGroups = await window.api.db.read('worker_groups');
+      const matchedProj = allProjects.find(p => p.id == worker.project_id);
+      const matchedGroup = allGroups.find(g => g.id == worker.group_id);
+      setProjectName(matchedProj ? matchedProj.name : '');
+      setGroupName(matchedGroup ? matchedGroup.name : '');
       
       // Perform backend statement calculation
       const stmtRes = await window.api.finance.workerStatement({
@@ -139,7 +159,8 @@ const WorkerProfile = ({ worker, onBack }) => {
         overtime_hours: formData.overtime_hours,
         earned_amount: calculatedWage,
         notes: formData.notes,
-        tags: JSON.stringify(puantajTags)
+        tags: JSON.stringify(puantajTags),
+        project_id: worker.project_id
       };
 
       await window.api.db.create('timesheets', dataToSave);
@@ -158,7 +179,8 @@ const WorkerProfile = ({ worker, onBack }) => {
         trans_type: 'Avans',
         amount: avansData.amount,
         notes: avansData.notes,
-        tags: JSON.stringify(avansTags)
+        tags: JSON.stringify(avansTags),
+        project_id: worker.project_id
       };
       
       const res = await window.api.finance.createAdvance(dataToSave);
@@ -266,11 +288,63 @@ const WorkerProfile = ({ worker, onBack }) => {
     if (format === 'json') exportToJSON(dataToExport, fName);
   };
 
+  const handleWhatsAppSend = () => {
+    if (!worker || !worker.phone) {
+      alert(t('worker_profile.whatsapp_no_phone', 'Personelin kayıtlı telefon numarası bulunamadı.'));
+      return;
+    }
+    
+    let cleanPhone = worker.phone.replace(/\D/g, '');
+    if (cleanPhone.length === 10) {
+      cleanPhone = '90' + cleanPhone;
+    } else if (cleanPhone.length === 11 && cleanPhone.startsWith('0')) {
+      cleanPhone = '90' + cleanPhone.substring(1);
+    }
+    
+    const formattedEarned = formatCurrency(cReport.donemHakEdis, i18n.language);
+    const formattedAdvance = formatCurrency(cReport.donemAvans, i18n.language);
+    const formattedBalance = formatCurrency(cReport.yeniBakiye, i18n.language);
+    
+    const messageTemplate = t('worker_profile.whatsapp_message_template', 
+      'Sayın {{name}}, {{startDate}} - {{endDate}} tarihleri arasındaki hesap ekstreniz:\n\n- Toplam Hak Ediş: {{earned}}\n- Toplam Ödenen/Avans: {{advance}}\n- Kalan Bakiye: {{balance}}\n\nBilgilerinize sunarız.'
+    );
+    
+    const message = messageTemplate
+      .replace('{{name}}', worker.full_name)
+      .replace('{{startDate}}', filterStartDate || '')
+      .replace('{{endDate}}', filterEndDate || '')
+      .replace('{{earned}}', formattedEarned)
+      .replace('{{advance}}', formattedAdvance)
+      .replace('{{balance}}', formattedBalance);
+      
+    const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const generatePDF = () => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
+    const getFormatFromBase64 = (base64) => {
+      if (!base64) return 'PNG';
+      const match = base64.match(/^data:image\/([a-zA-Z+]+);base64,/);
+      if (match && match[1]) {
+        const ext = match[1].toUpperCase();
+        if (ext === 'JPEG' || ext === 'JPG') return 'JPEG';
+        if (ext === 'PNG') return 'PNG';
+        if (ext === 'WEBP') return 'WEBP';
+        return ext;
+      }
+      return 'PNG';
+    };
+
     const trMap = { 'ç':'c', 'ğ':'g', 'ş':'s', 'ö':'o', 'ü':'u', 'ı':'i', 'Ç':'C', 'Ğ':'G', 'Ş':'S', 'Ö':'O', 'Ü':'U', 'İ':'I' };
-    const toEn = (str) => str ? String(str).replace(/[çğşöüıÇĞŞÖÜİ]/g, letter => trMap[letter]) : '';
+    const toEn = (str) => {
+      if (!str) return '';
+      let s = String(str);
+      s = s.replace(/[çğşöüıÇĞŞÖÜİ]/g, letter => trMap[letter]);
+      s = s.replace(/₺/g, 'TL');
+      return s;
+    };
     
     // Header
     let textStartY = 20;
@@ -279,7 +353,7 @@ const WorkerProfile = ({ worker, onBack }) => {
       try {
         // Calculate dimensions to fit max height 20 while keeping aspect ratio
         // We'll just draw it centered above the name or to the left. Let's draw it centered.
-        doc.addImage(companyLogo, 'PNG', pageWidth / 2 - 15, 10, 30, 15);
+        doc.addImage(companyLogo, getFormatFromBase64(companyLogo), pageWidth / 2 - 15, 10, 30, 15);
         textStartY = 35;
       } catch (err) {
         console.error('Error adding logo to PDF', err);
@@ -338,7 +412,25 @@ const WorkerProfile = ({ worker, onBack }) => {
   return (
     <div className="worker-profile">
       <div style={{ padding: '2rem' }}>
-        <button className="btn mb-4" onClick={onBack}>← {t('worker_profile.back')}</button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <button className="btn" style={{ marginBottom: 0 }} onClick={onBack}>← {t('worker_profile.back')}</button>
+          <span 
+            onClick={() => setHelpOpen(true)}
+            style={{ 
+              cursor: 'pointer', 
+              opacity: 0.4, 
+              transition: 'opacity 0.25s ease-in-out', 
+              fontSize: '1.6rem',
+              userSelect: 'none',
+              padding: '0.25rem'
+            }}
+            onMouseEnter={e => e.currentTarget.style.opacity = 1}
+            onMouseLeave={e => e.currentTarget.style.opacity = 0.4}
+            title={t('common.page_guide', 'Sayfa Kılavuzu')}
+          >
+            💡
+          </span>
+        </div>
         
         <div className="profile-grid">
           <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
@@ -346,6 +438,18 @@ const WorkerProfile = ({ worker, onBack }) => {
               {worker.full_name.charAt(0)}
             </div>
             <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{worker.full_name}</h2>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center', margin: '0.5rem 0 1rem 0' }}>
+              {projectName && (
+                <span style={{ fontSize: '0.8rem', background: 'rgba(59, 130, 246, 0.2)', color: '#60a5fa', padding: '0.25rem 0.75rem', borderRadius: '12px', fontWeight: '500' }}>
+                  🏗️ {projectName}
+                </span>
+              )}
+              {groupName && (
+                <span style={{ fontSize: '0.8rem', background: 'rgba(168, 85, 247, 0.2)', color: '#c084fc', padding: '0.25rem 0.75rem', borderRadius: '12px', fontWeight: '500' }}>
+                  👥 {groupName}
+                </span>
+              )}
+            </div>
             <p className="card-subtitle mb-4">{worker.tc_no ? `TC: ${worker.tc_no}` : ''} | {worker.phone}</p>
             
             <h3 className="card-subtitle">{t('worker_profile.current_balance')}</h3>
@@ -356,9 +460,9 @@ const WorkerProfile = ({ worker, onBack }) => {
               color: isPositive ? 'var(--success-text)' : 'var(--danger-text)',
               textShadow: isPositive ? 'var(--success-shadow)' : 'var(--danger-shadow)'
             }}>
-              {balance} ₺
+              {formatCurrency(balance, i18n.language)}
             </div>
-            <p className="card-subtitle mt-4">{t('worker_profile.daily_wage')}: {worker.daily_wage} ₺</p>
+            <p className="card-subtitle mt-4">{t('worker_profile.daily_wage')}: {formatCurrency(worker.daily_wage, i18n.language)}</p>
           </div>
 
           <div className="glass-card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -410,7 +514,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                   </div>
                   <div style={{ background: 'var(--accent-bg)', border: '1px solid var(--accent-border)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', textAlign: 'center' }}>
                     <span className="form-label" style={{ marginBottom: 0 }}>{t('worker_profile.calculated_earned')}</span>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent)' }}>{calculatedWage} ₺</div>
+                    <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent)' }}>{formatCurrency(calculatedWage, i18n.language)}</div>
                   </div>
                   <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>{t('worker_profile.timesheet_form.add_btn')}</button>
                 </form>
@@ -426,7 +530,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                   </div>
                   <div className="form-group">
                     <label className="form-label">{t('worker_profile.advance_form.notes')}</label>
-                    <input type="text" name="notes" className="form-input" value={avansData.notes} onChange={handleAvansChange} placeholder="Örn: Haftalık avans" />
+                    <input type="text" name="notes" className="form-input" value={avansData.notes} onChange={handleAvansChange} placeholder={t('worker_profile.advance_form.notes_ph', 'Örn: Haftalık avans')} />
                   </div>
                   <div className="form-group">
                     <label className="form-label">{t('worker_profile.advance_form.tags_label')}</label>
@@ -454,10 +558,42 @@ const WorkerProfile = ({ worker, onBack }) => {
                   <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
                     <div style={{ flex: 2 }}>
                       <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.filter.search')}</label>
-                      <input type="text" className="form-input" placeholder={t('worker_profile.filter.search')} value={filterText} onChange={e => setFilterText(e.target.value)} />
+                      <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          placeholder={t('worker_profile.filter.search')} 
+                          value={filterText} 
+                          onChange={e => setFilterText(e.target.value)} 
+                          style={{ width: '100%', paddingRight: '2.5rem' }}
+                        />
+                        {filterText && (
+                          <button
+                            type="button"
+                            onClick={() => setFilterText('')}
+                            style={{
+                              position: 'absolute',
+                              right: '12px',
+                              background: 'transparent',
+                              border: 'none',
+                              color: 'var(--text-muted)',
+                              cursor: 'pointer',
+                              fontSize: '1rem',
+                              padding: '4px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              zIndex: 10
+                            }}
+                            title={t('common.clear', 'Temizle')}
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
                     </div>
                     <div style={{ flex: 1 }}>
-                      <label className="form-label" style={{ fontSize: '0.8rem' }}>İşlem Türü</label>
+                      <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.table.type', 'İşlem Türü')}</label>
                       <select className="form-input" value={filterType} onChange={e => setFilterType(e.target.value)}>
                         <option value="Tümü">{t('worker_profile.filter.type_all')}</option>
                         <option value="Puantaj">{t('worker_profile.filter.type_timesheet')}</option>
@@ -469,20 +605,20 @@ const WorkerProfile = ({ worker, onBack }) => {
                   <div style={{ background: 'var(--accent-bg)', border: '1px solid var(--accent-border)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                       <span className="text-muted">{t('worker_profile.summary.previous_balance')}:</span>
-                      <span style={{ fontWeight: 'bold' }}>{cReport.devredenBakiye} ₺</span>
+                      <span style={{ fontWeight: 'bold' }}>{formatCurrency(cReport.devredenBakiye, i18n.language)}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                       <span className="text-muted">{t('worker_profile.summary.period_earned')}:</span>
-                      <span style={{ fontWeight: 'bold', color: 'var(--success-text)' }}>+{cReport.donemHakEdis} ₺</span>
+                      <span style={{ fontWeight: 'bold', color: 'var(--success-text)' }}>+{formatCurrency(cReport.donemHakEdis, i18n.language)}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid var(--glass-border)' }}>
                       <span className="text-muted">{t('worker_profile.summary.period_advance')}:</span>
-                      <span style={{ fontWeight: 'bold', color: 'var(--danger-text)' }}>-{cReport.donemAvans} ₺</span>
+                      <span style={{ fontWeight: 'bold', color: 'var(--danger-text)' }}>-{formatCurrency(cReport.donemAvans, i18n.language)}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span className="text-muted">{t('worker_profile.summary.new_balance')}:</span>
                       <span style={{ fontWeight: 'bold', fontSize: '1.2rem', color: cReport.yeniBakiye >= 0 ? 'var(--success-text)' : 'var(--danger-text)' }}>
-                        {cReport.yeniBakiye} ₺
+                        {formatCurrency(cReport.yeniBakiye, i18n.language)}
                       </span>
                     </div>
                   </div>
@@ -500,6 +636,14 @@ const WorkerProfile = ({ worker, onBack }) => {
                       <option value="csv">CSV</option>
                       <option value="json">JSON</option>
                     </select>
+                    <button 
+                      type="button" 
+                      className="btn" 
+                      style={{ padding: '0.5rem', flex: 1, background: '#25D366', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', border: 'none' }}
+                      onClick={handleWhatsAppSend}
+                    >
+                      🟢 WhatsApp
+                    </button>
                   </div>
                 </div>
               )}
@@ -544,13 +688,13 @@ const WorkerProfile = ({ worker, onBack }) => {
                       <div>
                         <div style={{ fontWeight: '600' }}>{ts.work_date} <span className="wage-badge" style={{ marginLeft: '10px' }}>{typeName}</span></div>
                         <div className="card-subtitle mt-4" style={{ marginTop: '0.5rem' }}>
-                          {t('worker_profile.wage_history_label')}: {ts.applied_wage}₺ (x{ts.applied_multiplier})
+                          {t('worker_profile.wage_history_label')}: {formatCurrency(ts.applied_wage, i18n.language)} (x{ts.applied_multiplier})
                           {ts.overtime_hours > 0 && ` | +${ts.overtime_hours} ${t('worker_profile.overtime_hours_suffix')}`}
                         </div>
                         {ts.notes && <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>{t('worker_profile.note_label')}: {ts.notes}</div>}
                       </div>
                       <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontWeight: 'bold', color: 'var(--success-text)', fontSize: '1.1rem' }}>+{ts.earned_amount} ₺</div>
+                        <div style={{ fontWeight: 'bold', color: 'var(--success-text)', fontSize: '1.1rem' }}>+{formatCurrency(ts.earned_amount, i18n.language)}</div>
                         <button onClick={() => handleDeleteTimesheet(ts.id)} style={{ background: 'transparent', border: 'none', color: 'var(--danger-text)', cursor: 'pointer', fontSize: '0.8rem', marginTop: '0.5rem' }}>{t('common.delete')}</button>
                       </div>
                     </div>
@@ -570,7 +714,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                       <div className="card-subtitle" style={{ marginTop: '0.5rem' }}>{tr.notes || '-'}</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontWeight: 'bold', color: 'var(--danger-text)', fontSize: '1.1rem' }}>-{tr.amount} ₺</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--danger-text)', fontSize: '1.1rem' }}>-{formatCurrency(tr.amount, i18n.language)}</div>
                       <button onClick={() => handleDeleteTransaction(tr.id)} style={{ background: 'transparent', border: 'none', color: 'var(--danger-text)', cursor: 'pointer', fontSize: '0.8rem', marginTop: '0.5rem', textDecoration: 'underline' }}>{t('worker_profile.delete_cancel')}</button>
                     </div>
                   </div>
@@ -581,9 +725,9 @@ const WorkerProfile = ({ worker, onBack }) => {
           {activeTab === 'rapor' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '600px', overflowY: 'auto', paddingRight: '10px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem', borderBottom: '1px solid var(--glass-border)', background: 'var(--glass-bg)' }}>
-                <span style={{ fontWeight: '600' }}>Devreden Bakiye Raporu</span>
+                <span style={{ fontWeight: '600' }}>{t('worker_profile.summary.carried_balance_report', 'Devreden Bakiye Raporu')}</span>
                 <div style={{ fontWeight: 'bold', color: cReport.devredenBakiye >= 0 ? 'var(--success-text)' : 'var(--danger-text)', fontSize: '1.1rem' }}>
-                  {cReport.devredenBakiye} ₺
+                  {formatCurrency(cReport.devredenBakiye, i18n.language)}
                 </div>
               </div>
               
@@ -597,7 +741,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                       <div className="card-subtitle" style={{ marginTop: '0.25rem' }}>{item.desc}</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontWeight: 'bold', color: item.isIncome ? 'var(--success-text)' : 'var(--danger-text)', fontSize: '1.1rem' }}>{item.isIncome ? '+' : '-'}{item.amount} ₺</div>
+                      <div style={{ fontWeight: 'bold', color: item.isIncome ? 'var(--success-text)' : 'var(--danger-text)', fontSize: '1.1rem' }}>{item.isIncome ? '+' : '-'}{formatCurrency(item.amount, i18n.language)}</div>
                     </div>
                   </div>
                 ))
@@ -613,6 +757,19 @@ const WorkerProfile = ({ worker, onBack }) => {
         onConfirm={confirmModalState.onConfirm}
         title={confirmModalState.title}
         message={confirmModalState.message}
+      />
+
+      <GuideDrawer 
+        isOpen={helpOpen} 
+        onClose={() => setHelpOpen(false)} 
+        title={t('worker_profile.help_title')} 
+        desc={t('worker_profile.help_desc')} 
+        h1={t('worker_profile.help_h1')} 
+        p1={t('worker_profile.help_p1')} 
+        h2={t('worker_profile.help_h2')} 
+        p2={t('worker_profile.help_p2')} 
+        h3={t('worker_profile.help_h3')} 
+        p3={t('worker_profile.help_p3')} 
       />
     </div>
   );
