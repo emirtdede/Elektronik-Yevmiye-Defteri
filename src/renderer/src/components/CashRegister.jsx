@@ -6,7 +6,7 @@ import ConfirmationModal from './ui/ConfirmationModal';
 import CustomDatePicker from './ui/CustomDatePicker';
 import { formatCurrency, formatDate, getCurrencySymbol } from '../utils/formatUtils';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 import GuideDrawer from './ui/GuideDrawer';
 
 const CashRegister = () => {
@@ -264,7 +264,7 @@ const CashRegister = () => {
       tableRows.push(rowData);
     });
 
-    doc.autoTable({
+    autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
       startY: textStartY + 60,

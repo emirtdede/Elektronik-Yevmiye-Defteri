@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 import { exportToExcel, exportToCSV, exportToJSON } from '../utils/exportUtils';
 import TagInput from './ui/TagInput';
 import ConfirmationModal from './ui/ConfirmationModal';
@@ -408,7 +408,7 @@ const WorkerProfile = ({ worker, onBack }) => {
         (item.isIncome ? '+' : '-') + `${item.amount} TL`
       ]);
       
-      doc.autoTable({
+      autoTable(doc, {
         startY: currentY,
         head: [['Tarih', 'Islem Turu', 'Aciklama', 'Tutar']],
         body: tBody,

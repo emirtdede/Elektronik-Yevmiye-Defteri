@@ -4,7 +4,7 @@ import CustomDatePicker from './ui/CustomDatePicker';
 import { exportToExcel, exportToJSON } from '../utils/exportUtils';
 import { formatCurrency } from '../utils/formatUtils';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 
 const GroupReportPanel = ({ activeProjectId, workers, balances }) => {
   const { t, i18n } = useTranslation();
@@ -122,7 +122,7 @@ const GroupReportPanel = ({ activeProjectId, workers, balances }) => {
       tableRows.push(rowData);
     });
 
-    doc.autoTable({
+    autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
       startY: textStartY + 35,
