@@ -458,7 +458,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
-    doc.text(`${cReport.devredenBakiye} TL`, 14 + cardWidth/2, currentY + 13, { align: 'center' });
+    doc.text(toEn(formatCurrency(cReport.devredenBakiye, i18n.language)), 14 + cardWidth/2, currentY + 13, { align: 'center' });
 
     // Card 2
     doc.setFillColor(255, 255, 255); // bg-white
@@ -472,7 +472,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
-    doc.text(`+${cReport.donemHakEdis} TL`, 14 + cardWidth + cardGap + cardWidth/2, currentY + 13, { align: 'center' });
+    doc.text('+' + toEn(formatCurrency(cReport.donemHakEdis, i18n.language)), 14 + cardWidth + cardGap + cardWidth/2, currentY + 13, { align: 'center' });
 
     // Card 3
     doc.setFillColor(255, 255, 255); // bg-white
@@ -486,7 +486,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
-    doc.text(`-${cReport.donemAvans} TL`, 14 + (cardWidth + cardGap)*2 + cardWidth/2, currentY + 13, { align: 'center' });
+    doc.text('-' + toEn(formatCurrency(cReport.donemAvans, i18n.language)), 14 + (cardWidth + cardGap)*2 + cardWidth/2, currentY + 13, { align: 'center' });
 
     // Card 4 (Net Bakiye)
     doc.setFillColor(255, 255, 255); // bg-white
@@ -500,7 +500,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setFontSize(10); 
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
-    doc.text(`${cReport.yeniBakiye} TL`, 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 13, { align: 'center' });
+    doc.text(toEn(formatCurrency(cReport.yeniBakiye, i18n.language)), 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 13, { align: 'center' });
     
     currentY += 28;
 
@@ -510,7 +510,7 @@ const WorkerProfile = ({ worker, onBack }) => {
         item.date, 
         toEn(item.type), 
         toEn(item.desc), 
-        (item.isIncome ? '+' : '-') + `${item.amount} TL`
+        (item.isIncome ? '+' : '-') + toEn(formatCurrency(item.amount, i18n.language))
       ]);
       
       autoTable(doc, {
