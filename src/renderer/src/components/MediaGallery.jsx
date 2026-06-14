@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import LightboxModal from './ui/LightboxModal';
 import GuideDrawer from './ui/GuideDrawer';
+import { formatDate } from '../utils/formatUtils';
 
 const MediaGallery = ({ activeProjectId, projects = [] }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [mediaItems, setMediaItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -231,7 +232,7 @@ const MediaGallery = ({ activeProjectId, projects = [] }) => {
           </div>
         ) : sortedItems.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-muted)', border: '1px dashed var(--glass-border)', borderRadius: '12px' }}>
-            {t('filters.no_media_found', 'Arama kriterlerine uygun medya kaydı bulunamadı.')}
+            {t('empty.media', 'Arama kriterlerine uygun medya kaydı bulunamadı.')}
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1.5rem' }}>
@@ -286,7 +287,7 @@ const MediaGallery = ({ activeProjectId, projects = [] }) => {
                   <h4 style={{ fontSize: '0.85rem', margin: '0.5rem 0 0.25rem 0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#fff' }}>
                     {item.title}
                   </h4>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>📅 {item.date}</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>📅 {formatDate(item.date, i18n.language)}</span>
                 </div>
               </div>
             ))}
@@ -304,14 +305,14 @@ const MediaGallery = ({ activeProjectId, projects = [] }) => {
       <GuideDrawer 
         isOpen={helpOpen} 
         onClose={() => setHelpOpen(false)} 
-        title={t('media.help_title')} 
-        desc={t('media.help_desc')} 
-        h1={t('media.help_h1')} 
-        p1={t('media.help_p1')} 
-        h2={t('media.help_h2')} 
-        p2={t('media.help_p2')} 
-        h3={t('media.help_h3')} 
-        p3={t('media.help_p3')} 
+        title={t('guides.media.title')} 
+        desc="" 
+        h1={t('guides.media.step1.title')} 
+        p1={t('guides.media.step1.desc')} 
+        h2={t('guides.media.step2.title')} 
+        p2={t('guides.media.step2.desc')} 
+        h3={t('guides.media.step3.title')} 
+        p3={t('guides.media.step3.desc')} 
       />
     </>
   );

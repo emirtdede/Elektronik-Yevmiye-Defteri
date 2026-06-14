@@ -74,7 +74,22 @@
     "restore_confirm": "Sind Sie sicher, dass Sie die Datenbank wiederherstellen möchten? Alle Ihre bestehenden Daten werden gelöscht!",
     "restore_invalid_file": "Bitte ziehen Sie eine gültige SQLite-Datenbankdatei (.sqlite oder .db).",
     "system_maintenance": "Systemwartung",
-    "logo_uploaded": "Logo hochgeladen"
+    "logo_uploaded": "Logo hochgeladen",
+    "parameters": "Parameter",
+    "regionalSettings": "Regional Format Settings",
+    "customCurrency": "Currency Override",
+    "customDateFormat": "Date Format Override",
+    "customTimeFormat": "Time Format Override",
+    "autoByLanguage": "Automatisch (nach Sprache)",
+    "regionalFormatSettings": "Regionale Formateinstellungen",
+    "currencyOverride": "Währungsauswahl",
+    "dateFormatOverride": "Datumsformatauswahl",
+    "timeFormatOverride": "Zeitformatauswahl",
+    "currencySelection": "Währungsauswahl",
+    "dateFormatSelection": "Datumsformatauswahl",
+    "timeFormatSelection": "Zeitformatauswahl",
+    "time24h": "24 Stunden (14:30)",
+    "time12h": "12 Stunden AM/PM (02:30 PM)"
   },
   "dashboard": {
     "title": "Personalverwaltung",
@@ -122,14 +137,17 @@
       "add_btn": "Hinzufügen",
       "tags_label": "Schlagworte",
       "tags_ph": "Beispiel: Reisemaut, persönlich",
-      "notes_ph": "z.B. Wöchentlicher Abschlag"
+      "notes_ph": "z.B. Wöchentlicher Abschlag",
+      "delete_title": "Delete Advance",
+      "delete_confirm": "Are you sure you want to delete this advance? The system will automatically cancel this amount from the Cash Register as well."
     },
     "summary": {
       "previous_balance": "Vorheriger Saldo",
       "period_earned": "Verdient",
       "period_advance": "Vorschuss",
       "new_balance": "Neuer Saldo",
-      "carried_balance_report": "Vortragsbericht"
+      "carried_balance_report": "Vortragsbericht",
+      "advance_deduction": "Advance Deduction"
     },
     "filter": {
       "start_date": "Startdatum",
@@ -174,7 +192,10 @@
     "help_h2": "2. Carried Balance Report",
     "help_p2": "Generate date-range filtered statement reports that automatically calculate the carried over balance.",
     "help_h3": "3. PDF Reconciliation",
-    "help_p3": "Generate and share branded, official PDF statements complete with your company logo."
+    "help_p3": "Generate and share branded, official PDF statements complete with your company logo.",
+    "whatsapp_send": "Send via WhatsApp",
+    "whatsapp_no_phone": "Personnel's registered phone number not found.",
+    "whatsapp_message_template": "Dear {{name}}, your account statement between {{startDate}} and {{endDate}}:\n\n- Total Earned: {{earned}}\n- Total Paid/Advance: {{advance}}\n- Remaining Balance: {{balance}}\n\nPresented for your information."
   },
   "cash": {
     "title": "Kassenverwaltung",
@@ -221,7 +242,19 @@
     "level": "Stufe",
     "message": "Nachricht",
     "date": "Datum",
-    "no_logs": "Im ausgewählten Bereich wurden keine Protokolle gefunden."
+    "no_logs": "Im ausgewählten Bereich wurden keine Protokolle gefunden.",
+    "filter_type": "Protokolltyp",
+    "type_all": "Alle Protokolltypen",
+    "guide": {
+      "title": "Systemprotokoll-Handbuch",
+      "intro": "Die Systemprotokoll-Seite ermöglicht es Ihnen, kritische Datenbanktransaktionen, Systemereignisse und potenzielle Fehler chronologisch zu verfolgen.",
+      "levels_title": "1. Protokollebenen und Farben",
+      "levels_desc": "Aktivitäten sind nach Wichtigkeit farbcodiert: Blaue Protokolle (Info) stehen für normale Systembenachrichtigungen, grüne Protokolle (DB Create) für neue Dateneingaben, gelbe Protokolle (DB Update) für Datenaktualisierungen und rote Protokolle für Löschungen (DB Delete) und kritische Fehler (Error).",
+      "large_data_title": "2. Lange Protokolldaten (Base64)",
+      "large_data_desc": "Wenn Sie Bilddateien wie Logos aktualisieren, werden große Base64-Textcodes in der Datenbank gespeichert. In solchen Fällen ist es normal, sehr lange Textblöcke in den Protokollzeilen zu sehen; diese Daten bestätigen, dass visuelle Uploads erfolgreich erfasst wurden.",
+      "filter_export_title": "3. Suche, Filterung und Export",
+      "filter_export_desc": "Sie können sofort nach Datumsbereich, Schlüsselwort oder Protokolltyp filtern. Sie können Protokolle auch als Excel, CSV, JSON, Markdown oder Text herunterladen."
+    }
   },
   "common": {
     "cancel": "Cancel",
@@ -475,7 +508,7 @@
     "title": "📓 Baustellen-Tagebuch",
     "worker_count": "Anzahl anwesender Mitarbeiter",
     "weather": "Wetterstatus",
-    "temperature": "Temperatur (°C)",
+    "temperature": "Temperatur",
     "notes": "Tagebuch-Notizen / Ausgeführte Arbeiten",
     "notes_ph": "z.B. Stützenbewehrung 2. OG geflochten, C30-Beton gegossen...",
     "save_btn": "Tagebuch speichern / aktualisieren",
@@ -493,7 +526,8 @@
     "help_h3": "3. Edit Lock Policy",
     "help_p3": "To maintain historical data integrity, daily journals can only be edited on the day they are created. Older entries are locked.",
     "delete_title": "Delete Journal",
-    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone."
+    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone.",
+    "weatherDesc": "Wetterbeschreibung"
   },
   "materials": {
     "title": "🚚 Lieferschein & Materialeingang",
@@ -549,5 +583,280 @@
     "more_people": "und {{count}} weitere Personen...",
     "no_results": "No results found.",
     "search_no_results": "No results matching the search criteria were found."
+  },
+  "settings.regionalSettings": "Regional Format Settings",
+  "settings.customCurrency": "Currency Override",
+  "settings.customDateFormat": "Date Format Override",
+  "settings.customTimeFormat": "Time Format Override",
+  "settings.autoByLanguage": "Automatic (By Language)",
+  "sidebar.recycleBin": "Recycle Bin",
+  "recycle.title": "Recycle Bin",
+  "recycle.desc": "List deleted records here and restore them back to their original places.",
+  "recycle.type": "Record Type",
+  "recycle.content": "Content / Title",
+  "recycle.deletedAt": "Deleted At",
+  "recycle.restoreSuccess": "Record successfully restored.",
+  "recycle.emptyState": "No deleted records found.",
+  "recycle.itemType.worker": "Personnel Record",
+  "recycle.itemType.transaction": "Cash Transaction",
+  "recycle.itemType.material": "Delivery Note / Material",
+  "recycle.itemType.journal": "Daily Journal",
+  "recycle.itemType.quality": "Quality Control Report",
+  "recycle.itemType.subcontractor": "Subcontractor Ledger Record",
+  "global.restore": "Restore",
+  "recycle.searchPlaceholder": "Search...",
+  "recycle.searchAll": "Search Everywhere",
+  "recycle.allTypes": "All Record Types",
+  "recycle.startDate": "Start Date",
+  "recycle.endDate": "End Date",
+  "recycle.restored": "Restored",
+  "recycle.hideRestored": "Hide Restored",
+  "recycle.showRestored": "Show Restored",
+  "recycle.successTitle": "Success",
+  "common.ok": "OK",
+  "common.error": "Error",
+  "recycle.itemType.project": "Project Record",
+  "recycle.project": "Project / Site",
+  "recycle.allProjects": "All Projects",
+  "recycle.deletedProjectShort": "Deleted",
+  "recycle.guideTitle": "Info",
+  "recycle.guide.title": "Recycle Bin Guide",
+  "recycle.guide.intro": "ShantiyeOS Recycle Bin is a protection system designed to prevent the loss of critical records deleted accidentally.",
+  "recycle.guide.how_it_works_title": "How it Works?",
+  "recycle.guide.how_it_works_desc": "When you delete any record in the system, it is not permanently erased. Instead, it is soft-deleted and listed in this recycle bin.",
+  "recycle.guide.restore_title": "Restoring Data:",
+  "recycle.guide.restore_desc": "Click the \"Restore\" button to recover the record in seconds. Restored items remain in the recycle bin as read-only/passive records for traceability.",
+  "recycle.guide.project_isolation_title": "Project Separation:",
+  "recycle.guide.project_isolation_desc": "Each record displays the project it belongs to. Use the project filter at the top to keep your trash bin organized.",
+  "recycle.guide.date_filter_title": "Date Filters & Search:",
+  "recycle.guide.date_filter_desc": "You can search and filter deleted records by their deletion date, type, or title.",
+  "recycle.restoreStatus.all": "All Records",
+  "recycle.restoreStatus.onlyDeleted": "Only Deleted",
+  "recycle.restoreStatus.onlyRestored": "Only Restored",
+  "recycle.startDateLabel": "Start Date",
+  "recycle.endDateLabel": "End Date",
+  "recycle.dateOrderError": "Start date cannot be after end date.",
+  "sidebar.spotlight": "Spotlight",
+  "settings.parameters": "Parameters",
+  "workers": {
+    "help_title": "Personnel Management Guide",
+    "help_desc": "The Personnel Management panel allows you to track timesheets, earnings, advances, and payment details of your workers.",
+    "help_h1": "1. Add Workers & Excel",
+    "help_p1": "Add individual workers using the top right button or import a batch list by downloading the Excel template.",
+    "help_h2": "2. Group Analysis",
+    "help_p2": "Analyze expenses and worker counts by group category (e.g., Electricians, Ironworkers).",
+    "help_h3": "3. Scorecards & Statements",
+    "help_p3": "Click any worker's name to view their timesheets, calculate new balances, and export detailed PDF statements."
+  },
+  "guides": {
+    "site": {
+      "title": "Baustellen-Handbuch",
+      "step1": {
+        "title": "1. Aktiver Bereich",
+        "desc": "Wählen Sie ein Projekt aus."
+      },
+      "step2": {
+        "title": "2. Standort",
+        "desc": "Geben Sie einen Standort an."
+      },
+      "step3": {
+        "title": "3. Suche",
+        "desc": "Suchen Sie sofort zwischen Baustellen."
+      }
+    },
+    "personnel": {
+      "title": "Personal-Handbuch",
+      "step1": {
+        "title": "1. Hinzufügen",
+        "desc": "Verwenden Sie die Excel-Vorlage."
+      },
+      "step2": {
+        "title": "2. Analyse",
+        "desc": "Analysieren Sie Ausgaben."
+      },
+      "step3": {
+        "title": "3. Stundenzettel",
+        "desc": "Klicken Sie auf den Namen."
+      }
+    },
+    "quantity": {
+      "title": "Produktions-Handbuch",
+      "step1": {
+        "title": "1. Aufzeichnungen",
+        "desc": "Tägliche Produktion aufzeichnen."
+      },
+      "step2": {
+        "title": "2. Archiv",
+        "desc": "Schreiben Sie Notizen."
+      },
+      "step3": {
+        "title": "3. Filter",
+        "desc": "Nach Datumsbereich filtern."
+      }
+    },
+    "delivery": {
+      "title": "Liefer-Handbuch",
+      "step1": {
+        "title": "1. Lieferant",
+        "desc": "Erfassen Sie Namen."
+      },
+      "step2": {
+        "title": "2. Fotos",
+        "desc": "Laden Sie Fotos hoch."
+      },
+      "step3": {
+        "title": "3. Suche",
+        "desc": "Suchen Sie in Lieferscheinen."
+      }
+    },
+    "journal": {
+      "title": "Journal-Handbuch",
+      "step1": {
+        "title": "1. Wetter",
+        "desc": "Wird automatisch abgerufen."
+      },
+      "step2": {
+        "title": "2. Zählung",
+        "desc": "Wird automatisch berechnet."
+      },
+      "step3": {
+        "title": "3. Sperre",
+        "desc": "Alte Einträge werden gesperrt."
+      }
+    },
+    "quality": {
+      "title": "Qualitäts-Handbuch",
+      "step1": {
+        "title": "1. Status",
+        "desc": "Aktualisieren Sie den Status."
+      },
+      "step2": {
+        "title": "2. Beweise",
+        "desc": "Fügen Sie Fotos hinzu."
+      },
+      "step3": {
+        "title": "3. Filterung",
+        "desc": "Verfolgen Sie offene Probleme."
+      }
+    },
+    "subcontractor": {
+      "title": "Subunternehmer-Handbuch",
+      "step1": {
+        "title": "1. Tageslohn",
+        "desc": "Verfolgen Sie Löhne."
+      },
+      "step2": {
+        "title": "2. Filterung",
+        "desc": "Suchen Sie in der Liste."
+      },
+      "step3": {
+        "title": "3. Update",
+        "desc": "Aktualisieren Sie jederzeit."
+      }
+    },
+    "media": {
+      "title": "Medien-Handbuch",
+      "step1": {
+        "title": "1. Zeitleiste",
+        "desc": "Untersuchen Sie Bilder."
+      },
+      "step2": {
+        "title": "2. Details",
+        "desc": "Vollbildanzeige."
+      },
+      "step3": {
+        "title": "3. Filter",
+        "desc": "Nach Kategorie filtern."
+      }
+    },
+    "cash": {
+      "title": "Kassen-Handbuch",
+      "step1": {
+        "title": "1. Einnahmen/Ausgaben",
+        "desc": "Erfassen Sie Finanzen."
+      },
+      "step2": {
+        "title": "2. Finanzstatus",
+        "desc": "Cashflow verfolgen."
+      },
+      "step3": {
+        "title": "3. Export",
+        "desc": "Als PDF/Excel herunterladen."
+      }
+    },
+    "recycle": {
+      "title": "Papierkorb-Handbuch",
+      "step1": {
+        "title": "Wie es funktioniert?",
+        "desc": "Gelöschte Datensätze hier."
+      },
+      "step2": {
+        "title": "Wiederherstellung",
+        "desc": "Schaltfläche verwenden."
+      },
+      "step3": {
+        "title": "Projekttrennung",
+        "desc": "Nach Projekt filtern."
+      }
+    }
+  },
+  "worker": {
+    "idLabel": "ID",
+    "advanceBadge": "ABSCHLAG"
+  },
+  "recycle": {
+    "desc": "Gelöschte Datensätze hier auflisten und wiederherstellen.",
+    "search": "Suchen...",
+    "allRecords": "Alle Datensätze",
+    "allRecordTypes": "Alle Datensatztypen",
+    "allProjects": "Alle Projekte",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "tableRecordType": "Datensatztyp",
+    "tableProject": "Projekt / Baustelle",
+    "tableContent": "Inhalt / Titel",
+    "tableDeletedAt": "Gelöscht am",
+    "tableAction": "Aktion",
+    "title": "Papierkorb",
+    "guide": {
+      "title": "Papierkorb",
+      "intro": "Gelöschte Datensätze werden hier aufgelistet."
+    },
+    "allRecordsOption": "Alle Datensätze",
+    "onlyDeleted": "Nur gelöschte",
+    "onlyRestored": "Nur wiederhergestellte",
+    "allRecordTypesOption": "Alle Datensatzarten",
+    "type": {
+      "personnel": "Personalakte",
+      "cash": "Bargeldtransaktion",
+      "delivery": "Lieferschein / Material",
+      "journal": "Tagesjournal",
+      "quality": "Qualitätskontrollbericht",
+      "subcontractor": "Subunternehmer-Buch",
+      "project": "Projektaufzeichnung"
+    },
+    "allProjectsOption": "Alle Projekte"
+  },
+  "global": {
+    "spotlight": "Suchen: Strg + K",
+    "recordsCount": "({{count}} Einträge)",
+    "restore": "Wiederherstellen",
+    "restored": "Wiederhergestellt"
+  },
+  "sidebar": {
+    "recycleBin": "Papierkorb",
+    "spotlight": "Spotlight"
+  },
+  "anomaly": {
+    "noAnomalies": "Keine Systemanomalien",
+    "allUpToDate": "Alle Finanzsalden und HSE-Dokumente sind aktuell."
+  },
+  "empty": {
+    "production": "Noch keine Produktionsdaten für diese Baustelle.",
+    "delivery": "Noch keine Lieferscheine.",
+    "journal": "Noch keine Tagebucheinträge.",
+    "quality": "Noch keine Qualitätsberichte für diese Baustelle.",
+    "subcontractor": "Noch keine Subunternehmer für diese Baustelle registriert.",
+    "media": "Keine Medien gefunden."
   }
 }

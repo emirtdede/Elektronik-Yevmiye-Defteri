@@ -68,6 +68,77 @@ async function setupHandlers() {
     }
   });
 
+  // --- RECYCLE BIN / UNDO API ---
+  ipcMain.handle('db:read-deleted', async () => {
+    try {
+      const rows = await db.all(`
+        SELECT r.*, p.name as project_name
+        FROM recycle_bin r
+        LEFT JOIN projects p ON r.project_id = p.id
+        ORDER BY r.deleted_at DESC
+      `);
+      return rows.map(r => ({
+        id: r.id, // recycle_bin id
+        table: r.table_name,
+        original_id: r.record_id,
+        title: r.title,
+        deleted_at: r.deleted_at,
+        is_deleted: r.is_restored ? 0 : 1, // map to is_deleted for frontend compatibility
+        project_id: r.project_id,
+        project_name: r.project_name
+      }));
+    } catch (error) {
+      console.error('Error in db:read-deleted:', error);
+      return [];
+    }
+  });
+
+  ipcMain.handle('db:read-all-projects', async () => {
+    try {
+      return await db.all("SELECT * FROM projects ORDER BY name ASC");
+    } catch (error) {
+      console.error('Error in db:read-all-projects:', error);
+      return [];
+    }
+  });
+
+  ipcMain.handle('db:restore', async (_, { table, id }) => {
+    try {
+      // id is the recycle_bin.id
+      const binItem = await db.get("SELECT * FROM recycle_bin WHERE id = ?", [id]);
+      if (!binItem) {
+        return { success: false, message: 'Çöp kutusu kaydı bulunamadı.' };
+      }
+
+      // 1. Mark as restored in recycle_bin table
+      await db.run("UPDATE recycle_bin SET is_restored = 1, restored_at = datetime('now', 'localtime') WHERE id = ?", [id]);
+
+      // 2. Set is_deleted = 0 in the original table
+      await db.run(`UPDATE ${binItem.table_name} SET is_deleted = 0 WHERE id = ?`, [binItem.record_id]);
+      
+      // Cascade restore if transaction has linked cash
+      if (binItem.table_name === 'transactions') {
+        const trans = await db.get('SELECT * FROM transactions WHERE id = ?', [binItem.record_id]);
+        if (trans && trans.linked_cash_id) {
+          await db.run('UPDATE cash_register SET is_deleted = 0 WHERE id = ?', [trans.linked_cash_id]);
+        }
+      }
+
+      // If the restored item is a project, cascade restore all related records
+      if (binItem.table_name === 'projects') {
+        const childTables = ['workers', 'timesheets', 'transactions', 'cash_register', 'production_records', 'materials', 'daily_journals', 'quality_reports', 'subcontractor_ledgers'];
+        for (const t of childTables) {
+          await db.run(`UPDATE ${t} SET is_deleted = 0 WHERE project_id = ? AND is_deleted = 1`, [binItem.record_id]);
+        }
+      }
+      
+      return { success: true, message: 'Kayıt başarıyla geri yüklendi.' };
+    } catch (error) {
+      console.error(`Error restoring record via recycle bin item ${id}:`, error);
+      return { success: false, message: error.message };
+    }
+  });
+
   // --- FINANCE API ---
   const { deleteTransactionAndCash, createTransactionAndCash } = require('./services/financialService');
 
@@ -166,21 +237,54 @@ async function setupHandlers() {
   ipcMain.handle('system:read-logs', async (event, { startDate, endDate }) => {
     try {
       const logs = [];
-      const start = new Date(startDate);
-      const end = new Date(endDate);
       const userDataPath = app.getPath('userData');
+      const logsDir = path.join(userDataPath, 'logs');
 
-      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        const year = d.getFullYear().toString();
-        const month = (d.getMonth() + 1).toString().padStart(2, '0');
-        const day = d.getDate().toString().padStart(2, '0');
+      if (!startDate || !endDate) {
+        // Read all logs recursively
+        const getAllLogFiles = (dir) => {
+          let results = [];
+          if (!fs.existsSync(dir)) return results;
+          const list = fs.readdirSync(dir);
+          list.forEach(file => {
+            const filePath = path.join(dir, file);
+            const stat = fs.statSync(filePath);
+            if (stat && stat.isDirectory()) {
+              results = results.concat(getAllLogFiles(filePath));
+            } else if (file.endsWith('.log')) {
+              results.push(filePath);
+            }
+          });
+          return results;
+        };
 
-        const logPath = path.join(userDataPath, 'logs', year, month, `${year}-${month}-${day}.log`);
-        
-        if (fs.existsSync(logPath)) {
-          const content = fs.readFileSync(logPath, 'utf8');
-          const lines = content.split('\n').filter(l => l.trim() !== '');
-          logs.push(...lines);
+        const logFiles = getAllLogFiles(logsDir);
+        // Sort files chronologically (by filename)
+        logFiles.sort();
+
+        for (const logPath of logFiles) {
+          if (fs.existsSync(logPath)) {
+            const content = fs.readFileSync(logPath, 'utf8');
+            const lines = content.split('\n').filter(l => l.trim() !== '');
+            logs.push(...lines);
+          }
+        }
+      } else {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+          const year = d.getFullYear().toString();
+          const month = (d.getMonth() + 1).toString().padStart(2, '0');
+          const day = d.getDate().toString().padStart(2, '0');
+
+          const logPath = path.join(logsDir, year, month, `${year}-${month}-${day}.log`);
+          
+          if (fs.existsSync(logPath)) {
+            const content = fs.readFileSync(logPath, 'utf8');
+            const lines = content.split('\n').filter(l => l.trim() !== '');
+            logs.push(...lines);
+          }
         }
       }
       return { success: true, logs };

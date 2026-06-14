@@ -25,17 +25,19 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, confirm
           </p>
           
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1.5rem', borderTop: '1px solid var(--glass-border)', paddingTop: '1rem' }}>
-            <button 
-              className="btn" 
-              onClick={onClose}
-              style={{ background: 'transparent' }}
-            >
-              {cancelText || t('common.cancel')}
-            </button>
+            {cancelText !== "" && (
+              <button 
+                className="btn" 
+                onClick={onClose}
+                style={{ background: 'transparent' }}
+              >
+                {cancelText || t('common.cancel')}
+              </button>
+            )}
             <button 
               className={`btn ${type === 'danger' ? 'btn-danger' : 'btn-primary'}`} 
               onClick={() => {
-                onConfirm();
+                onConfirm && onConfirm();
                 onClose();
               }}
             >

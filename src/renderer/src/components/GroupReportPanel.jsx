@@ -19,20 +19,29 @@ const GroupReportPanel = ({ activeProjectId, workers, balances }) => {
   const [endDate, setEndDate] = useState(lastDay);
   const [companyName, setCompanyName] = useState('LALEPERDE');
   const [companyLogo, setCompanyLogo] = useState('');
- 
+
+  const handleStartDateChange = (val) => {
+    if (val && endDate && new Date(val) > new Date(endDate)) {
+      setStartDate(endDate);
+      setEndDate(val);
+    } else {
+      setStartDate(val);
+    }
+  };
+
+  const handleEndDateChange = (val) => {
+    if (val && startDate && new Date(startDate) > new Date(val)) {
+      setEndDate(startDate);
+      setStartDate(val);
+    } else {
+      setEndDate(val);
+    }
+  };
+
   const fetchGroupReport = async () => {
     if (window.api && window.api.finance) {
       setLoading(true);
-      // Auto-correct dates if start is after end
-      let sDate = startDate;
-      let eDate = endDate;
-      if (new Date(sDate) > new Date(eDate)) {
-        sDate = endDate;
-        eDate = startDate;
-        setStartDate(sDate);
-        setEndDate(eDate);
-      }
-      const res = await window.api.finance.groupStatement({ start_date: sDate, end_date: eDate, project_id: activeProjectId });
+      const res = await window.api.finance.groupStatement({ start_date: startDate, end_date: endDate, project_id: activeProjectId });
       if (res.success) {
         setReportData(res.groups);
       } else {
@@ -170,11 +179,11 @@ const GroupReportPanel = ({ activeProjectId, workers, balances }) => {
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
         <div style={{ flex: '1 1 150px' }}>
           <label className="form-label" style={{ fontSize: '0.8rem', marginBottom: '0.2rem' }}>{t('group_report.start_date')}</label>
-          <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={startDate} onChange={e => setStartDate(e.target.value)} />
+          <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={startDate} onChange={e => handleStartDateChange(e.target.value)} />
         </div>
         <div style={{ flex: '1 1 150px' }}>
           <label className="form-label" style={{ fontSize: '0.8rem', marginBottom: '0.2rem' }}>{t('group_report.end_date')}</label>
-          <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={endDate} onChange={e => setEndDate(e.target.value)} />
+          <CustomDatePicker className="form-input" style={{ padding: '0.25rem 0.5rem' }} value={endDate} onChange={e => handleEndDateChange(e.target.value)} />
         </div>
       </div>
 

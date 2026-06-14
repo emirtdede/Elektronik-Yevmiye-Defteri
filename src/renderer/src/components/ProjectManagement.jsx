@@ -64,6 +64,9 @@ const ProjectManagement = ({ onSelectProject, activeProjectId }) => {
   const confirmDelete = async () => {
     if (window.api && window.api.db && confirmModal.id) {
       await window.api.db.delete('projects', confirmModal.id);
+      if (confirmModal.id === activeProjectId) {
+        onSelectProject(null);
+      }
       setConfirmModal({ isOpen: false, id: null });
       fetchProjects();
     }
@@ -271,14 +274,14 @@ const ProjectManagement = ({ onSelectProject, activeProjectId }) => {
     <GuideDrawer 
       isOpen={helpOpen} 
       onClose={() => setHelpOpen(false)} 
-      title={t('projects.help_title')} 
-      desc={t('projects.help_desc')} 
-      h1={t('projects.help_h1')} 
-      p1={t('projects.help_p1')} 
-      h2={t('projects.help_h2')} 
-      p2={t('projects.help_p2')} 
-      h3={t('projects.help_h3')} 
-      p3={t('projects.help_p3')} 
+      title={t('guides.site.title')} 
+      desc="" 
+      h1={t('guides.site.step1.title')} 
+      p1={t('guides.site.step1.desc')} 
+      h2={t('guides.site.step2.title')} 
+      p2={t('guides.site.step2.desc')} 
+      h3={t('guides.site.step3.title')} 
+      p3={t('guides.site.step3.desc')} 
     />
     </>
   );

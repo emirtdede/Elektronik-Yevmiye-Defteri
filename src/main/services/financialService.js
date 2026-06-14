@@ -11,7 +11,7 @@ async function deleteTransactionAndCash(transaction_id, db) {
     }
 
     // Soft Delete transaction
-    await db.run('UPDATE transactions SET is_deleted = 1, deleted_at = CURRENT_TIMESTAMP WHERE id = ?', [transaction_id]);
+    await db.run("UPDATE transactions SET is_deleted = 1, deleted_at = datetime('now', 'localtime') WHERE id = ?", [transaction_id]);
     
     // Audit log
     await db.run(
@@ -24,7 +24,7 @@ async function deleteTransactionAndCash(transaction_id, db) {
     if (trans.linked_cash_id) {
       const cash = await db.get('SELECT * FROM cash_register WHERE id = ?', [trans.linked_cash_id]);
       if (cash) {
-        await db.run('UPDATE cash_register SET is_deleted = 1, deleted_at = CURRENT_TIMESTAMP WHERE id = ?', [trans.linked_cash_id]);
+        await db.run("UPDATE cash_register SET is_deleted = 1, deleted_at = datetime('now', 'localtime') WHERE id = ?", [trans.linked_cash_id]);
         await db.run(
           'INSERT INTO audit_logs (table_name, record_id, action, old_values, new_values) VALUES (?, ?, ?, ?, ?)',
           ['cash_register', trans.linked_cash_id, 'DELETE', JSON.stringify(cash), JSON.stringify({ is_deleted: 1 })]

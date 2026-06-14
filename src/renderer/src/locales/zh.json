@@ -74,7 +74,22 @@
     "restore_confirm": "您确定要恢复数据库吗？您现有的所有数据都将被删除！",
     "restore_invalid_file": "请拖动有效的 SQLite（.sqlite 或 .db）数据库文件。",
     "system_maintenance": "系统维护",
-    "logo_uploaded": "徽标已上传"
+    "logo_uploaded": "徽标已上传",
+    "parameters": "参数",
+    "regionalSettings": "Regional Format Settings",
+    "customCurrency": "Currency Override",
+    "customDateFormat": "Date Format Override",
+    "customTimeFormat": "Time Format Override",
+    "autoByLanguage": "自动（按语言）",
+    "regionalFormatSettings": "区域格式设置",
+    "currencyOverride": "Currency Selection",
+    "dateFormatOverride": "Date Format Selection",
+    "timeFormatOverride": "Time Format Selection",
+    "currencySelection": "货币选择",
+    "dateFormatSelection": "日期格式选择",
+    "timeFormatSelection": "时间格式选择",
+    "time24h": "24小时（14:30）",
+    "time12h": "12小时 AM/PM（02:30 PM）"
   },
   "dashboard": {
     "title": "人员管理",
@@ -122,14 +137,17 @@
       "add_btn": "添加预支",
       "tags_label": "标签",
       "tags_ph": "例如：旅行费用、个人费用",
-      "notes_ph": "例：每周预支"
+      "notes_ph": "例：每周预支",
+      "delete_title": "Delete Advance",
+      "delete_confirm": "Are you sure you want to delete this advance? The system will automatically cancel this amount from the Cash Register as well."
     },
     "summary": {
       "previous_balance": "期初余额",
       "period_earned": "本期赚取",
       "period_advance": "本期预支",
       "new_balance": "新余额",
-      "carried_balance_report": "结转余额报告"
+      "carried_balance_report": "结转余额报告",
+      "advance_deduction": "Advance Deduction"
     },
     "filter": {
       "start_date": "开始日期",
@@ -174,7 +192,10 @@
     "help_h2": "2. Carried Balance Report",
     "help_p2": "Generate date-range filtered statement reports that automatically calculate the carried over balance.",
     "help_h3": "3. PDF Reconciliation",
-    "help_p3": "Generate and share branded, official PDF statements complete with your company logo."
+    "help_p3": "Generate and share branded, official PDF statements complete with your company logo.",
+    "whatsapp_send": "Send via WhatsApp",
+    "whatsapp_no_phone": "Personnel's registered phone number not found.",
+    "whatsapp_message_template": "Dear {{name}}, your account statement between {{startDate}} and {{endDate}}:\n\n- Total Earned: {{earned}}\n- Total Paid/Advance: {{advance}}\n- Remaining Balance: {{balance}}\n\nPresented for your information."
   },
   "cash": {
     "title": "现金管理",
@@ -221,7 +242,19 @@
     "level": "级别",
     "message": "消息",
     "date": "日期",
-    "no_logs": "在所选范围内未找到日志。"
+    "no_logs": "在所选范围内未找到日志。",
+    "filter_type": "日志类型",
+    "type_all": "所有日志类型",
+    "guide": {
+      "title": "系统日志指南",
+      "intro": "系统日志页面允许您按时间顺序跟踪关键的数据库事务、系统事件和潜在的错误。",
+      "levels_title": "1. 日志级别与颜色",
+      "levels_desc": "活动按重要性进行颜色编码：蓝色日志 (Info) 代表普通系统通知，绿色日志 (DB Create) 代表新数据添加，黄色日志 (DB Update) 代表数据更新，红色日志代表删除 (DB Delete) and 关键错误 (Error)。",
+      "large_data_title": "2. 长日志数据 (Base64)",
+      "large_data_desc": "更新标志等图像文件时，长 Base64 文本代码会保存到数据库中。日志行中出现很长的文本块是正常的；这确认了图像上传已成功记录。",
+      "filter_export_title": "3. 搜索、过滤与导出",
+      "filter_export_desc": "您可以按日期范围、关键字或日志类型进行过滤。还可以将日志下载为 Excel、CSV、JSON、Markdown 或纯文本。"
+    }
   },
   "common": {
     "cancel": "Cancel",
@@ -475,7 +508,7 @@
     "title": "📓 工地施工日记",
     "worker_count": "出勤人员数量",
     "weather": "天气状态",
-    "temperature": "温度 (°C)",
+    "temperature": "温度",
     "notes": "施工日记备注 / 已完工工序",
     "notes_ph": "例：二层柱钢筋绑扎完成，浇筑 C30 混凝土...",
     "save_btn": "保存 / 更新日记",
@@ -493,7 +526,8 @@
     "help_h3": "3. Edit Lock Policy",
     "help_p3": "To maintain historical data integrity, daily journals can only be edited on the day they are created. Older entries are locked.",
     "delete_title": "Delete Journal",
-    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone."
+    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone.",
+    "weatherDesc": "天气描述"
   },
   "materials": {
     "title": "🚚 送货单 & 材料入库",
@@ -549,5 +583,280 @@
     "more_people": "以及另外 {{count}} 人...",
     "no_results": "No results found.",
     "search_no_results": "No results matching the search criteria were found."
+  },
+  "settings.regionalSettings": "Regional Format Settings",
+  "settings.customCurrency": "Currency Override",
+  "settings.customDateFormat": "Date Format Override",
+  "settings.customTimeFormat": "Time Format Override",
+  "settings.autoByLanguage": "Automatic (By Language)",
+  "sidebar.recycleBin": "Recycle Bin",
+  "recycle.title": "Recycle Bin",
+  "recycle.desc": "List deleted records here and restore them back to their original places.",
+  "recycle.type": "Record Type",
+  "recycle.content": "Content / Title",
+  "recycle.deletedAt": "Deleted At",
+  "recycle.restoreSuccess": "Record successfully restored.",
+  "recycle.emptyState": "No deleted records found.",
+  "recycle.itemType.worker": "Personnel Record",
+  "recycle.itemType.transaction": "Cash Transaction",
+  "recycle.itemType.material": "Delivery Note / Material",
+  "recycle.itemType.journal": "Daily Journal",
+  "recycle.itemType.quality": "Quality Control Report",
+  "recycle.itemType.subcontractor": "Subcontractor Ledger Record",
+  "global.restore": "Restore",
+  "recycle.searchPlaceholder": "Search...",
+  "recycle.searchAll": "Search Everywhere",
+  "recycle.allTypes": "All Record Types",
+  "recycle.startDate": "Start Date",
+  "recycle.endDate": "End Date",
+  "recycle.restored": "Restored",
+  "recycle.hideRestored": "Hide Restored",
+  "recycle.showRestored": "Show Restored",
+  "recycle.successTitle": "Success",
+  "common.ok": "OK",
+  "common.error": "Error",
+  "recycle.itemType.project": "Project Record",
+  "recycle.project": "Project / Site",
+  "recycle.allProjects": "All Projects",
+  "recycle.deletedProjectShort": "Deleted",
+  "recycle.guideTitle": "Info",
+  "recycle.guide.title": "Recycle Bin Guide",
+  "recycle.guide.intro": "ShantiyeOS Recycle Bin is a protection system designed to prevent the loss of critical records deleted accidentally.",
+  "recycle.guide.how_it_works_title": "How it Works?",
+  "recycle.guide.how_it_works_desc": "When you delete any record in the system, it is not permanently erased. Instead, it is soft-deleted and listed in this recycle bin.",
+  "recycle.guide.restore_title": "Restoring Data:",
+  "recycle.guide.restore_desc": "Click the \"Restore\" button to recover the record in seconds. Restored items remain in the recycle bin as read-only/passive records for traceability.",
+  "recycle.guide.project_isolation_title": "Project Separation:",
+  "recycle.guide.project_isolation_desc": "Each record displays the project it belongs to. Use the project filter at the top to keep your trash bin organized.",
+  "recycle.guide.date_filter_title": "Date Filters & Search:",
+  "recycle.guide.date_filter_desc": "You can search and filter deleted records by their deletion date, type, or title.",
+  "recycle.restoreStatus.all": "All Records",
+  "recycle.restoreStatus.onlyDeleted": "Only Deleted",
+  "recycle.restoreStatus.onlyRestored": "Only Restored",
+  "recycle.startDateLabel": "Start Date",
+  "recycle.endDateLabel": "End Date",
+  "recycle.dateOrderError": "Start date cannot be after end date.",
+  "sidebar.spotlight": "Spotlight",
+  "settings.parameters": "Parameters",
+  "workers": {
+    "help_title": "Personnel Management Guide",
+    "help_desc": "The Personnel Management panel allows you to track timesheets, earnings, advances, and payment details of your workers.",
+    "help_h1": "1. Add Workers & Excel",
+    "help_p1": "Add individual workers using the top right button or import a batch list by downloading the Excel template.",
+    "help_h2": "2. Group Analysis",
+    "help_p2": "Analyze expenses and worker counts by group category (e.g., Electricians, Ironworkers).",
+    "help_h3": "3. Scorecards & Statements",
+    "help_p3": "Click any worker's name to view their timesheets, calculate new balances, and export detailed PDF statements."
+  },
+  "guides": {
+    "site": {
+      "title": "网站管理指南",
+      "step1": {
+        "title": "1. 活跃的工作空间",
+        "desc": "选择一个项目设置为活跃。"
+      },
+      "step2": {
+        "title": "2. 位置和天气",
+        "desc": "指定一个位置以自动获取每日天气。"
+      },
+      "step3": {
+        "title": "3. 搜索和分页",
+        "desc": "在建筑工地之间即时搜索。"
+      }
+    },
+    "personnel": {
+      "title": "人员指南",
+      "step1": {
+        "title": "1. 添加工人和Excel",
+        "desc": "使用Excel模板进行批量上传。"
+      },
+      "step2": {
+        "title": "2. 群组分析",
+        "desc": "根据组类别分析费用。"
+      },
+      "step3": {
+        "title": "3. 时间表和声明",
+        "desc": "点击名称查看时间表。"
+      }
+    },
+    "quantity": {
+      "title": "生产指南",
+      "step1": {
+        "title": "1. 生产记录",
+        "desc": "记录日常生产。"
+      },
+      "step2": {
+        "title": "2. 存档和详细信息",
+        "desc": "记笔记以保持按时间顺序的存档。"
+      },
+      "step3": {
+        "title": "3. 搜索和过滤器",
+        "desc": "按日期范围或单位过滤。"
+      }
+    },
+    "delivery": {
+      "title": "交付指南",
+      "step1": {
+        "title": "1. 供应商和材料",
+        "desc": "记录供应商和材料名称。"
+      },
+      "step2": {
+        "title": "2. 文件照片",
+        "desc": "上传文件照片进行数字存档。"
+      },
+      "step3": {
+        "title": "3. 智能搜索",
+        "desc": "在送货单号或供应商中搜索。"
+      }
+    },
+    "journal": {
+      "title": "日记指南",
+      "step1": {
+        "title": "1. 天气整合",
+        "desc": "天气是自动获取的。"
+      },
+      "step2": {
+        "title": "2. 自动计算工人人数",
+        "desc": "自动计算活跃工人人数。"
+      },
+      "step3": {
+        "title": "3. 编辑锁定政策",
+        "desc": "旧记录被锁定以保护过去的数据。"
+      }
+    },
+    "quality": {
+      "title": "质量指南",
+      "step1": {
+        "title": "1. 报告状态",
+        "desc": "问题解决后更新状态。"
+      },
+      "step2": {
+        "title": "2. 视觉证据",
+        "desc": "添加已发现问题的照片。"
+      },
+      "step3": {
+        "title": "3. 过滤",
+        "desc": "过滤以跟踪未解决的问题。"
+      }
+    },
+    "subcontractor": {
+      "title": "分包商指南",
+      "step1": {
+        "title": "1. 日薪",
+        "desc": "跟踪分包商的日薪。"
+      },
+      "step2": {
+        "title": "2. 搜索和过滤",
+        "desc": "在分包商列表中搜索。"
+      },
+      "step3": {
+        "title": "3. 更新和编辑",
+        "desc": "随时更新日薪。"
+      }
+    },
+    "media": {
+      "title": "媒体指南",
+      "step1": {
+        "title": "1. 视觉时间线",
+        "desc": "按时间顺序检查站点图像。"
+      },
+      "step2": {
+        "title": "2. 快速详细信息",
+        "desc": "点击任何照片以全尺寸查看。"
+      },
+      "step3": {
+        "title": "3. 类别过滤器",
+        "desc": "按送货单或质量报告过滤。"
+      }
+    },
+    "cash": {
+      "title": "现金管理指南",
+      "step1": {
+        "title": "1. 收入/支出记录",
+        "desc": "记录收入和支出。"
+      },
+      "step2": {
+        "title": "2. 每月财务状况",
+        "desc": "即时跟踪净现金变化。"
+      },
+      "step3": {
+        "title": "3. 导出",
+        "desc": "将交易下载为PDF或Excel。"
+      }
+    },
+    "recycle": {
+      "title": "回收站指南",
+      "step1": {
+        "title": "它是如何工作的？",
+        "desc": "删除的记录在这里被软删除并列出。"
+      },
+      "step2": {
+        "title": "恢复数据",
+        "desc": "使用恢复按钮恢复记录。"
+      },
+      "step3": {
+        "title": "项目分离",
+        "desc": "按项目过滤回收站。"
+      }
+    }
+  },
+  "worker": {
+    "idLabel": "ID",
+    "advanceBadge": "ADVANCE"
+  },
+  "recycle": {
+    "desc": "在此列出已删除的记录，并将其恢复到原始位置。",
+    "search": "Search...",
+    "allRecords": "All Records",
+    "allRecordTypes": "All Record Types",
+    "allProjects": "All Projects",
+    "startDate": "开始日期",
+    "endDate": "结束日期",
+    "tableRecordType": "记录类型",
+    "tableProject": "项目/现场",
+    "tableContent": "内容/标题",
+    "tableDeletedAt": "删除时间",
+    "tableAction": "操作",
+    "title": "回收站",
+    "guide": {
+      "title": "回收站",
+      "intro": "删除的记录将在此处列出。"
+    },
+    "allRecordsOption": "所有记录",
+    "onlyDeleted": "仅删除",
+    "onlyRestored": "仅恢复",
+    "allRecordTypesOption": "所有记录类型",
+    "type": {
+      "personnel": "人事记录",
+      "cash": "现金交易",
+      "delivery": "交货单 / 材料",
+      "journal": "每日日志",
+      "quality": "质量控制报告",
+      "subcontractor": "分包商分类账",
+      "project": "项目记录"
+    },
+    "allProjectsOption": "所有项目"
+  },
+  "global": {
+    "spotlight": "聚光灯：Ctrl + K",
+    "recordsCount": "({{count}} 条记录)",
+    "restore": "恢复",
+    "restored": "已恢复"
+  },
+  "sidebar": {
+    "recycleBin": "回收站",
+    "spotlight": "搜索"
+  },
+  "anomaly": {
+    "noAnomalies": "没有系统异常",
+    "allUpToDate": "所有财务余额和HSE文件都是最新的。"
+  },
+  "empty": {
+    "production": "尚未输入此站点的生产记录。",
+    "delivery": "还没有交货记录。",
+    "journal": "还没有日记记录。",
+    "quality": "还没有质量报告。",
+    "subcontractor": "还没有注册的分包商。",
+    "media": "找不到符合条件的媒体记录。"
   }
 }

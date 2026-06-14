@@ -34,10 +34,10 @@ const GuideDrawer = ({
         className="glass-card" 
         style={{ 
           width: '100%', 
-          maxWidth: '440px', 
+          maxWidth: '480px', 
           height: '100%', 
           borderRadius: '20px 0 0 20px', 
-          padding: '2.5rem 2rem', 
+          padding: '2.5rem 1.5rem', 
           display: 'flex', 
           flexDirection: 'column', 
           gap: '1.5rem',
@@ -48,9 +48,17 @@ const GuideDrawer = ({
         }}
         onClick={e => e.stopPropagation()}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem' }}>
-          <h3 className="card-title" style={{ fontSize: '1.25rem', marginBottom: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            💡 {title}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem', gap: '0.5rem' }}>
+          <h3 className="card-title" style={{ 
+            fontSize: '1.05rem', 
+            marginBottom: 0, 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.5rem', 
+            flex: 1
+          }} title={`💡 ${title}`}>
+            <span style={{ flexShrink: 0 }}>💡</span>
+            <span>{title}</span>
           </h3>
           <button 
             className="btn btn-close"

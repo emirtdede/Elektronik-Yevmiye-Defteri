@@ -74,7 +74,22 @@
     "restore_confirm": "Êtes-vous sûr de vouloir restaurer la base de données ? Toutes vos données existantes seront supprimées !",
     "restore_invalid_file": "Veuillez faire glisser un fichier de base de données SQLite (.sqlite ou .db) valide.",
     "system_maintenance": "Entretien du système",
-    "logo_uploaded": "Logo téléchargé"
+    "logo_uploaded": "Logo téléchargé",
+    "parameters": "Parameters",
+    "regionalSettings": "Regional Format Settings",
+    "customCurrency": "Currency Override",
+    "customDateFormat": "Date Format Override",
+    "customTimeFormat": "Time Format Override",
+    "autoByLanguage": "Automatique (selon la langue)",
+    "regionalFormatSettings": "Paramètres de Format Régional",
+    "currencyOverride": "Currency Selection",
+    "dateFormatOverride": "Date Format Selection",
+    "timeFormatOverride": "Time Format Selection",
+    "currencySelection": "Sélection de la devise",
+    "dateFormatSelection": "Sélection du format de date",
+    "timeFormatSelection": "Sélection du format d'heure",
+    "time24h": "24 Heures (14:30)",
+    "time12h": "12 Heures AM/PM (02:30 PM)"
   },
   "dashboard": {
     "title": "Gestion du Personnel",
@@ -122,14 +137,17 @@
       "add_btn": "Ajouter",
       "tags_label": "Balises",
       "tags_ph": "Ex : Travel-Toll, Personnel",
-      "notes_ph": "ex. Acompte hebdomadaire"
+      "notes_ph": "ex. Acompte hebdomadaire",
+      "delete_title": "Delete Advance",
+      "delete_confirm": "Are you sure you want to delete this advance? The system will automatically cancel this amount from the Cash Register as well."
     },
     "summary": {
       "previous_balance": "Solde Précédent",
       "period_earned": "Gagné",
       "period_advance": "Avance",
       "new_balance": "Nouveau Solde",
-      "carried_balance_report": "Rapport sur le solde reporté"
+      "carried_balance_report": "Rapport sur le solde reporté",
+      "advance_deduction": "Advance Deduction"
     },
     "filter": {
       "start_date": "Date de début",
@@ -174,7 +192,10 @@
     "help_h2": "2. Carried Balance Report",
     "help_p2": "Generate date-range filtered statement reports that automatically calculate the carried over balance.",
     "help_h3": "3. PDF Reconciliation",
-    "help_p3": "Generate and share branded, official PDF statements complete with your company logo."
+    "help_p3": "Generate and share branded, official PDF statements complete with your company logo.",
+    "whatsapp_send": "Send via WhatsApp",
+    "whatsapp_no_phone": "Personnel's registered phone number not found.",
+    "whatsapp_message_template": "Dear {{name}}, your account statement between {{startDate}} and {{endDate}}:\n\n- Total Earned: {{earned}}\n- Total Paid/Advance: {{advance}}\n- Remaining Balance: {{balance}}\n\nPresented for your information."
   },
   "cash": {
     "title": "Gestion de Caisse",
@@ -221,7 +242,19 @@
     "level": "Niveau",
     "message": "Message",
     "date": "Date",
-    "no_logs": "Aucun journal trouvé dans la plage sélectionnée."
+    "no_logs": "Aucun journal trouvé dans la plage sélectionnée.",
+    "filter_type": "Type de journal",
+    "type_all": "Tous les types de journaux",
+    "guide": {
+      "title": "Guide des journaux système",
+      "intro": "La page des journaux système vous permet de suivre chronologiquement les transactions de base de données critiques, les événements système et les erreurs potentielles.",
+      "levels_title": "1. Niveaux et couleurs des journaux",
+      "levels_desc": "Les activités sont codées par couleur selon l'importance : les journaux bleus (Info) représentent les notifications système normales, les verts (DB Create) les ajouts de données, les jaunes (DB Update) les mises à jour et les rouges les suppressions (DB Delete) et erreurs critiques (Error).",
+      "large_data_title": "2. Données de journal longues (Base64)",
+      "large_data_desc": "Lorsque vous mettez à jour des images comme des logos, de longs codes texte Base64 sont enregistrés. Il est normal de voir de longs blocs de texte dans les journaux ; cela confirme que les téléchargements ont été enregistrés avec succès.",
+      "filter_export_title": "3. Recherche, filtrage et exportation",
+      "filter_export_desc": "Filtrez par date, mot-clé ou type de journal. Téléchargez les journaux au format Excel, CSV, JSON, Markdown ou Texte."
+    }
   },
   "common": {
     "cancel": "Cancel",
@@ -475,7 +508,7 @@
     "title": "📓 Journal quotidien de chantier",
     "worker_count": "Nombre de personnel travaillant",
     "weather": "Météo",
-    "temperature": "Température (°C)",
+    "temperature": "Température",
     "notes": "Notes du journal / Travaux réalisés",
     "notes_ph": "ex. Armatures des poteaux du 2e étage attachées, bétonnage C30 effectué...",
     "save_btn": "Enregistrer / Mettre à jour le journal",
@@ -493,7 +526,8 @@
     "help_h3": "3. Edit Lock Policy",
     "help_p3": "To maintain historical data integrity, daily journals can only be edited on the day they are created. Older entries are locked.",
     "delete_title": "Delete Journal",
-    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone."
+    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone.",
+    "weatherDesc": "Description de la météo"
   },
   "materials": {
     "title": "🚚 Bon de livraison & saisie de matériel",
@@ -549,5 +583,280 @@
     "more_people": "et {{count}} autres personnes...",
     "no_results": "No results found.",
     "search_no_results": "No results matching the search criteria were found."
+  },
+  "settings.regionalSettings": "Regional Format Settings",
+  "settings.customCurrency": "Currency Override",
+  "settings.customDateFormat": "Date Format Override",
+  "settings.customTimeFormat": "Time Format Override",
+  "settings.autoByLanguage": "Automatic (By Language)",
+  "sidebar.recycleBin": "Recycle Bin",
+  "recycle.title": "Recycle Bin",
+  "recycle.desc": "List deleted records here and restore them back to their original places.",
+  "recycle.type": "Record Type",
+  "recycle.content": "Content / Title",
+  "recycle.deletedAt": "Deleted At",
+  "recycle.restoreSuccess": "Record successfully restored.",
+  "recycle.emptyState": "No deleted records found.",
+  "recycle.itemType.worker": "Personnel Record",
+  "recycle.itemType.transaction": "Cash Transaction",
+  "recycle.itemType.material": "Delivery Note / Material",
+  "recycle.itemType.journal": "Daily Journal",
+  "recycle.itemType.quality": "Quality Control Report",
+  "recycle.itemType.subcontractor": "Subcontractor Ledger Record",
+  "global.restore": "Restore",
+  "recycle.searchPlaceholder": "Search...",
+  "recycle.searchAll": "Search Everywhere",
+  "recycle.allTypes": "All Record Types",
+  "recycle.startDate": "Start Date",
+  "recycle.endDate": "End Date",
+  "recycle.restored": "Restored",
+  "recycle.hideRestored": "Hide Restored",
+  "recycle.showRestored": "Show Restored",
+  "recycle.successTitle": "Success",
+  "common.ok": "OK",
+  "common.error": "Error",
+  "recycle.itemType.project": "Project Record",
+  "recycle.project": "Project / Site",
+  "recycle.allProjects": "All Projects",
+  "recycle.deletedProjectShort": "Deleted",
+  "recycle.guideTitle": "Info",
+  "recycle.guide.title": "Recycle Bin Guide",
+  "recycle.guide.intro": "ShantiyeOS Recycle Bin is a protection system designed to prevent the loss of critical records deleted accidentally.",
+  "recycle.guide.how_it_works_title": "How it Works?",
+  "recycle.guide.how_it_works_desc": "When you delete any record in the system, it is not permanently erased. Instead, it is soft-deleted and listed in this recycle bin.",
+  "recycle.guide.restore_title": "Restoring Data:",
+  "recycle.guide.restore_desc": "Click the \"Restore\" button to recover the record in seconds. Restored items remain in the recycle bin as read-only/passive records for traceability.",
+  "recycle.guide.project_isolation_title": "Project Separation:",
+  "recycle.guide.project_isolation_desc": "Each record displays the project it belongs to. Use the project filter at the top to keep your trash bin organized.",
+  "recycle.guide.date_filter_title": "Date Filters & Search:",
+  "recycle.guide.date_filter_desc": "You can search and filter deleted records by their deletion date, type, or title.",
+  "recycle.restoreStatus.all": "All Records",
+  "recycle.restoreStatus.onlyDeleted": "Only Deleted",
+  "recycle.restoreStatus.onlyRestored": "Only Restored",
+  "recycle.startDateLabel": "Start Date",
+  "recycle.endDateLabel": "End Date",
+  "recycle.dateOrderError": "Start date cannot be after end date.",
+  "sidebar.spotlight": "Spotlight",
+  "settings.parameters": "Parameters",
+  "workers": {
+    "help_title": "Personnel Management Guide",
+    "help_desc": "The Personnel Management panel allows you to track timesheets, earnings, advances, and payment details of your workers.",
+    "help_h1": "1. Add Workers & Excel",
+    "help_p1": "Add individual workers using the top right button or import a batch list by downloading the Excel template.",
+    "help_h2": "2. Group Analysis",
+    "help_p2": "Analyze expenses and worker counts by group category (e.g., Electricians, Ironworkers).",
+    "help_h3": "3. Scorecards & Statements",
+    "help_p3": "Click any worker's name to view their timesheets, calculate new balances, and export detailed PDF statements."
+  },
+  "guides": {
+    "site": {
+      "title": "Guide de Gestion de Site",
+      "step1": {
+        "title": "1. Espace de Travail",
+        "desc": "Sélectionnez un projet pour le définir comme actif."
+      },
+      "step2": {
+        "title": "2. Emplacement et Météo",
+        "desc": "Spécifiez un emplacement pour la météo automatique."
+      },
+      "step3": {
+        "title": "3. Recherche",
+        "desc": "Recherchez instantanément parmi les chantiers."
+      }
+    },
+    "personnel": {
+      "title": "Guide du Personnel",
+      "step1": {
+        "title": "1. Ajouter et Excel",
+        "desc": "Utilisez le modèle Excel pour un ajout en masse."
+      },
+      "step2": {
+        "title": "2. Analyse de Groupe",
+        "desc": "Analysez les dépenses par groupe."
+      },
+      "step3": {
+        "title": "3. Feuilles de Temps",
+        "desc": "Cliquez sur le nom pour voir la feuille de temps."
+      }
+    },
+    "quantity": {
+      "title": "Guide de Production",
+      "step1": {
+        "title": "1. Production",
+        "desc": "Enregistrez la production quotidienne."
+      },
+      "step2": {
+        "title": "2. Archives",
+        "desc": "Rédigez des notes chronologiques."
+      },
+      "step3": {
+        "title": "3. Filtres",
+        "desc": "Filtrez par date ou unité."
+      }
+    },
+    "delivery": {
+      "title": "Guide de Livraison",
+      "step1": {
+        "title": "1. Fournisseur et Matériel",
+        "desc": "Enregistrez les fournisseurs et matériaux."
+      },
+      "step2": {
+        "title": "2. Photos",
+        "desc": "Téléchargez des photos de documents."
+      },
+      "step3": {
+        "title": "3. Recherche Intelligente",
+        "desc": "Recherchez dans les bons ou fournisseurs."
+      }
+    },
+    "journal": {
+      "title": "Guide du Journal",
+      "step1": {
+        "title": "1. Météo",
+        "desc": "La météo est récupérée automatiquement."
+      },
+      "step2": {
+        "title": "2. Comptage Ouvriers",
+        "desc": "Le nombre de travailleurs est calculé automatiquement."
+      },
+      "step3": {
+        "title": "3. Verrouillage",
+        "desc": "Les anciens enregistrements sont verrouillés."
+      }
+    },
+    "quality": {
+      "title": "Guide de Qualité",
+      "step1": {
+        "title": "1. Statut",
+        "desc": "Mettez à jour le statut une fois résolu."
+      },
+      "step2": {
+        "title": "2. Preuves Visuelles",
+        "desc": "Ajoutez des photos des problèmes."
+      },
+      "step3": {
+        "title": "3. Filtrage",
+        "desc": "Filtrez les problèmes ouverts."
+      }
+    },
+    "subcontractor": {
+      "title": "Guide des Sous-traitants",
+      "step1": {
+        "title": "1. Salaire Journalier",
+        "desc": "Suivez les salaires des sous-traitants."
+      },
+      "step2": {
+        "title": "2. Filtrage",
+        "desc": "Recherchez dans la liste."
+      },
+      "step3": {
+        "title": "3. Mise à Jour",
+        "desc": "Mettez à jour les salaires à tout moment."
+      }
+    },
+    "media": {
+      "title": "Guide des Médias",
+      "step1": {
+        "title": "1. Chronologie",
+        "desc": "Examinez les images chronologiquement."
+      },
+      "step2": {
+        "title": "2. Détails",
+        "desc": "Cliquez pour voir en plein écran."
+      },
+      "step3": {
+        "title": "3. Filtres de Catégorie",
+        "desc": "Filtrez par bons ou qualité."
+      }
+    },
+    "cash": {
+      "title": "Guide de Gestion de Caisse",
+      "step1": {
+        "title": "1. Revenus/Dépenses",
+        "desc": "Enregistrez les revenus et dépenses."
+      },
+      "step2": {
+        "title": "2. Statut Financier",
+        "desc": "Suivez les flux de trésorerie."
+      },
+      "step3": {
+        "title": "3. Exportation",
+        "desc": "Téléchargez en PDF ou Excel."
+      }
+    },
+    "recycle": {
+      "title": "Guide de la Corbeille",
+      "step1": {
+        "desc": "Les éléments supprimés sont listés ici.",
+        "title": "Comment ça marche ?"
+      },
+      "step2": {
+        "title": "Restauration",
+        "desc": "Utilisez le bouton restaurer pour récupérer."
+      },
+      "step3": {
+        "title": "Projets",
+        "desc": "Filtrez votre corbeille par projet."
+      }
+    }
+  },
+  "worker": {
+    "idLabel": "ID",
+    "advanceBadge": "ADVANCE"
+  },
+  "recycle": {
+    "search": "Search...",
+    "allRecords": "All Records",
+    "allRecordTypes": "All Record Types",
+    "allProjects": "All Projects",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "tableRecordType": "Type d'enregistrement",
+    "tableProject": "Projet / Chantier",
+    "tableContent": "Contenu / Titre",
+    "tableDeletedAt": "Supprimé le",
+    "tableAction": "Action",
+    "title": "Corbeille",
+    "guide": {
+      "title": "Recycle Bin Guide",
+      "intro": "Deleted records are soft-deleted and listed here."
+    },
+    "allRecordsOption": "Tous les enregistrements",
+    "onlyDeleted": "Uniquement supprimés",
+    "onlyRestored": "Uniquement restaurés",
+    "allRecordTypesOption": "Tous les types d'enregistrement",
+    "type": {
+      "personnel": "Dossier du personnel",
+      "cash": "Transaction en espèces",
+      "delivery": "Bon de livraison / Matériel",
+      "journal": "Journal quotidien",
+      "quality": "Rapport de contrôle qualité",
+      "subcontractor": "Registre des sous-traitants",
+      "project": "Dossier du projet"
+    },
+    "allProjectsOption": "Tous les projets",
+    "desc": "Listez les enregistrements supprimés ici et restaurez-les."
+  },
+  "global": {
+    "spotlight": "Recherche : Ctrl + K",
+    "recordsCount": "({{count}} Enregistrements)",
+    "restore": "Restaurer",
+    "restored": "Restauré"
+  },
+  "sidebar": {
+    "recycleBin": "Corbeille",
+    "spotlight": "Spotlight"
+  },
+  "anomaly": {
+    "noAnomalies": "Aucune anomalie système",
+    "allUpToDate": "Tous les soldes financiers et documents HSE sont à jour."
+  },
+  "empty": {
+    "production": "Aucun enregistrement de production pour ce site.",
+    "delivery": "Aucun bon de livraison trouvé.",
+    "journal": "Aucun journal quotidien trouvé.",
+    "quality": "Aucun rapport de qualité pour ce site.",
+    "subcontractor": "Aucun sous-traitant enregistré pour ce site.",
+    "media": "Aucun enregistrement multimédia trouvé."
   }
 }

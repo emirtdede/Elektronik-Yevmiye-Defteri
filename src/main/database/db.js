@@ -245,6 +245,108 @@ async function getDB() {
     }
   }
 
+  // Soft Delete Column Migrations for all main tables to ensure they have is_deleted and deleted_at
+  const tablesForSoftDelete = [
+    'workers', 'timesheets', 'transactions', 'cash_register',
+    'projects', 'production_records', 'materials', 'daily_journals',
+    'quality_reports', 'subcontractor_ledgers', 'work_types', 'worker_groups'
+  ];
+  for (const t of tablesForSoftDelete) {
+    try {
+      await db.run(`ALTER TABLE ${t} ADD COLUMN is_deleted INTEGER DEFAULT 0`);
+    } catch (err) {
+      // Column might already exist, ignore
+    }
+    try {
+      await db.run(`ALTER TABLE ${t} ADD COLUMN deleted_at TIMESTAMP`);
+    } catch (err) {
+      // Column might already exist, ignore
+    }
+  }
+
+  // Create recycle_bin table if not exists
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS recycle_bin (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      table_name TEXT NOT NULL,
+      record_id INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      deleted_at TIMESTAMP DEFAULT (datetime('now', 'localtime')),
+      is_restored BOOLEAN DEFAULT 0,
+      restored_at TIMESTAMP DEFAULT (datetime('now', 'localtime')),
+      original_data TEXT,
+      project_id INTEGER
+    );
+  `);
+
+  try {
+    await db.run('ALTER TABLE recycle_bin ADD COLUMN project_id INTEGER');
+  } catch (err) {
+    // Column might already exist, ignore
+  }
+
+  // Triggers for main tables when they are soft-deleted (is_deleted = 1)
+  const triggers = [
+    {
+      name: 'trg_workers_deleted',
+      table: 'workers',
+      titleExpr: 'NEW.full_name',
+      projIdExpr: 'NEW.project_id'
+    },
+    {
+      name: 'trg_transactions_deleted',
+      table: 'transactions',
+      titleExpr: "NEW.trans_type || ': ' || NEW.amount || ' ₺ (' || COALESCE(NEW.notes, '') || ')'",
+      projIdExpr: 'NEW.project_id'
+    },
+    {
+      name: 'trg_subcontractor_ledgers_deleted',
+      table: 'subcontractor_ledgers',
+      titleExpr: "NEW.name || ' (' || NEW.service_type || ')'",
+      projIdExpr: 'NEW.project_id'
+    },
+    {
+      name: 'trg_materials_deleted',
+      table: 'materials',
+      titleExpr: "NEW.supplier || ' - ' || NEW.material_type || ' (' || NEW.quantity || ' ' || NEW.unit || ')'",
+      projIdExpr: 'NEW.project_id'
+    },
+    {
+      name: 'trg_daily_journals_deleted',
+      table: 'daily_journals',
+      titleExpr: 'NEW.journal_date',
+      projIdExpr: 'NEW.project_id'
+    },
+    {
+      name: 'trg_quality_reports_deleted',
+      table: 'quality_reports',
+      titleExpr: 'NEW.title',
+      projIdExpr: 'NEW.project_id'
+    },
+    {
+      name: 'trg_projects_deleted',
+      table: 'projects',
+      titleExpr: 'NEW.name',
+      projIdExpr: 'NEW.id'
+    }
+  ];
+
+  for (const trg of triggers) {
+    try {
+      await db.exec(`DROP TRIGGER IF EXISTS ${trg.name};`);
+      await db.exec(`
+        CREATE TRIGGER IF NOT EXISTS ${trg.name} AFTER UPDATE OF is_deleted ON ${trg.table}
+        WHEN NEW.is_deleted = 1 AND OLD.is_deleted = 0
+        BEGIN
+          INSERT INTO recycle_bin (table_name, record_id, title, deleted_at, is_restored, project_id)
+          VALUES ('${trg.table}', NEW.id, ${trg.titleExpr}, datetime('now', 'localtime'), 0, ${trg.projIdExpr});
+        END;
+      `);
+    } catch (err) {
+      console.error(`Error creating trigger ${trg.name}:`, err);
+    }
+  }
+
   // Seeder logic for initial default values
   const settingsCount = await db.get('SELECT COUNT(*) as count FROM app_settings');
   if (settingsCount.count === 0) {
@@ -254,6 +356,9 @@ async function getDB() {
     await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['language', 'tr', 'Uygulama Dili (tr/en)']);
     await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['company_name', '', 'Şirket/Kurum Adı']);
     await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['company_logo', '', 'Şirket Logosu (Base64)']);
+    await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['custom_currency', 'auto', 'Para Birimi Seçimi (auto, TRY, USD, EUR, GBP)']);
+    await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['custom_date_format', 'auto', 'Tarih Formatı Seçimi (auto, DD.MM.YYYY, YYYY-MM-DD, MM/DD/YYYY)']);
+    await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['custom_time_format', 'auto', 'Saat Formatı Seçimi (auto, 24h, 12h)']);
   } else {
     // Migration for existing databases to ensure new settings exist
     const keys = await db.all('SELECT setting_key FROM app_settings');
@@ -267,6 +372,15 @@ async function getDB() {
     }
     if (!existingKeys.includes('language')) {
       await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['language', 'tr', 'Uygulama Dili (tr/en)']);
+    }
+    if (!existingKeys.includes('custom_currency')) {
+      await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['custom_currency', 'auto', 'Para Birimi Seçimi (auto, TRY, USD, EUR, GBP)']);
+    }
+    if (!existingKeys.includes('custom_date_format')) {
+      await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['custom_date_format', 'auto', 'Tarih Formatı Seçimi (auto, DD.MM.YYYY, YYYY-MM-DD, MM/DD/YYYY)']);
+    }
+    if (!existingKeys.includes('custom_time_format')) {
+      await db.run("INSERT INTO app_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", ['custom_time_format', 'auto', 'Saat Formatı Seçimi (auto, 24h, 12h)']);
     }
   }
 

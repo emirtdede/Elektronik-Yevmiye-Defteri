@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ConfirmationModal from './ui/ConfirmationModal';
 import GuideDrawer from './ui/GuideDrawer';
-import { formatCurrency } from '../utils/formatUtils';
+import { formatCurrency, getCurrencySymbol } from '../utils/formatUtils';
 
 const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
   const { t, i18n } = useTranslation();
@@ -210,7 +210,11 @@ const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
             />
           </div>
           <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">{t('subcontractor.wage', 'Yevmiye / Günlük Bedel (₺)')}</label>
+            <label className="form-label">
+              {t('subcontractor.wage', 'Yevmiye / Günlük Bedel (₺)').includes('(₺)')
+                ? t('subcontractor.wage', 'Yevmiye / Günlük Bedel (₺)').replace('(₺)', `(${getCurrencySymbol(i18n.language)})`)
+                : `${t('subcontractor.wage', 'Yevmiye / Günlük Bedel (₺)')} (${getCurrencySymbol(i18n.language)})`}
+            </label>
             <input 
               type="number" 
               className="form-input" 
@@ -323,7 +327,7 @@ const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
           <div className="skeleton" style={{ height: '200px', width: '100%' }}></div>
         ) : filteredContractors.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-            {searchQuery ? t('subcontractor.no_results', 'Arama kriterlerine uygun taşeron kaydı bulunamadı.') : t('subcontractor.empty_state', 'Bu şantiyeye kayıtlı taşeron/alt yüklenici bulunamadı.')}
+            {searchQuery ? t('subcontractor.no_results', 'Arama kriterlerine uygun taşeron kaydı bulunamadı.') : t('empty.subcontractor', 'Bu şantiye için henüz taşeron kaydedilmemiş.')}
           </div>
         ) : (
           <div className="fin-table-container">
@@ -424,14 +428,14 @@ const SubcontractorLedger = ({ activeProjectId, projects = [] }) => {
       <GuideDrawer 
         isOpen={helpOpen} 
         onClose={() => setHelpOpen(false)} 
-        title={t('subcontractor.help_title')} 
-        desc={t('subcontractor.help_desc')} 
-        h1={t('subcontractor.help_h1')} 
-        p1={t('subcontractor.help_p1')} 
-        h2={t('subcontractor.help_h2')} 
-        p2={t('subcontractor.help_p2')} 
-        h3={t('subcontractor.help_h3')} 
-        p3={t('subcontractor.help_p3')} 
+        title={t('guides.subcontractor.title')} 
+        desc="" 
+        h1={t('guides.subcontractor.step1.title')} 
+        p1={t('guides.subcontractor.step1.desc')} 
+        h2={t('guides.subcontractor.step2.title')} 
+        p2={t('guides.subcontractor.step2.desc')} 
+        h3={t('guides.subcontractor.step3.title')} 
+        p3={t('guides.subcontractor.step3.desc')} 
       />
 
       <ConfirmationModal 

@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import ConfirmationModal from './ui/ConfirmationModal';
 import CustomDatePicker from './ui/CustomDatePicker';
 import GuideDrawer from './ui/GuideDrawer';
+import { formatDate } from '../utils/formatUtils';
 
 const ProductionManagement = ({ activeProjectId, projects = [] }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   
@@ -28,6 +29,22 @@ const ProductionManagement = ({ activeProjectId, projects = [] }) => {
   const [filterUnit, setFilterUnit] = useState('');
   const [filterStartDate, setFilterStartDate] = useState('');
   const [filterEndDate, setFilterEndDate] = useState('');
+  const handleStartDateChange = (val) => {
+    if (val && filterEndDate && new Date(val) > new Date(filterEndDate)) {
+      setFilterStartDate(filterEndDate);
+      setFilterEndDate(val);
+    } else {
+      setFilterStartDate(val);
+    }
+  };
+  const handleEndDateChange = (val) => {
+    if (val && filterStartDate && new Date(filterStartDate) > new Date(val)) {
+      setFilterEndDate(filterStartDate);
+      setFilterStartDate(val);
+    } else {
+      setFilterEndDate(val);
+    }
+  };
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
 
@@ -313,7 +330,7 @@ const ProductionManagement = ({ activeProjectId, projects = [] }) => {
               <CustomDatePicker 
                 className="form-input" 
                 value={filterStartDate} 
-                onChange={e => setFilterStartDate(e.target.value)} 
+                onChange={e => handleStartDateChange(e.target.value)} 
                 style={{ marginBottom: 0 }}
               />
             </div>
@@ -322,7 +339,7 @@ const ProductionManagement = ({ activeProjectId, projects = [] }) => {
               <CustomDatePicker 
                 className="form-input" 
                 value={filterEndDate} 
-                onChange={e => setFilterEndDate(e.target.value)} 
+                onChange={e => handleEndDateChange(e.target.value)} 
                 style={{ marginBottom: 0 }}
               />
             </div>
@@ -334,7 +351,7 @@ const ProductionManagement = ({ activeProjectId, projects = [] }) => {
           <div className="skeleton" style={{ height: '200px', width: '100%' }}></div>
         ) : filteredRecords.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-            {searchQuery ? t('production.no_results', 'Arama kriterlerine uygun imalat kaydı bulunamadı.') : t('production.empty_state', 'Bu şantiyeye ait henüz imalat kaydı girilmedi.')}
+            {searchQuery ? t('production.no_results', 'Arama kriterlerine uygun imalat kaydı bulunamadı.') : t('empty.production', 'Bu şantiye için henüz bir imalat kaydı girilmemiş.')}
           </div>
         ) : (
           <div className="fin-table-container">
@@ -352,7 +369,7 @@ const ProductionManagement = ({ activeProjectId, projects = [] }) => {
               <tbody>
                 {paginatedRecords.map(r => (
                   <tr key={r.id}>
-                    <td>{r.record_date}</td>
+                    <td>{formatDate(r.record_date, i18n.language)}</td>
                     <td style={{ fontWeight: '600' }}>{r.item_name}</td>
                     <td style={{ textAlign: 'right', fontWeight: 'bold', color: 'var(--secondary)' }}>{r.quantity}</td>
                     <td>{r.unit}</td>
@@ -433,14 +450,14 @@ const ProductionManagement = ({ activeProjectId, projects = [] }) => {
       <GuideDrawer 
         isOpen={helpOpen} 
         onClose={() => setHelpOpen(false)} 
-        title={t('production.help_title')} 
-        desc={t('production.help_desc')} 
-        h1={t('production.help_h1')} 
-        p1={t('production.help_p1')} 
-        h2={t('production.help_h2')} 
-        p2={t('production.help_p2')} 
-        h3={t('production.help_h3')} 
-        p3={t('production.help_p3')} 
+        title={t('guides.quantity.title')} 
+        desc="" 
+        h1={t('guides.quantity.step1.title')} 
+        p1={t('guides.quantity.step1.desc')} 
+        h2={t('guides.quantity.step2.title')} 
+        p2={t('guides.quantity.step2.desc')} 
+        h3={t('guides.quantity.step3.title')} 
+        p3={t('guides.quantity.step3.desc')} 
       />
     </div>
   );

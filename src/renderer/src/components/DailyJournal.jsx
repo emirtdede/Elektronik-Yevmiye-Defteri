@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import ConfirmationModal from './ui/ConfirmationModal';
 import CustomDatePicker from './ui/CustomDatePicker';
 import GuideDrawer from './ui/GuideDrawer';
+import { formatDate } from '../utils/formatUtils';
 
 const DailyJournal = ({ activeProjectId, projects = [] }) => {
   const { t, i18n } = useTranslation();
@@ -268,9 +269,9 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
               )}
             </div>
             
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <div className="form-group" style={{ width: '80px', marginBottom: 0 }}>
-                <label className="form-label">{t('journal.temperature', 'Sıcaklık (°C)')}</label>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
+              <div className="form-group" style={{ minWidth: '110px', marginBottom: 0 }}>
+                <label className="form-label" style={{ whiteSpace: 'nowrap' }}>{t('journal.temperature', 'Sıcaklık')} (°C)</label>
                 <input 
                   type="number" 
                   className="form-input" 
@@ -279,7 +280,7 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
                 />
               </div>
               <div className="form-group" style={{ width: '180px', marginBottom: 0 }}>
-                <label className="form-label">{t('common.description', 'Açıklama')}</label>
+                <label className="form-label">{t('journal.weatherDesc', 'Hava Durumu Açıklaması')}</label>
                 <input 
                   type="text" 
                   className="form-input" 
@@ -395,7 +396,7 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
           <div className="skeleton" style={{ height: '200px', width: '100%' }}></div>
         ) : filteredJournals.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-            {searchQuery ? t('journal.no_results', 'Arama kriterlerine uygun jurnal kaydı bulunamadı.') : t('journal.empty_state', 'Henüz günlük jurnal kaydı bulunmuyor.')}
+            {searchQuery ? t('journal.no_results', 'Arama kriterlerine uygun jurnal kaydı bulunamadı.') : t('empty.journal', 'Henüz günlük jurnal kaydı bulunmuyor.')}
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -403,7 +404,7 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
               <div key={j.id} className="glass-card" style={{ padding: '1.25rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.75rem', marginBottom: '0.75rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <strong style={{ fontSize: '1.05rem', color: 'var(--primary)' }}>{j.journal_date}</strong>
+                    <strong style={{ fontSize: '1.05rem', color: 'var(--primary)' }}>{formatDate(j.journal_date, i18n.language)}</strong>
                     {j.weather_desc && (
                       <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
                         {j.weather_icon && <img src={`http://openweathermap.org/img/wn/${j.weather_icon}.png`} alt="Icon" style={{ width: '20px', height: '20px' }} />}
@@ -482,14 +483,14 @@ const DailyJournal = ({ activeProjectId, projects = [] }) => {
       <GuideDrawer 
         isOpen={helpOpen} 
         onClose={() => setHelpOpen(false)} 
-        title={t('journal.help_title')} 
-        desc={t('journal.help_desc')} 
-        h1={t('journal.help_h1')} 
-        p1={t('journal.help_p1')} 
-        h2={t('journal.help_h2')} 
-        p2={t('journal.help_p2')} 
-        h3={t('journal.help_h3')} 
-        p3={t('journal.help_p3')} 
+        title={t('guides.journal.title')} 
+        desc="" 
+        h1={t('guides.journal.step1.title')} 
+        p1={t('guides.journal.step1.desc')} 
+        h2={t('guides.journal.step2.title')} 
+        p2={t('guides.journal.step2.desc')} 
+        h3={t('guides.journal.step3.title')} 
+        p3={t('guides.journal.step3.desc')} 
       />
 
       <ConfirmationModal 

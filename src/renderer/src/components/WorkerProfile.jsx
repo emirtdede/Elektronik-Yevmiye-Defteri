@@ -6,7 +6,7 @@ import { exportToExcel, exportToCSV, exportToJSON } from '../utils/exportUtils';
 import TagInput from './ui/TagInput';
 import ConfirmationModal from './ui/ConfirmationModal';
 import CustomDatePicker from './ui/CustomDatePicker';
-import { formatCurrency } from '../utils/formatUtils';
+import { formatCurrency, formatDate, getCurrencySymbol } from '../utils/formatUtils';
 import GuideDrawer from './ui/GuideDrawer';
 
 const WorkerProfile = ({ worker, onBack }) => {
@@ -25,6 +25,22 @@ const WorkerProfile = ({ worker, onBack }) => {
   // Dinamik Filtre State (Cari Hesap Ekstresi)
   const [filterStartDate, setFilterStartDate] = useState(new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0]);
   const [filterEndDate, setFilterEndDate] = useState(new Date().toISOString().split('T')[0]);
+  const handleStartDateChange = (val) => {
+    if (val && filterEndDate && new Date(val) > new Date(filterEndDate)) {
+      setFilterStartDate(filterEndDate);
+      setFilterEndDate(val);
+    } else {
+      setFilterStartDate(val);
+    }
+  };
+  const handleEndDateChange = (val) => {
+    if (val && filterStartDate && new Date(filterStartDate) > new Date(val)) {
+      setFilterEndDate(filterStartDate);
+      setFilterStartDate(val);
+    } else {
+      setFilterEndDate(val);
+    }
+  };
   const [filterText, setFilterText] = useState('');
   const [filterType, setFilterType] = useState('Tümü'); // 'Tümü' | 'Puantaj' | 'Avans'
   
@@ -450,7 +466,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                 </span>
               )}
             </div>
-            <p className="card-subtitle mb-4">{worker.tc_no ? `TC: ${worker.tc_no}` : ''} | {worker.phone}</p>
+            <p className="card-subtitle mb-4">{worker.tc_no ? `${t('worker.idLabel', 'ID')}: ${worker.tc_no}` : ''} | {worker.phone}</p>
             
             <h3 className="card-subtitle">{t('worker_profile.current_balance')}</h3>
             <div style={{ 
@@ -525,7 +541,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                     <CustomDatePicker name="trans_date" className="form-input" value={avansData.trans_date} onChange={handleAvansChange} required />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">{t('worker_profile.advance_form.amount')} (₺)</label>
+                    <label className="form-label">{t('worker_profile.advance_form.amount')} ({getCurrencySymbol(i18n.language)})</label>
                     <input type="number" name="amount" className="form-input" min="1" step="0.01" value={avansData.amount} onChange={handleAvansChange} required />
                   </div>
                   <div className="form-group">
@@ -547,11 +563,11 @@ const WorkerProfile = ({ worker, onBack }) => {
                   <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
                     <div style={{ flex: 1 }}>
                       <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.filter.start_date')}</label>
-                      <CustomDatePicker className="form-input" value={filterStartDate} onChange={e => setFilterStartDate(e.target.value)} />
+                      <CustomDatePicker className="form-input" value={filterStartDate} onChange={e => handleStartDateChange(e.target.value)} />
                     </div>
                     <div style={{ flex: 1 }}>
                       <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('worker_profile.filter.end_date')}</label>
-                      <CustomDatePicker className="form-input" value={filterEndDate} onChange={e => setFilterEndDate(e.target.value)} />
+                      <CustomDatePicker className="form-input" value={filterEndDate} onChange={e => handleEndDateChange(e.target.value)} />
                     </div>
                   </div>
                   
@@ -686,7 +702,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                   return (
                     <div key={ts.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--glass-border)', padding: '1rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div>
-                        <div style={{ fontWeight: '600' }}>{ts.work_date} <span className="wage-badge" style={{ marginLeft: '10px' }}>{typeName}</span></div>
+                        <div style={{ fontWeight: '600' }}>{formatDate(ts.work_date, i18n.language)} <span className="wage-badge" style={{ marginLeft: '10px' }}>{typeName}</span></div>
                         <div className="card-subtitle mt-4" style={{ marginTop: '0.5rem' }}>
                           {t('worker_profile.wage_history_label')}: {formatCurrency(ts.applied_wage, i18n.language)} (x{ts.applied_multiplier})
                           {ts.overtime_hours > 0 && ` | +${ts.overtime_hours} ${t('worker_profile.overtime_hours_suffix')}`}
@@ -710,7 +726,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                 {transactions.map(tr => (
                   <div key={tr.id} style={{ background: 'var(--danger-bg-light)', border: '1px solid var(--danger-border)', padding: '1rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ fontWeight: '600' }}>{tr.trans_date} <span style={{ marginLeft: '10px', fontSize: '0.8rem', color: 'var(--danger-text)', border: '1px solid var(--danger-text)', padding: '2px 6px', borderRadius: '4px' }}>{t('worker_profile.advance_out')}</span></div>
+                      <div style={{ fontWeight: '600' }}>{formatDate(tr.trans_date, i18n.language)} <span style={{ marginLeft: '10px', fontSize: '0.8rem', color: 'var(--danger-text)', border: '1px solid var(--danger-text)', padding: '2px 6px', borderRadius: '4px' }}>{t('worker_profile.advance_out')}</span></div>
                       <div className="card-subtitle" style={{ marginTop: '0.5rem' }}>{tr.notes || '-'}</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
@@ -737,7 +753,7 @@ const WorkerProfile = ({ worker, onBack }) => {
                 cReport.islemler.map(item => (
                   <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', borderBottom: '1px solid var(--glass-border)', background: item.isIncome ? 'var(--success-bg-light)' : 'var(--danger-bg-light)' }}>
                     <div>
-                      <div style={{ fontWeight: '600' }}>{item.date} <span style={{ marginLeft: '10px', fontSize: '0.8rem', color: item.isIncome ? 'var(--success-text)' : 'var(--danger-text)', border: `1px solid var(${item.isIncome ? '--success-text' : '--danger-text'})`, padding: '2px 6px', borderRadius: '4px' }}>{item.type}</span></div>
+                      <div style={{ fontWeight: '600' }}>{formatDate(item.date, i18n.language)} <span style={{ marginLeft: '10px', fontSize: '0.8rem', color: item.isIncome ? 'var(--success-text)' : 'var(--danger-text)', border: `1px solid var(${item.isIncome ? '--success-text' : '--danger-text'})`, padding: '2px 6px', borderRadius: '4px' }}>{item.isIncome ? t('worker_profile.filter.type_timesheet', 'Puantaj') : t('worker.advanceBadge', 'AVANS')}</span></div>
                       <div className="card-subtitle" style={{ marginTop: '0.25rem' }}>{item.desc}</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
@@ -762,14 +778,14 @@ const WorkerProfile = ({ worker, onBack }) => {
       <GuideDrawer 
         isOpen={helpOpen} 
         onClose={() => setHelpOpen(false)} 
-        title={t('worker_profile.help_title')} 
-        desc={t('worker_profile.help_desc')} 
-        h1={t('worker_profile.help_h1')} 
-        p1={t('worker_profile.help_p1')} 
-        h2={t('worker_profile.help_h2')} 
-        p2={t('worker_profile.help_p2')} 
-        h3={t('worker_profile.help_h3')} 
-        p3={t('worker_profile.help_p3')} 
+        title={t('guides.personnel.title')} 
+        desc="" 
+        h1={t('guides.personnel.step1.title')} 
+        p1={t('guides.personnel.step1.desc')} 
+        h2={t('guides.personnel.step2.title')} 
+        p2={t('guides.personnel.step2.desc')} 
+        h3={t('guides.personnel.step3.title')} 
+        p3={t('guides.personnel.step3.desc')} 
       />
     </div>
   );

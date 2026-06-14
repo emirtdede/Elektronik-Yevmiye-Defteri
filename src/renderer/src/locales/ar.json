@@ -74,7 +74,22 @@
     "restore_confirm": "هل أنت متأكد أنك تريد استعادة قاعدة البيانات؟ سيتم حذف كافة البيانات الموجودة لديك!",
     "restore_invalid_file": "الرجاء سحب ملف قاعدة بيانات SQLite (.sqlite أو .db) صالح.",
     "system_maintenance": "صيانة النظام",
-    "logo_uploaded": "تم تحميل الشعار"
+    "logo_uploaded": "تم تحميل الشعار",
+    "parameters": "المعلمات",
+    "regionalSettings": "Regional Format Settings",
+    "customCurrency": "Currency Override",
+    "customDateFormat": "Date Format Override",
+    "customTimeFormat": "Time Format Override",
+    "autoByLanguage": "تلقائي (حسب اللغة)",
+    "regionalFormatSettings": "إعدادات التنسيق الإقليمي",
+    "currencyOverride": "Currency Selection",
+    "dateFormatOverride": "Date Format Selection",
+    "timeFormatOverride": "Time Format Selection",
+    "currencySelection": "تحديد العملة",
+    "dateFormatSelection": "تحديد تنسيق التاريخ",
+    "timeFormatSelection": "تحديد تنسيق الوقت",
+    "time24h": "24 ساعة (14:30)",
+    "time12h": "12 ساعة صباحًا/مساءً (02:30 PM)"
   },
   "dashboard": {
     "title": "إدارة شؤون الموظفين",
@@ -122,14 +137,17 @@
       "add_btn": "إضافة",
       "tags_label": "العلامات",
       "tags_ph": "على سبيل المثال: رسوم السفر، الشخصية",
-      "notes_ph": "مثال: سلفة أسبوعية"
+      "notes_ph": "مثال: سلفة أسبوعية",
+      "delete_title": "Delete Advance",
+      "delete_confirm": "Are you sure you want to delete this advance? The system will automatically cancel this amount from the Cash Register as well."
     },
     "summary": {
       "previous_balance": "الرصيد السابق",
       "period_earned": "مكتسب",
       "period_advance": "سلفة",
       "new_balance": "رصيد جديد",
-      "carried_balance_report": "تقرير الرصيد المرحل"
+      "carried_balance_report": "تقرير الرصيد المرحل",
+      "advance_deduction": "Advance Deduction"
     },
     "filter": {
       "start_date": "تاريخ البدء",
@@ -174,7 +192,10 @@
     "help_h2": "2. تقرير الرصيد المرحل",
     "help_p2": "قم بإنشاء تقارير كشوفات مفلترة حسب النطاق الزمني والتي تحسب تلقائيًا الرصيد المرحل.",
     "help_h3": "3. مطابقة حساب PDF",
-    "help_p3": "قم بإنشاء ومشاركة كشوفات PDF رسمية تحمل شعار شركتك."
+    "help_p3": "قم بإنشاء ومشاركة كشوفات PDF رسمية تحمل شعار شركتك.",
+    "whatsapp_send": "Send via WhatsApp",
+    "whatsapp_no_phone": "Personnel's registered phone number not found.",
+    "whatsapp_message_template": "Dear {{name}}, your account statement between {{startDate}} and {{endDate}}:\n\n- Total Earned: {{earned}}\n- Total Paid/Advance: {{advance}}\n- Remaining Balance: {{balance}}\n\nPresented for your information."
   },
   "cash": {
     "title": "إدارة النقد",
@@ -206,14 +227,14 @@
     "tags_ph": "مثل: مواد، إيجار",
     "search_placeholder": "البحث في الأوصاف...",
     "new_transaction": "عملية نقدية جديدة",
-    "help_title": "دليل الخزينة والنقد",
-    "help_desc": "تُستخدم الخزينة لتسجيل جميع المقبوضات والمدفوعات النقدية في موقع البناء الخاص بك.",
-    "help_h1": "1. إدخالات الدخل والمصروفات",
-    "help_p1": "سجل الدخل (+) والمصروفات (-). يتم خصم سلف العمال تلقائيًا من سجل الخزينة.",
-    "help_h2": "2. الوضع المالي الشهري",
-    "help_p2": "تتبع إجمالي الدخل، وإجمالي المصروفات، وتكاليف العمالة، والتغيرات النقدية الصافية الشهرية على الفور.",
-    "help_h3": "3. التصفية والتصدير",
-    "help_p3": "قم بتصفية سجلات النقد حسب النطاق الزمني أو نوع المعاملة، وتنزيل التقارير بتنسيق إكسل أو PDF."
+    "help_title": "Cash Register Guide",
+    "help_desc": "Cash Register is used to log all cash inflows and outflows on your construction site.",
+    "help_h1": "1. Income/Expense Entries",
+    "help_p1": "Record incomes (+) and expenses (-). Worker advances are automatically deducted from the register.",
+    "help_h2": "2. Monthly Financial Status",
+    "help_p2": "Track total incomes, total expenses, labor costs, and monthly net cash changes instantly.",
+    "help_h3": "3. Filtering & Export",
+    "help_p3": "Filter cash logs by date range or transaction type, and download reports in Excel or PDF formats."
   },
   "logs": {
     "title": "سجلات النظام",
@@ -221,7 +242,19 @@
     "level": "مستوى",
     "message": "رسالة",
     "date": "التاريخ",
-    "no_logs": "لم يتم العثور على سجلات في النطاق المحدد."
+    "no_logs": "لم يتم العثور على سجلات في النطاق المحدد.",
+    "filter_type": "نوع السجل",
+    "type_all": "جميع أنواع السجلات",
+    "guide": {
+      "title": "دليل سجلات النظام",
+      "intro": "تتيح لك صفحة سجلات النظام تتبع معاملات قاعدة البيانات الهامة وأحداث النظام والأخطاء المحتملة ترتيبًا زمنيًا.",
+      "levels_title": "1. مستويات السجلات وألوانها",
+      "levels_desc": "تُصنف الأنشطة بالألوان حسب الأهمية: السجلات الزرقاء (Info) للإشعارات العادية، والخضراء (DB Create) للإضافات، والصفراء (DB Update) للتحديثات، والحمراء للحذف (DB Delete) والأخطاء (Error).",
+      "large_data_title": "2. بيانات السجل الطويلة (Base64)",
+      "large_data_desc": "عند تحديث الصور مثل الشعارات، يتم حفظ أكواد Base64 طويلة. ظهور نصوص طويلة في السجلات أمر طبيعي يؤكد حفظ الصور بنجاح.",
+      "filter_export_title": "3. البحث والتصفية والتصدير",
+      "filter_export_desc": "يمكنك التصفية حسب التاريخ أو الكلمة المفتاحية أو نوع السجل، وتنزيل السجلات بصيغة Excel أو CSV أو JSON أو Markdown أو نص."
+    }
   },
   "common": {
     "cancel": "Cancel",
@@ -362,14 +395,14 @@
     "active_workspace": "مساحة العمل النشطة",
     "location_unspecified": "الموقع غير حدد",
     "select_workspace": "تحديد مساحة العمل",
-    "help_title": "دليل موقع البناء",
-    "help_desc": "تتيح لك إدارة الموقع إضافة وإدارة مشاريع أو مواقع مختلفة.",
-    "help_h1": "1. مساحة العمل النشطة",
-    "help_p1": "حدد مشروعًا لتعيينه كمشروع نشط. ستنتمي جميع المعاملات والتقارير إلى هذا المشروع.",
-    "help_h2": "2. الموقع والطقس",
-    "help_p2": "حدد موقعًا (مثل 'Istanbul, TR') لاسترداد معلومات الطقس اليومية تلقائيًا.",
-    "help_h3": "3. البحث والصفحات",
-    "help_p3": "ابحث على الفور في مواقع البناء واعرض المشاريع بكفاءة باستخدام ميزة الصفحات."
+    "help_title": "Construction Site Guide",
+    "help_desc": "Site Management allows you to add and manage different projects or locations.",
+    "help_h1": "1. Active Workspace",
+    "help_p1": "Select a project to set it as active. All transactions and reports will belong to this project.",
+    "help_h2": "2. Location & Weather",
+    "help_p2": "Specify a location (e.g., 'Istanbul, TR') to automatically retrieve daily weather conditions.",
+    "help_h3": "3. Search & Paginate",
+    "help_p3": "Instantly search across construction sites and list projects efficiently using pagination."
   },
   "filters": {
     "sort": "ترتيب:",
@@ -410,14 +443,14 @@
   },
   "media": {
     "gallery_title": "📷 معرض وسائط الموقع",
-    "help_title": "دليل معرض الوسائط",
-    "help_desc": "يجمع معرض وسائط الموقع جميع الصور التي تم تحميلها من خلال إشعارات التسليم ومراقبة الجودة.",
-    "help_h1": "1. الجدول الزمني المرئي",
-    "help_p1": "تصفح جميع صور موقع البناء مرتبة زمنيًا من الأحدث إلى الأقدم.",
-    "help_h2": "2. التفاصيل السريعة",
-    "help_p2": "انقر فوق أي صورة لمشاهدتها بالحجم الكامل وعرض إشعار التسليم أو تقرير الجودة المرتبط بها.",
-    "help_h3": "3. تصفية الفئات",
-    "help_p3": "قم بتصفية الوسائط حسب النوع (صور إشعارات التسليم مقابل صور تقارير الجودة) أو ابحث بواسطة الملاحظات."
+    "help_title": "Media Gallery Guide",
+    "help_desc": "Site Media Gallery aggregates all photos uploaded through Delivery Notes and Quality Control.",
+    "help_h1": "1. Visual Timeline",
+    "help_p1": "Browse all construction site images sorted chronologically from newest to oldest.",
+    "help_h2": "2. Quick Details",
+    "help_p2": "Click any photo to see it in full size and view the associated delivery note or quality report.",
+    "help_h3": "3. Category Filters",
+    "help_p3": "Filter media by type (Delivery Note photos vs. Quality Control photos) or search by notes."
   },
   "subcontractor": {
     "title": "🚜 سجلات المقاولين من الباطن",
@@ -462,20 +495,20 @@
     "upload_mobile_desc": "Connect your phone and computer to the **same WiFi network**, then scan the QR code below with your camera:",
     "delete_title": "Delete Report",
     "delete_confirm": "Are you sure you want to delete this quality control report? This action cannot be undone.",
-    "help_title": "دليل مراقبة الجودة",
-    "help_desc": "تُستخدم وحدة مراقبة الجودة لتسجيل المشكلات الهيكلية، ونتائج السلامة، وتقارير الموقع.",
-    "help_h1": "1. حالات التقرير",
-    "help_p1": "سجل التقارير كـ 'مفتوحة' في البداية، وقم بتحديثها إلى 'محلولة' بمجرد حل المشكلة الفنية.",
-    "help_h2": "2. الأدلة المرئية",
-    "help_p2": "أرفق صورًا للمشكلات المحددة واكتب خطط حل مفصلة في منطقة الوصف.",
-    "help_h3": "3. التصفية",
-    "help_p3": "قم بتصفية التقارير حسب حالة الحل أو توفر الصورة لتتبع المشكلات المعلقة."
+    "help_title": "Quality Control Guide",
+    "help_desc": "Quality Control module is used to log structural issues, safety findings, and site reports.",
+    "help_h1": "1. Report Statuses",
+    "help_p1": "Log reports as 'OPEN' initially, and update them to 'RESOLVED' once the technical issue is solved.",
+    "help_h2": "2. Visual Evidence",
+    "help_p2": "Attach photos of identified issues and write detailed solution plans in the description area.",
+    "help_h3": "3. Filtering",
+    "help_p3": "Filter reports by resolution status or photo availability to track pending issues."
   },
   "journal": {
     "title": "📓 اليومية الخاصة بالموقع",
     "worker_count": "عدد الموظفين العاملين",
     "weather": "حالة الطقس",
-    "temperature": "درجة الحرارة (°م)",
+    "temperature": "درجة الحرارة",
     "notes": "ملاحظات اليومية / الأعمال المنجزة",
     "notes_ph": "مثال: تم ربط حديد أعمدة الطابق الثاني، صب خرسانة C30...",
     "save_btn": "حفظ / تحديث اليومية",
@@ -493,7 +526,8 @@
     "help_h3": "3. Edit Lock Policy",
     "help_p3": "To maintain historical data integrity, daily journals can only be edited on the day they are created. Older entries are locked.",
     "delete_title": "Delete Journal",
-    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone."
+    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone.",
+    "weatherDesc": "وصف الطقس"
   },
   "materials": {
     "title": "🚚 إشعار التسليم وإدخال المواد",
@@ -512,14 +546,14 @@
     "upload_mobile_desc": "Connect your phone and computer to the **same WiFi network**, then scan the QR code with your camera:",
     "delete_title": "Delete Document",
     "delete_confirm": "Are you sure you want to delete this delivery note entry? This action cannot be undone.",
-    "help_title": "دليل إشعار التسليم والمواد",
-    "help_desc": "تُستخدم وحدة إشعار التسليم لتسجيل مواد البناء الواردة وتحميل مستندات التسليم.",
-    "help_h1": "1. المورد ونوع المادة",
-    "help_p1": "سجل أسماء الموردين، وأنواع المواد، والوحدات، والكميات، وأرقام إشعارات التسليم/الإيصالات.",
-    "help_h2": "2. صور المستندات",
-    "help_p2": "قم بتحميل المستندات الممسوحة ضوئيًا أو الصور من الكمبيوتر أو استخدم رمز الاستجابة السريعة للهاتف لبناء أرشيف رقمي.",
-    "help_h3": "3. البحث الذكي",
-    "help_p3": "ابحث على الفور في أوصاف المواد، أو أسماء الموردين، أو أرقام إشعارات التسليم."
+    "help_title": "Delivery Note Guide",
+    "help_desc": "Delivery Note module is used to log incoming construction materials and upload delivery documents.",
+    "help_h1": "1. Supplier & Material Type",
+    "help_p1": "Log supplier names, material types, units, quantities, and receipt/delivery note numbers.",
+    "help_h2": "2. Document Photos",
+    "help_p2": "Upload scanned documents or photos from PC or use mobile QR code to build a digital archive.",
+    "help_h3": "3. Smart Search",
+    "help_p3": "Search instantly through material descriptions, supplier names, or delivery note numbers."
   },
   "production": {
     "title": "📐 مسح الكميات ومتابعة الإنتاج",
@@ -529,14 +563,14 @@
     "empty_state": "No production entries recorded for this construction site yet.",
     "delete_title": "Delete Record",
     "delete_confirm": "Are you sure you want to delete this production record? This action cannot be undone.",
-    "help_title": "دليل مسح الكميات والإنتاج",
-    "help_desc": "تُستخدم وحدة مسح الكميات لتتبع بنود الإنتاج والوحدات والتقدم المحرز في البناء.",
-    "help_h1": "1. سجلات بنود الإنتاج",
-    "help_p1": "سجل بنود الإنتاج اليومية أو الأسبوعية، مع تحديد وحداتها (م²، م³، كجم، إلخ) وكمياتها.",
-    "help_h2": "2. الأرشيف والتفاصيل",
-    "help_p2": "اكتب ملاحظات لكل إدخال للاحتفاظ بأرشيف زمني للتقدم في الأقسام المختلفة.",
-    "help_h3": "3. البحث والتصفية",
-    "help_p3": "ابحث في أسماء البنود أو الملاحظات، وقم بتصفيتها حسب النطاق الزمني أو نوع الوحدة."
+    "help_title": "Quantity Survey Guide",
+    "help_desc": "Quantity Survey module is used to track construction items, units, and progress.",
+    "help_h1": "1. Production Item Records",
+    "help_p1": "Log daily or weekly production items, specifying their units (m², m³, kg, etc.) and quantities.",
+    "help_h2": "2. Archive & Details",
+    "help_p2": "Write notes for each entry to keep a chronological archive of progress in different blocks.",
+    "help_h3": "3. Search & Filters",
+    "help_p3": "Search through item names or notes, and filter them by date range or unit type."
   },
   "anomalies": {
     "no_anomaly_title": "No System Anomalies",
@@ -549,5 +583,280 @@
     "more_people": "و {{count}} أشخاص آخرين...",
     "no_results": "No results found.",
     "search_no_results": "No results matching the search criteria were found."
+  },
+  "settings.regionalSettings": "Regional Format Settings",
+  "settings.customCurrency": "Currency Override",
+  "settings.customDateFormat": "Date Format Override",
+  "settings.customTimeFormat": "Time Format Override",
+  "settings.autoByLanguage": "Automatic (By Language)",
+  "sidebar.recycleBin": "Recycle Bin",
+  "recycle.title": "Recycle Bin",
+  "recycle.desc": "List deleted records here and restore them back to their original places.",
+  "recycle.type": "Record Type",
+  "recycle.content": "Content / Title",
+  "recycle.deletedAt": "Deleted At",
+  "recycle.restoreSuccess": "Record successfully restored.",
+  "recycle.emptyState": "No deleted records found.",
+  "recycle.itemType.worker": "Personnel Record",
+  "recycle.itemType.transaction": "Cash Transaction",
+  "recycle.itemType.material": "Delivery Note / Material",
+  "recycle.itemType.journal": "Daily Journal",
+  "recycle.itemType.quality": "Quality Control Report",
+  "recycle.itemType.subcontractor": "Subcontractor Ledger Record",
+  "global.restore": "Restore",
+  "recycle.searchPlaceholder": "Search...",
+  "recycle.searchAll": "Search Everywhere",
+  "recycle.allTypes": "All Record Types",
+  "recycle.startDate": "Start Date",
+  "recycle.endDate": "End Date",
+  "recycle.restored": "Restored",
+  "recycle.hideRestored": "Hide Restored",
+  "recycle.showRestored": "Show Restored",
+  "recycle.successTitle": "Success",
+  "common.ok": "OK",
+  "common.error": "Error",
+  "recycle.itemType.project": "Project Record",
+  "recycle.project": "Project / Site",
+  "recycle.allProjects": "All Projects",
+  "recycle.deletedProjectShort": "Deleted",
+  "recycle.guideTitle": "Info",
+  "recycle.guide.title": "Recycle Bin Guide",
+  "recycle.guide.intro": "ShantiyeOS Recycle Bin is a protection system designed to prevent the loss of critical records deleted accidentally.",
+  "recycle.guide.how_it_works_title": "How it Works?",
+  "recycle.guide.how_it_works_desc": "When you delete any record in the system, it is not permanently erased. Instead, it is soft-deleted and listed in this recycle bin.",
+  "recycle.guide.restore_title": "Restoring Data:",
+  "recycle.guide.restore_desc": "Click the \"Restore\" button to recover the record in seconds. Restored items remain in the recycle bin as read-only/passive records for traceability.",
+  "recycle.guide.project_isolation_title": "Project Separation:",
+  "recycle.guide.project_isolation_desc": "Each record displays the project it belongs to. Use the project filter at the top to keep your trash bin organized.",
+  "recycle.guide.date_filter_title": "Date Filters & Search:",
+  "recycle.guide.date_filter_desc": "You can search and filter deleted records by their deletion date, type, or title.",
+  "recycle.restoreStatus.all": "All Records",
+  "recycle.restoreStatus.onlyDeleted": "Only Deleted",
+  "recycle.restoreStatus.onlyRestored": "Only Restored",
+  "recycle.startDateLabel": "Start Date",
+  "recycle.endDateLabel": "End Date",
+  "recycle.dateOrderError": "Start date cannot be after end date.",
+  "sidebar.spotlight": "Spotlight",
+  "settings.parameters": "Parameters",
+  "workers": {
+    "help_title": "Personnel Management Guide",
+    "help_desc": "The Personnel Management panel allows you to track timesheets, earnings, advances, and payment details of your workers.",
+    "help_h1": "1. Add Workers & Excel",
+    "help_p1": "Add individual workers using the top right button or import a batch list by downloading the Excel template.",
+    "help_h2": "2. Group Analysis",
+    "help_p2": "Analyze expenses and worker counts by group category (e.g., Electricians, Ironworkers).",
+    "help_h3": "3. Scorecards & Statements",
+    "help_p3": "Click any worker's name to view their timesheets, calculate new balances, and export detailed PDF statements."
+  },
+  "guides": {
+    "site": {
+      "title": "دليل إدارة الموقع",
+      "step1": {
+        "title": "1. مساحة العمل النشطة",
+        "desc": "حدد مشروعًا لتعيينه كنشط."
+      },
+      "step2": {
+        "title": "2. الموقع والطقس",
+        "desc": "حدد موقعًا لاسترداد الطقس اليومي تلقائيًا."
+      },
+      "step3": {
+        "title": "3. البحث والترقيم",
+        "desc": "البحث على الفور بين مواقع البناء."
+      }
+    },
+    "personnel": {
+      "title": "دليل الموظفين",
+      "step1": {
+        "title": "1. إضافة عامل وإكسل",
+        "desc": "استخدم قالب إكسل لتحميل قائمة مجمعة."
+      },
+      "step2": {
+        "title": "2. تحليل المجموعة",
+        "desc": "تحليل النفقات حسب فئة المجموعة."
+      },
+      "step3": {
+        "title": "3. الجداول الزمنية والبيانات",
+        "desc": "انقر على الاسم لعرض الجدول الزمني."
+      }
+    },
+    "quantity": {
+      "title": "دليل الإنتاج",
+      "step1": {
+        "title": "1. سجلات الإنتاج",
+        "desc": "تسجيل الإنتاج اليومي."
+      },
+      "step2": {
+        "title": "2. الأرشيف والتفاصيل",
+        "desc": "اكتب ملاحظات للاحتفاظ بأرشيف زمني."
+      },
+      "step3": {
+        "title": "3. البحث والمرشحات",
+        "desc": "تصفية حسب النطاق الزمني أو الوحدة."
+      }
+    },
+    "delivery": {
+      "title": "دليل التسليم",
+      "step1": {
+        "title": "1. المورد والمواد",
+        "desc": "سجل أسماء الموردين والمواد."
+      },
+      "step2": {
+        "title": "2. صور المستندات",
+        "desc": "تحميل صور المستندات للأرشيف الرقمي."
+      },
+      "step3": {
+        "title": "3. البحث الذكي",
+        "desc": "ابحث في أرقام مذكرات التسليم أو الموردين."
+      }
+    },
+    "journal": {
+      "title": "دليل اليومية",
+      "step1": {
+        "title": "1. دمج الطقس",
+        "desc": "يتم جلب الطقس تلقائيًا."
+      },
+      "step2": {
+        "title": "2. عدد العمال التلقائي",
+        "desc": "يتم حساب عدد العمال النشطين تلقائيًا."
+      },
+      "step3": {
+        "title": "3. سياسة قفل التحرير",
+        "desc": "يتم قفل السجلات القديمة لحماية البيانات السابقة."
+      }
+    },
+    "quality": {
+      "title": "دليل الجودة",
+      "step1": {
+        "title": "1. حالات التقرير",
+        "desc": "قم بتحديث الحالة عند حل المشكلة."
+      },
+      "step2": {
+        "title": "2. الأدلة البصرية",
+        "desc": "أضف صورًا للمشكلات المحددة."
+      },
+      "step3": {
+        "title": "3. التصفية",
+        "desc": "قم بالتصفية لتتبع المشكلات المفتوحة."
+      }
+    },
+    "subcontractor": {
+      "title": "دليل المقاولين من الباطن",
+      "step1": {
+        "title": "1. الأجر اليومي",
+        "desc": "تتبع الأجور اليومية للمقاولين من الباطن."
+      },
+      "step2": {
+        "title": "2. البحث والتصفية",
+        "desc": "ابحث في قائمة المقاولين من الباطن."
+      },
+      "step3": {
+        "title": "3. التحديث والتحرير",
+        "desc": "تحديث الأجور اليومية في أي وقت."
+      }
+    },
+    "media": {
+      "title": "دليل الوسائط",
+      "step1": {
+        "title": "1. الجدول الزمني المرئي",
+        "desc": "فحص صور الموقع زمنيا."
+      },
+      "step2": {
+        "title": "2. تفاصيل سريعة",
+        "desc": "انقر فوق أي صورة لعرضها بالحجم الكامل."
+      },
+      "step3": {
+        "title": "3. مرشحات الفئة",
+        "desc": "التصفية حسب مذكرة التسليم أو تقارير الجودة."
+      }
+    },
+    "cash": {
+      "title": "دليل إدارة النقد",
+      "step1": {
+        "title": "1. سجلات الدخل / المصروفات",
+        "desc": "تسجيل المداخيل والمصاريف."
+      },
+      "step2": {
+        "title": "2. الوضع المالي الشهري",
+        "desc": "تتبع صافي التغيرات النقدية على الفور."
+      },
+      "step3": {
+        "title": "3. التصدير",
+        "desc": "قم بتنزيل المعاملات بتنسيق PDF أو Excel."
+      }
+    },
+    "recycle": {
+      "title": "دليل سلة المحذوفات",
+      "step1": {
+        "title": "كيف تعمل؟",
+        "desc": "يتم حذف السجلات المحذوفة بشكل ناعم وإدراجها هنا."
+      },
+      "step2": {
+        "title": "استعادة البيانات",
+        "desc": "استخدم زر الاستعادة لاستعادة السجلات."
+      },
+      "step3": {
+        "title": "فصل المشاريع",
+        "desc": "قم بتصفية سلة المحذوفات الخاصة بك حسب المشروع."
+      }
+    }
+  },
+  "worker": {
+    "idLabel": "ID",
+    "advanceBadge": "ADVANCE"
+  },
+  "recycle": {
+    "desc": "سرد السجلات المحذوفة هنا واستعادتها إلى أماكنها الأصلية.",
+    "search": "Search...",
+    "allRecords": "All Records",
+    "allRecordTypes": "All Record Types",
+    "allProjects": "All Projects",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "tableRecordType": "نوع السجل",
+    "tableProject": "المشروع / الموقع",
+    "tableContent": "المحتوى / العنوان",
+    "tableDeletedAt": "تاريخ الحذف",
+    "tableAction": "إجراء",
+    "title": "سلة المحذوفات",
+    "guide": {
+      "title": "سلة المهملات",
+      "intro": "السجلات المحذوفة."
+    },
+    "allRecordsOption": "جميع السجلات",
+    "onlyDeleted": "المحذوفة فقط",
+    "onlyRestored": "المستردة فقط",
+    "allRecordTypesOption": "جميع أنواع السجلات",
+    "type": {
+      "personnel": "سجل شؤون الموظفين",
+      "cash": "معاملة نقدية",
+      "delivery": "إشعار التسليم / المواد",
+      "journal": "اليومية",
+      "quality": "تقرير مراقبة الجودة",
+      "subcontractor": "دفتر المقاول من الباطن",
+      "project": "سجل المشروع"
+    },
+    "allProjectsOption": "جميع المشاريع"
+  },
+  "global": {
+    "spotlight": "البحث: Ctrl + K",
+    "recordsCount": "({{count}} سجلات)",
+    "restore": "استعادة",
+    "restored": "تم الاستعادة"
+  },
+  "sidebar": {
+    "recycleBin": "سلة المحذوفات",
+    "spotlight": "بحث"
+  },
+  "anomaly": {
+    "noAnomalies": "لا توجد شذوذ في النظام",
+    "allUpToDate": "جميع الأرصدة المالية ومستندات السلامة محدثة."
+  },
+  "empty": {
+    "production": "لم يتم إدخال سجلات إنتاج بعد.",
+    "delivery": "لا توجد سجلات تسليم بعد.",
+    "journal": "لا توجد يوميات بعد.",
+    "quality": "لا توجد تقارير جودة بعد.",
+    "subcontractor": "لا يوجد مقاولون مسجلون بعد.",
+    "media": "لم يتم العثور على سجلات وسائط تطابق المعايير."
   }
 }

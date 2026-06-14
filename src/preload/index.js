@@ -7,7 +7,10 @@ contextBridge.exposeInMainWorld('api', {
     create: (table, data) => ipcRenderer.invoke('db:create', { table, data }),
     update: (table, id, data) => ipcRenderer.invoke('db:update', { table, id, data }),
     delete: (table, id) => ipcRenderer.invoke('db:delete', { table, id }),
-    transactionDelete: (id) => ipcRenderer.invoke('db:transaction:delete', { id })
+    transactionDelete: (id) => ipcRenderer.invoke('db:transaction:delete', { id }),
+    readDeleted: () => ipcRenderer.invoke('db:read-deleted'),
+    restoreRecord: (table, id) => ipcRenderer.invoke('db:restore', { table, id }),
+    readAllProjects: () => ipcRenderer.invoke('db:read-all-projects')
   },
   finance: {
     getBalance: (worker_id) => ipcRenderer.invoke('finance:get-balance', { worker_id }),

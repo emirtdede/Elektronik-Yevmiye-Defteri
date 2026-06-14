@@ -4,7 +4,7 @@ import { exportToExcel, exportToCSV, exportToJSON } from '../utils/exportUtils';
 import TagInput from './ui/TagInput';
 import ConfirmationModal from './ui/ConfirmationModal';
 import CustomDatePicker from './ui/CustomDatePicker';
-import { formatCurrency } from '../utils/formatUtils';
+import { formatCurrency, formatDate, getCurrencySymbol } from '../utils/formatUtils';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import GuideDrawer from './ui/GuideDrawer';
@@ -36,6 +36,22 @@ const CashRegister = () => {
   // Filters State
   const [filterStartDate, setFilterStartDate] = useState(getFirstDayOfCurrentMonth());
   const [filterEndDate, setFilterEndDate] = useState(getLastDayOfCurrentMonth());
+  const handleStartDateChange = (val) => {
+    if (val && filterEndDate && new Date(val) > new Date(filterEndDate)) {
+      setFilterStartDate(filterEndDate);
+      setFilterEndDate(val);
+    } else {
+      setFilterStartDate(val);
+    }
+  };
+  const handleEndDateChange = (val) => {
+    if (val && filterStartDate && new Date(filterStartDate) > new Date(val)) {
+      setFilterEndDate(filterStartDate);
+      setFilterStartDate(val);
+    } else {
+      setFilterEndDate(val);
+    }
+  };
   const [filterType, setFilterType] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -377,7 +393,7 @@ const CashRegister = () => {
                 </select>
               </div>
               <div className="form-group">
-                <label className="form-label">{t('cash.table.amount')} (₺)</label>
+                <label className="form-label">{t('cash.table.amount')} ({getCurrencySymbol(i18n.language)})</label>
                 <input type="number" name="amount" className="form-input" min="1" step="0.01" value={formData.amount} onChange={handleChange} required />
               </div>
               <div className="form-group">
@@ -415,11 +431,11 @@ const CashRegister = () => {
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
             <div style={{ flex: 1 }}>
               <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('cash.start_date')}</label>
-              <CustomDatePicker className="form-input" value={filterStartDate} onChange={e => setFilterStartDate(e.target.value)} />
+              <CustomDatePicker className="form-input" value={filterStartDate} onChange={e => handleStartDateChange(e.target.value)} />
             </div>
             <div style={{ flex: 1 }}>
               <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('cash.end_date')}</label>
-              <CustomDatePicker className="form-input" value={filterEndDate} onChange={e => setFilterEndDate(e.target.value)} />
+              <CustomDatePicker className="form-input" value={filterEndDate} onChange={e => handleEndDateChange(e.target.value)} />
             </div>
             <div style={{ flex: 1 }}>
               <label className="form-label" style={{ fontSize: '0.8rem' }}>{t('cash.trans_dir')}</label>
@@ -485,7 +501,7 @@ const CashRegister = () => {
                   }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                        <span style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{tr.trans_date}</span>
+                        <span style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{formatDate(tr.trans_date, i18n.language)}</span>
                         <span style={{ 
                           fontSize: '0.75rem', 
                           padding: '0.2rem 0.5rem', 
@@ -567,14 +583,14 @@ const CashRegister = () => {
       <GuideDrawer 
         isOpen={helpOpen} 
         onClose={() => setHelpOpen(false)} 
-        title={t('cash.help_title')} 
-        desc={t('cash.help_desc')} 
-        h1={t('cash.help_h1')} 
-        p1={t('cash.help_p1')} 
-        h2={t('cash.help_h2')} 
-        p2={t('cash.help_p2')} 
-        h3={t('cash.help_h3')} 
-        p3={t('cash.help_p3')} 
+        title={t('guides.cash.title')} 
+        desc="" 
+        h1={t('guides.cash.step1.title')} 
+        p1={t('guides.cash.step1.desc')} 
+        h2={t('guides.cash.step2.title')} 
+        p2={t('guides.cash.step2.desc')} 
+        h3={t('guides.cash.step3.title')} 
+        p3={t('guides.cash.step3.desc')} 
       />
     </div>
   );

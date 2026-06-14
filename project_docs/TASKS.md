@@ -32,7 +32,11 @@
 - [x] **Kategori 2 (UI/UX ve Arayüz Düzenlemeleri)**: Menü sırası değişimi, tarih temizleyici butonları, silme modalı hizalaması, başlık daraltmaları, profil etiketleri, grup bazlı listeleme ve para birimi formatlamaları.
 - [x] **Kategori 3 (Listeleme, Arama ve Sayfalama)**: İSG paneli revizyonu (sekmeleme, ilk 10 kayıt, dikey kaydırma), modül listelerine arama çubuğu ve sayfalama eklenmesi, gereksiz dönem özeti panelinin kaldırılması.
 - [ ] **Kategori 4 (Medya, QR ve Zaman Kısıtlamaları)**: Önizleme panellerini birleştirme ve Lightbox zoom entegrasyonu, QR kod modalı, jurnallerde sadece aynı gün düzenleme kısıtı ve yüklenen görsellerin WebP formatında sıkıştırılması.
-- [ ] **Kategori 5 (PDF ve Diğer Entegrasyonlar)**: Kılavuz ampul ikonları, PDF logo ve filtre onarımları, WhatsApp / E-Posta entegrasyonu ve i18n çevirileri.
+- [x] **Kategori 5 (PDF ve Diğer Entegrasyonlar)**: Kılavuz ampul ikonları, PDF logo ve filtre onarımları, WhatsApp / E-Posta entegrasyonu ve i18n çevirileri.
+
+### FAZ 6: ŞANTİYEOS V1.0 STABLE (NİHAİ SÜRÜM YENİLİKLERİ)
+- [x] **Bölgesel Format Ayarları**: Para birimi, tarih ve saat formatlarının kullanıcı tanımlı manuel ayarlanabilmesi.
+- [x] **Geri Al (Undo) & Çöp Kutusu**: Soft-delete yapısı, verilerin kazara silinmesini önlemek için Çöp Kutusu modülü ve Geri Yükleme desteği.
 
 ---
 

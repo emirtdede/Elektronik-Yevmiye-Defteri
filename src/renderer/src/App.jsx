@@ -149,6 +149,14 @@ function App() {
         if (settingsData) {
           const sMap = {};
           settingsData.forEach(s => sMap[s.setting_key] = s.setting_value);
+          
+          window.regionalSettings = {
+            currency: sMap['custom_currency'] || 'auto',
+            dateFormat: sMap['custom_date_format'] || 'auto',
+            timeFormat: sMap['custom_time_format'] || 'auto',
+            language: sMap['language'] || 'tr'
+          };
+
           if (sMap['theme']) {
             document.documentElement.setAttribute('data-theme', sMap['theme']);
           } else {
@@ -471,7 +479,7 @@ function App() {
               </div>
               
               <div className="sidebar-submenu" style={{
-                maxHeight: isSettingsOpen ? '200px' : '0px',
+                maxHeight: isSettingsOpen ? '250px' : '0px',
                 overflow: 'hidden',
                 transition: 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 paddingLeft: sidebarState === 'collapsed' ? '0' : '1rem',
@@ -512,12 +520,20 @@ function App() {
                   <span className="sidebar-icon">📋</span>
                   <span className="sidebar-text">{t('nav.settings_logs', 'Sistem Kayıtları')}</span>
                 </div>
+                <div 
+                  className={`sidebar-link ${view === 'settings_recycle' ? 'active' : ''}`} 
+                  onClick={() => setView('settings_recycle')}
+                  style={{ fontSize: '0.825rem', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                >
+                  <span className="sidebar-icon">🗑️</span>
+                  <span className="sidebar-text">{t('sidebar.recycleBin', 'Çöp Kutusu')}</span>
+                </div>
               </div>
             </div>
           </nav>
 
           <div className="sidebar-footer" style={{ textAlign: 'center' }}>
-            <div>Spotlight: <kbd style={{ background: 'rgba(255,255,255,0.08)', padding: '1px 4px', borderRadius: '3px' }}>Ctrl + K</kbd></div>
+            <div>{t('global.spotlight')}</div>
           </div>
         </aside>
 
@@ -779,14 +795,14 @@ function App() {
       <GuideDrawer 
         isOpen={dashboardHelpOpen} 
         onClose={() => setDashboardHelpOpen(false)} 
-        title={t('dashboard.help_title')} 
-        desc={t('dashboard.help_desc')} 
-        h1={t('dashboard.help_h1')} 
-        p1={t('dashboard.help_p1')} 
-        h2={t('dashboard.help_h2')} 
-        p2={t('dashboard.help_p2')} 
-        h3={t('dashboard.help_h3')} 
-        p3={t('dashboard.help_p3')} 
+        title={t('guides.personnel.title')} 
+        desc="" 
+        h1={t('guides.personnel.step1.title')} 
+        p1={t('guides.personnel.step1.desc')} 
+        h2={t('guides.personnel.step2.title')} 
+        p2={t('guides.personnel.step2.desc')} 
+        h3={t('guides.personnel.step3.title')} 
+        p3={t('guides.personnel.step3.desc')} 
       />
 
       {undoAvailable && (

@@ -5,9 +5,10 @@ import CustomDatePicker from './ui/CustomDatePicker';
 import LightboxModal from './ui/LightboxModal';
 import { compressImage } from '../utils/imageCompressor';
 import GuideDrawer from './ui/GuideDrawer';
+import { formatDate } from '../utils/formatUtils';
 
 const MaterialManagement = ({ activeProjectId, projects = [] }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   
@@ -35,6 +36,22 @@ const MaterialManagement = ({ activeProjectId, projects = [] }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStartDate, setFilterStartDate] = useState('');
   const [filterEndDate, setFilterEndDate] = useState('');
+  const handleStartDateChange = (val) => {
+    if (val && filterEndDate && new Date(val) > new Date(filterEndDate)) {
+      setFilterStartDate(filterEndDate);
+      setFilterEndDate(val);
+    } else {
+      setFilterStartDate(val);
+    }
+  };
+  const handleEndDateChange = (val) => {
+    if (val && filterStartDate && new Date(filterStartDate) > new Date(val)) {
+      setFilterEndDate(filterStartDate);
+      setFilterStartDate(val);
+    } else {
+      setFilterEndDate(val);
+    }
+  };
   const [filterPhoto, setFilterPhoto] = useState(''); // '' | 'yes' | 'no'
   const [filterUnit, setFilterUnit] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -525,7 +542,7 @@ const MaterialManagement = ({ activeProjectId, projects = [] }) => {
               <CustomDatePicker 
                 className="form-input" 
                 value={filterStartDate} 
-                onChange={e => setFilterStartDate(e.target.value)} 
+                onChange={e => handleStartDateChange(e.target.value)} 
                 style={{ marginBottom: 0 }}
               />
             </div>
@@ -534,7 +551,7 @@ const MaterialManagement = ({ activeProjectId, projects = [] }) => {
               <CustomDatePicker 
                 className="form-input" 
                 value={filterEndDate} 
-                onChange={e => setFilterEndDate(e.target.value)} 
+                onChange={e => handleEndDateChange(e.target.value)} 
                 style={{ marginBottom: 0 }}
               />
             </div>
@@ -546,7 +563,7 @@ const MaterialManagement = ({ activeProjectId, projects = [] }) => {
           <div className="skeleton" style={{ height: '200px', width: '100%' }}></div>
         ) : filteredRecords.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-            {searchQuery ? t('materials.no_results', 'Arama kriterlerine uygun malzeme/irsaliye kaydı bulunamadı.') : t('materials.empty_state', 'Henüz malzeme/irsaliye kaydı bulunmuyor.')}
+            {searchQuery ? t('materials.no_results', 'Arama kriterlerine uygun malzeme/irsaliye kaydı bulunamadı.') : t('empty.delivery', 'Henüz irsaliye kaydı bulunmuyor.')}
           </div>
         ) : (
           <div className="fin-table-container">
@@ -565,7 +582,7 @@ const MaterialManagement = ({ activeProjectId, projects = [] }) => {
               <tbody>
                 {paginatedRecords.map(r => (
                   <tr key={r.id}>
-                    <td>{r.receipt_date}</td>
+                    <td>{formatDate(r.receipt_date, i18n.language)}</td>
                     <td style={{ fontWeight: '600' }}>{r.receipt_number || '-'}</td>
                     <td>{r.supplier}</td>
                     <td>{r.material_type}</td>
@@ -719,14 +736,14 @@ const MaterialManagement = ({ activeProjectId, projects = [] }) => {
       <GuideDrawer 
         isOpen={helpOpen} 
         onClose={() => setHelpOpen(false)} 
-        title={t('materials.help_title')} 
-        desc={t('materials.help_desc')} 
-        h1={t('materials.help_h1')} 
-        p1={t('materials.help_p1')} 
-        h2={t('materials.help_h2')} 
-        p2={t('materials.help_p2')} 
-        h3={t('materials.help_h3')} 
-        p3={t('materials.help_p3')} 
+        title={t('guides.delivery.title')} 
+        desc="" 
+        h1={t('guides.delivery.step1.title')} 
+        p1={t('guides.delivery.step1.desc')} 
+        h2={t('guides.delivery.step2.title')} 
+        p2={t('guides.delivery.step2.desc')} 
+        h3={t('guides.delivery.step3.title')} 
+        p3={t('guides.delivery.step3.desc')} 
       />
     </div>
   );

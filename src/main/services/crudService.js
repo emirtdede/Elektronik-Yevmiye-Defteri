@@ -127,8 +127,17 @@ async function deleteRecord(db, table, id) {
   const hasSoftDelete = !tablesWithoutSoftDelete.includes(table);
 
   if (hasSoftDelete) {
-    const query = `UPDATE ${table} SET is_deleted = 1, deleted_at = CURRENT_TIMESTAMP WHERE id = ?`;
+    const query = `UPDATE ${table} SET is_deleted = 1, deleted_at = datetime('now', 'localtime') WHERE id = ?`;
     await db.run(query, [id]);
+    
+    // Cascade delete related records if a project is soft-deleted
+    if (table === 'projects') {
+      const childTables = ['workers', 'timesheets', 'transactions', 'cash_register', 'production_records', 'materials', 'daily_journals', 'quality_reports', 'subcontractor_ledgers'];
+      for (const t of childTables) {
+        await db.run(`UPDATE ${t} SET is_deleted = 1, deleted_at = datetime('now', 'localtime') WHERE project_id = ? AND is_deleted = 0`, [id]);
+      }
+    }
+    
     await logAudit(db, table, id, 'DELETE', oldRecord, { is_deleted: 1 });
   } else {
     const query = `DELETE FROM ${table} WHERE id = ?`;

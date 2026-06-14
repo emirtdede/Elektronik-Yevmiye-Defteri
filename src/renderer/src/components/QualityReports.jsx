@@ -5,9 +5,10 @@ import CustomDatePicker from './ui/CustomDatePicker';
 import LightboxModal from './ui/LightboxModal';
 import { compressImage } from '../utils/imageCompressor';
 import GuideDrawer from './ui/GuideDrawer';
+import { formatDate } from '../utils/formatUtils';
 
 const QualityReports = ({ activeProjectId, projects = [] }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
@@ -501,7 +502,7 @@ const QualityReports = ({ activeProjectId, projects = [] }) => {
           <div className="skeleton" style={{ height: '200px', width: '100%' }}></div>
         ) : filteredReports.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-            {searchQuery ? t('quality.no_results', 'Arama kriterlerine uygun tutanak kaydı bulunamadı.') : t('quality.empty_state', 'Henüz şantiye kalite kontrol tutanağı bulunmuyor.')}
+            {searchQuery ? t('quality.no_results', 'Arama kriterlerine uygun tutanak kaydı bulunamadı.') : t('empty.quality', 'Bu şantiye için henüz kalite kontrol raporu bulunmuyor.')}
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -517,7 +518,7 @@ const QualityReports = ({ activeProjectId, projects = [] }) => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                   <div>
                     <h3 className="card-title" style={{ fontSize: '1.05rem' }}>{rep.title}</h3>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>📅 {rep.report_date}</span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>📅 {formatDate(rep.report_date, i18n.language)}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <span 
@@ -678,14 +679,14 @@ const QualityReports = ({ activeProjectId, projects = [] }) => {
       <GuideDrawer 
         isOpen={helpOpen} 
         onClose={() => setHelpOpen(false)} 
-        title={t('quality.help_title')} 
-        desc={t('quality.help_desc')} 
-        h1={t('quality.help_h1')} 
-        p1={t('quality.help_p1')} 
-        h2={t('quality.help_h2')} 
-        p2={t('quality.help_p2')} 
-        h3={t('quality.help_h3')} 
-        p3={t('quality.help_p3')} 
+        title={t('guides.quality.title')} 
+        desc="" 
+        h1={t('guides.quality.step1.title')} 
+        p1={t('guides.quality.step1.desc')} 
+        h2={t('guides.quality.step2.title')} 
+        p2={t('guides.quality.step2.desc')} 
+        h3={t('guides.quality.step3.title')} 
+        p3={t('guides.quality.step3.desc')} 
       />
     </div>
   );

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SystemLogs from './SystemLogs';
 import ConfirmationModal from './ui/ConfirmationModal';
+import CustomDatePicker from './ui/CustomDatePicker';
+import GuideDrawer from './ui/GuideDrawer';
 import { useTranslation } from 'react-i18next';
 import { GripVertical, Edit2, Check, X, Trash2 } from 'lucide-react';
 
@@ -31,6 +33,106 @@ const Settings = ({ activeTab = 'genel' }) => {
   const [draggedGroupIdx, setDraggedGroupIdx] = useState(null);
   const [dragOverGroupIdx, setDragOverGroupIdx] = useState(null);
 
+  // Recycle Bin states
+  const [deletedItems, setDeletedItems] = useState([]);
+  const [recycleSearch, setRecycleSearch] = useState('');
+  const [recycleSearchField, setRecycleSearchField] = useState('all');
+  const [recycleFilterType, setRecycleFilterType] = useState('');
+  const [recycleFilterProject, setRecycleFilterProject] = useState('');
+  const [allProjects, setAllProjects] = useState([]);
+  const [recycleStartDate, setRecycleStartDate] = useState('');
+  const [recycleEndDate, setRecycleEndDate] = useState('');
+  const [restoredKeys, setRestoredKeys] = useState([]);
+  const [recycleRestoreStatus, setRecycleRestoreStatus] = useState('all');
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [recycleCurrentPage, setRecycleCurrentPage] = useState(1);
+  const recycleContainerRef = useRef(null);
+
+  const fetchDeleted = async () => {
+    if (window.api && window.api.db && window.api.db.readDeleted) {
+      const items = await window.api.db.readDeleted();
+      setDeletedItems(items || []);
+    }
+    if (window.api && window.api.db && window.api.db.readAllProjects) {
+      const projs = await window.api.db.readAllProjects();
+      setAllProjects(projs || []);
+    }
+  };
+
+  const handleRestore = async (table, id) => {
+    if (window.api && window.api.db && window.api.db.restoreRecord) {
+      const res = await window.api.db.restoreRecord(table, id);
+      if (res.success) {
+        setModalConfig({
+          isOpen: true,
+          title: t('recycle.successTitle', 'Başarılı'),
+          message: t('recycle.restoreSuccess', 'Veri başarıyla eski yerine geri yüklendi.'),
+          type: 'primary',
+          confirmText: t('common.ok', 'Tamam'),
+          cancelText: '',
+          onConfirm: () => {}
+        });
+        setRestoredKeys(prev => [...prev, `${table}_${id}`]);
+      } else {
+        setModalConfig({
+          isOpen: true,
+          title: t('common.error', 'Hata'),
+          message: 'Geri yükleme hatası: ' + res.message,
+          type: 'danger',
+          confirmText: t('common.ok', 'Tamam'),
+          cancelText: '',
+          onConfirm: () => {}
+        });
+      }
+    }
+  };
+
+  const handleStartDateChange = (e) => {
+    const val = e.target.value;
+    if (val && recycleEndDate && new Date(val) > new Date(recycleEndDate)) {
+      setRecycleStartDate(recycleEndDate);
+      setRecycleEndDate(val);
+    } else {
+      setRecycleStartDate(val);
+    }
+  };
+
+  const handleEndDateChange = (e) => {
+    const val = e.target.value;
+    if (val && recycleStartDate && new Date(recycleStartDate) > new Date(val)) {
+      setRecycleEndDate(recycleStartDate);
+      setRecycleStartDate(val);
+    } else {
+      setRecycleEndDate(val);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'recycle') {
+      setRestoredKeys([]);
+      setRecycleSearch('');
+      setRecycleSearchField('all');
+      setRecycleFilterType('');
+      setRecycleFilterProject('');
+      setRecycleStartDate('');
+      setRecycleEndDate('');
+      setRecycleRestoreStatus('all');
+      setIsGuideOpen(false);
+      setRecycleCurrentPage(1);
+      fetchDeleted();
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (recycleContainerRef.current) {
+      recycleContainerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [recycleCurrentPage]);
+
+  useEffect(() => {
+    setRecycleCurrentPage(1);
+  }, [recycleSearch, recycleFilterType, recycleFilterProject, recycleStartDate, recycleEndDate, recycleRestoreStatus]);
+
   const fetchData = async () => {
     if (window.api) {
       setLoading(true);
@@ -60,6 +162,16 @@ const Settings = ({ activeTab = 'genel' }) => {
       }
       if (key === 'language') {
         i18n.changeLanguage(value);
+        if (window.regionalSettings) window.regionalSettings.language = value;
+      }
+      if (key === 'custom_currency') {
+        if (window.regionalSettings) window.regionalSettings.currency = value;
+      }
+      if (key === 'custom_date_format') {
+        if (window.regionalSettings) window.regionalSettings.dateFormat = value;
+      }
+      if (key === 'custom_time_format') {
+        if (window.regionalSettings) window.regionalSettings.timeFormat = value;
       }
     }
   };
@@ -268,18 +380,18 @@ const Settings = ({ activeTab = 'genel' }) => {
       }
     }
   };
-
   if (loading) {
     return <div className="text-center"><div className="loading-spinner"></div></div>;
   }
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem', minHeight: 'calc(100vh - 100px)' }}>
+    <div style={{ maxWidth: (activeTab === 'recycle' || activeTab === 'logs') ? '100%' : '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem', minHeight: 'calc(100vh - 100px)' }}>
       <header className="header" style={{ marginBottom: '0.5rem' }}>
         <h2>
           {activeTab === 'genel' ? `⚙️ ${t('nav.settings_genel', 'Genel Ayarlar')}` : 
            activeTab === 'finance' ? `💼 ${t('nav.settings_finance', 'Finans & Operasyon')}` : 
            activeTab === 'security' ? `🛡️ ${t('nav.settings_security', 'Güvenlik ve Yedekleme')}` : 
+           activeTab === 'recycle' ? `🗑️ ${t('recycle.title', 'Geri Dönüşüm & Çöp Kutusu')}` :
            `📋 ${t('nav.settings_logs', 'Sistem Kayıtları')}`}
         </h2>
       </header>
@@ -342,6 +454,101 @@ const Settings = ({ activeTab = 'genel' }) => {
                 }
                 return null;
               })}
+            </div>
+
+            {/* Bölgesel Format Ayarları */}
+            <div className="glass-card">
+              <h3 className="card-title" style={{ marginBottom: '1.25rem' }}>{t('settings.regionalFormatSettings', 'Bölgesel Format Ayarları')}</h3>
+              
+              {appSettings.some(s => s.setting_key === 'custom_currency') ? (
+                <>
+                  {/* Para Birimi */}
+                  {appSettings.map(setting => {
+                    if (setting.setting_key === 'custom_currency') {
+                      return (
+                        <div key={setting.id} className="form-group" style={{ marginBottom: '1rem' }}>
+                          <label className="form-label">{t('settings.currencySelection', 'Para Birimi Seçimi')}</label>
+                          <select 
+                            className="form-input" 
+                            value={setting.setting_value}
+                            onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
+                          >
+                            <option value="auto">{t('settings.autoByLanguage', 'Otomatik (Dile Göre)')}</option>
+                            <option value="TRY">TRY (₺)</option>
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="CNY">CNY (¥)</option>
+                            <option value="JPY">JPY (¥)</option>
+                            <option value="KRW">KRW (₩)</option>
+                            <option value="RUB">RUB (₽)</option>
+                            <option value="SAR">SAR (SR)</option>
+                            <option value="AED">AED (د.إ)</option>
+                            <option value="EGP">EGP (ج.م)</option>
+                            <option value="INR">INR (₹)</option>
+                            <option value="BRL">BRL (R$)</option>
+                            <option value="SEK">SEK (kr)</option>
+                            <option value="NOK">NOK (kr)</option>
+                            <option value="DKK">DKK (kr)</option>
+                            <option value="PLN">PLN (zł)</option>
+                            <option value="CZK">CZK (Kč)</option>
+                          </select>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+
+                  {/* Tarih Formatı */}
+                  {appSettings.map(setting => {
+                    if (setting.setting_key === 'custom_date_format') {
+                      return (
+                        <div key={setting.id} className="form-group" style={{ marginBottom: '1rem' }}>
+                          <label className="form-label">{t('settings.dateFormatSelection', 'Tarih Formatı Seçimi')}</label>
+                          <select 
+                            className="form-input" 
+                            value={setting.setting_value}
+                            onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
+                          >
+                            <option value="auto">{t('settings.autoByLanguage', 'Otomatik (Dile Göre)')}</option>
+                            <option value="DD.MM.YYYY">DD.MM.YYYY (13.06.2026)</option>
+                            <option value="YYYY-MM-DD">YYYY-MM-DD (2026-06-13)</option>
+                            <option value="MM/DD/YYYY">MM/DD/YYYY (06/13/2026)</option>
+                            <option value="DD/MM/YYYY">DD/MM/YYYY (13/06/2026)</option>
+                            <option value="DD-MM-YYYY">DD-MM-YYYY (13-06-2026)</option>
+                            <option value="YYYY/MM/DD">YYYY/MM/DD (2026/06/13)</option>
+                            <option value="YYYY.MM.DD">YYYY.MM.DD (2026.06.13)</option>
+                          </select>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+
+                  {/* Saat Formatı */}
+                  {appSettings.map(setting => {
+                    if (setting.setting_key === 'custom_time_format') {
+                      return (
+                        <div key={setting.id} className="form-group">
+                          <label className="form-label">{t('settings.timeFormatSelection', 'Saat Formatı Seçimi')}</label>
+                          <select 
+                            className="form-input" 
+                            value={setting.setting_value}
+                            onChange={(e) => handleSettingChange(setting.id, setting.setting_key, e.target.value)}
+                          >
+                            <option value="auto">{t('settings.autoByLanguage', 'Otomatik (Dile Göre)')}</option>
+                            <option value="24h">{t('settings.time24h', '24 Saat (14:30)')}</option>
+                            <option value="12h">{t('settings.time12h', '12 Saat AM/PM (02:30 PM)')}</option>
+                          </select>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </>
+              ) : (
+                <div className="skeleton" style={{ height: '150px', borderRadius: '12px' }}></div>
+              )}
             </div>
 
             {/* Şirket Kimliği ve PDF Anteti */}
@@ -417,9 +624,9 @@ const Settings = ({ activeTab = 'genel' }) => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             {/* Standart Çalışma Parametreleri */}
             <div className="glass-card">
-              <h3 className="card-title" style={{ marginBottom: '1.25rem' }}>Parametreler</h3>
+              <h3 className="card-title" style={{ marginBottom: '1.25rem' }}>{t('settings.parameters')}</h3>
               {appSettings.map(setting => {
-                if (['theme', 'language', 'company_name', 'company_logo'].includes(setting.setting_key) || setting.setting_key.endsWith('_order')) return null;
+                if (['theme', 'language', 'company_name', 'company_logo', 'custom_currency', 'custom_date_format', 'custom_time_format'].includes(setting.setting_key) || setting.setting_key.endsWith('_order')) return null;
                 return (
                   <div key={setting.id} className="form-group">
                     <label className="form-label">{t(`settings.keys.${setting.setting_key}`) || setting.description || setting.setting_key}</label>
@@ -809,7 +1016,380 @@ const Settings = ({ activeTab = 'genel' }) => {
           </div>
         )}
 
+        {activeTab === 'recycle' && (
+          <div ref={recycleContainerRef} className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <h3 className="card-title" style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                🗑️ {t('recycle.title', 'Geri Dönüşüm & Çöp Kutusu')}
+              </div>
+              <span 
+                onClick={() => setIsGuideOpen(true)}
+                style={{ 
+                  cursor: 'pointer', 
+                  opacity: 0.4, 
+                  transition: 'opacity 0.25s ease-in-out', 
+                  fontSize: '1.6rem',
+                  userSelect: 'none',
+                  padding: '0.25rem'
+                }}
+                onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                onMouseLeave={e => e.currentTarget.style.opacity = 0.4}
+                title={t('common.page_guide', 'Sayfa Kılavuzu')}
+              >
+                💡
+              </span>
+            </h3>
+            <p className="card-subtitle" style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+              {t('recycle.desc')}
+            </p>
+
+            {/* Filters & Search Bar */}
+            <div style={{ 
+              background: 'rgba(255, 255, 255, 0.02)', 
+              border: '1px solid var(--glass-border)', 
+              borderRadius: '12px', 
+              padding: '1rem', 
+              display: 'flex', 
+              gap: '1rem', 
+              alignItems: 'flex-end', 
+              flexWrap: 'wrap' 
+            }}>
+              {/* Text Search Input */}
+              <div style={{ position: 'relative', flex: 2, minWidth: '200px', display: 'flex', alignItems: 'center' }}>
+                <input 
+                  type="text"
+                  className="form-input"
+                  placeholder={t('recycle.search')}
+                  value={recycleSearch}
+                  onChange={e => setRecycleSearch(e.target.value)}
+                  style={{ paddingRight: '2.5rem', width: '100%', marginBottom: 0 }}
+                />
+                {recycleSearch && (
+                  <button
+                    type="button"
+                    onClick={() => setRecycleSearch('')}
+                    style={{
+                      position: 'absolute',
+                      right: '12px',
+                      background: 'transparent',
+                      border: 'none',
+                      color: 'var(--text-muted)',
+                      cursor: 'pointer',
+                      fontSize: '1rem',
+                      padding: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 10
+                    }}
+                    title={t('common.clear', 'Temizle')}
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {/* Restore Status Filter */}
+              <select
+                className="form-input"
+                value={recycleRestoreStatus}
+                onChange={e => setRecycleRestoreStatus(e.target.value)}
+                style={{ flex: 1, minWidth: '180px', marginBottom: 0 }}
+              >
+                <option value="all">{t('recycle.allRecordsOption')}</option>
+                <option value="only_deleted">{t('recycle.onlyDeleted')}</option>
+                <option value="only_restored">{t('recycle.onlyRestored')}</option>
+              </select>
+
+              {/* Record Type Filter */}
+              <select 
+                className="form-input" 
+                value={recycleFilterType} 
+                onChange={e => setRecycleFilterType(e.target.value)}
+                style={{ flex: 1, minWidth: '150px', marginBottom: 0 }}
+              >
+                <option value="">{t('recycle.allRecordTypesOption')}</option>
+                <option value="workers">{t('recycle.type.personnel')}</option>
+                <option value="transactions">{t('recycle.type.cash')}</option>
+                <option value="materials">{t('recycle.type.delivery')}</option>
+                <option value="daily_journals">{t('recycle.type.journal')}</option>
+                <option value="quality_reports">{t('recycle.type.quality')}</option>
+                <option value="subcontractor_ledgers">{t('recycle.type.subcontractor')}</option>
+                <option value="projects">{t('recycle.type.project')}</option>
+              </select>
+
+              {/* Project Filter */}
+              <select 
+                className="form-input" 
+                value={recycleFilterProject} 
+                onChange={e => setRecycleFilterProject(e.target.value)}
+                style={{ flex: 1, minWidth: '150px', marginBottom: 0 }}
+              >
+                <option value="">{t('recycle.allProjectsOption')}</option>
+                {allProjects.map(proj => (
+                  <option key={proj.id} value={proj.id}>
+                    {proj.name} {proj.is_deleted ? `(${t('recycle.deletedProjectShort', 'Silindi')})` : ''}
+                  </option>
+                ))}
+              </select>
+
+              {/* Start Date */}
+              <div style={{ flex: 1.2, minWidth: '150px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '600' }}>
+                  {t('recycle.startDate')}
+                </span>
+                <CustomDatePicker 
+                  className="form-input" 
+                  value={recycleStartDate} 
+                  onChange={handleStartDateChange} 
+                  style={{ marginBottom: 0 }}
+                  placeholder={t('recycle.startDate')}
+                />
+              </div>
+
+              {/* End Date */}
+              <div style={{ flex: 1.2, minWidth: '150px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '600' }}>
+                  {t('recycle.endDate')}
+                </span>
+                <CustomDatePicker 
+                  className="form-input" 
+                  value={recycleEndDate} 
+                  onChange={handleEndDateChange} 
+                  style={{ marginBottom: 0 }}
+                  placeholder={t('recycle.endDate')}
+                />
+              </div>
+            </div>
+
+            {(() => {
+              const filteredDeletedItems = deletedItems.filter(item => {
+                const typeTranslationMap = {
+                  workers: t('recycle.type.personnel', 'Personel Kaydı'),
+                  transactions: t('recycle.type.cash', 'Kasa Hareketi'),
+                  materials: t('recycle.type.delivery', 'İrsaliye / Malzeme'),
+                  daily_journals: t('recycle.type.journal', 'Günlük Jurnal'),
+                  quality_reports: t('recycle.type.quality', 'Kalite Kontrol Tutanağı'),
+                  subcontractor_ledgers: t('recycle.type.subcontractor', 'Taşeron Cari Kaydı'),
+                  projects: t('recycle.type.project', 'Şantiye Kaydı')
+                };
+                const typeLabel = typeTranslationMap[item.table] || item.table;
+                const formattedDate = item.deleted_at ? new Date(item.deleted_at).toLocaleString() : '';
+                const itemKey = `${item.table}_${item.id}`;
+                const isRestored = item.is_deleted === 0 || restoredKeys.includes(itemKey);
+
+                if (recycleRestoreStatus === 'only_deleted' && isRestored) {
+                  return false;
+                }
+                if (recycleRestoreStatus === 'only_restored' && !isRestored) {
+                  return false;
+                }
+
+                if (recycleFilterType && item.table !== recycleFilterType) {
+                  return false;
+                }
+
+                if (recycleFilterProject && String(item.project_id) !== String(recycleFilterProject)) {
+                  return false;
+                }
+
+                if (recycleStartDate) {
+                  const start = new Date(recycleStartDate);
+                  start.setHours(0, 0, 0, 0);
+                  if (new Date(item.deleted_at) < start) return false;
+                }
+                if (recycleEndDate) {
+                  const end = new Date(recycleEndDate);
+                  end.setHours(23, 59, 59, 999);
+                  if (new Date(item.deleted_at) > end) return false;
+                }
+
+                if (recycleSearch) {
+                  const q = recycleSearch.toLowerCase();
+                  const matchType = typeLabel.toLowerCase().includes(q);
+                  const matchTitle = (item.title || '').toLowerCase().includes(q);
+                  const matchDate = formattedDate.toLowerCase().includes(q);
+                  const matchProject = (item.project_name || '').toLowerCase().includes(q);
+                  return matchType || matchTitle || matchDate || matchProject;
+                }
+
+                return true;
+              });
+
+              if (filteredDeletedItems.length === 0) {
+                return (
+                  <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+                    {recycleSearch || recycleFilterType || recycleFilterProject || recycleStartDate || recycleEndDate || recycleRestoreStatus !== 'all'
+                      ? t('anomalies.search_no_results', 'Arama kriterlerine uygun sonuç bulunamadı.')
+                      : t('recycle.emptyState', 'Silinmiş herhangi bir kayıt bulunmuyor.')}
+                  </div>
+                );
+              }
+
+              const itemsPerPage = 15;
+              const totalPages = Math.ceil(filteredDeletedItems.length / itemsPerPage);
+              const displayedItems = filteredDeletedItems.slice(
+                (recycleCurrentPage - 1) * itemsPerPage,
+                recycleCurrentPage * itemsPerPage
+              );
+
+              return (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div key={recycleCurrentPage} className="recycle-animate-page" style={{ overflowX: 'auto' }}>
+                    <table className="table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+                      <thead>
+                        <tr style={{ borderBottom: '1px solid var(--glass-border)', textAlign: 'left' }}>
+                          <th style={{ padding: '0.75rem 1rem' }}>{t('recycle.tableRecordType')}</th>
+                          <th style={{ padding: '0.75rem 1rem' }}>{t('recycle.tableProject')}</th>
+                          <th style={{ padding: '0.75rem 1rem' }}>{t('recycle.tableContent')}</th>
+                          <th style={{ padding: '0.75rem 1rem' }}>{t('recycle.tableDeletedAt')}</th>
+                          <th style={{ padding: '0.75rem 1rem', textAlign: 'right' }}>{t('recycle.tableAction')}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {displayedItems.map((item, idx) => {
+                          const typeTranslationMap = {
+                            workers: t('recycle.type.personnel', 'Personel Kaydı'),
+                            transactions: t('recycle.type.cash', 'Kasa Hareketi'),
+                            materials: t('recycle.type.delivery', 'İrsaliye / Malzeme'),
+                            daily_journals: t('recycle.type.journal', 'Günlük Jurnal'),
+                            quality_reports: t('recycle.type.quality', 'Kalite Kontrol Tutanağı'),
+                            subcontractor_ledgers: t('recycle.type.subcontractor', 'Taşeron Cari Kaydı'),
+                            projects: t('recycle.type.project', 'Şantiye Kaydı')
+                          };
+                          const typeLabel = typeTranslationMap[item.table] || item.table;
+                          const itemKey = `${item.table}_${item.id}`;
+                          const isRestored = item.is_deleted === 0 || restoredKeys.includes(itemKey);
+                          
+                          return (
+                            <tr key={`${item.table}_${item.id}_${idx}`} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                              <td style={{ padding: '1rem' }}>
+                                <span style={{ 
+                                  fontSize: '0.75rem', 
+                                  fontWeight: '600', 
+                                  background: 'rgba(255,255,255,0.06)', 
+                                  padding: '2px 8px', 
+                                  borderRadius: '4px' 
+                                }}>
+                                  {typeLabel}
+                                </span>
+                              </td>
+                              <td style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                {item.project_name || '-'}
+                              </td>
+                              <td style={{ padding: '1rem', fontWeight: '500', color: '#fff' }}>{item.title}</td>
+                              <td style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                {item.deleted_at ? new Date(item.deleted_at).toLocaleString() : '-'}
+                              </td>
+                              <td style={{ padding: '1rem', textAlign: 'right' }}>
+                                {isRestored ? (
+                                  <button 
+                                    className="btn" 
+                                    disabled
+                                    style={{ 
+                                      padding: '6px 12px', 
+                                      fontSize: '0.8rem',
+                                      background: 'rgba(255, 255, 255, 0.05)',
+                                      color: 'var(--text-muted)',
+                                      border: '1px solid var(--glass-border)',
+                                      cursor: 'not-allowed',
+                                      opacity: 0.6
+                                    }}
+                                  >
+                                    ✓ {t('global.restored', 'Geri Yüklendi')}
+                                  </button>
+                                ) : (
+                                  <button 
+                                    className="btn btn-primary" 
+                                    onClick={() => handleRestore(item.table, item.id)}
+                                    style={{ 
+                                      padding: '6px 12px', 
+                                      fontSize: '0.8rem',
+                                      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' 
+                                    }}
+                                  >
+                                    🔄 {t('global.restore', 'Geri Yükle')}
+                                  </button>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {totalPages > 1 && (
+                    <div style={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      padding: '1rem 0.5rem 0.5rem 0.5rem', 
+                      borderTop: '1px solid var(--glass-border)',
+                      flexWrap: 'wrap',
+                      gap: '1rem'
+                    }}>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                        {t('common.page_info', 'Sayfa')} {recycleCurrentPage} / {totalPages} {t('global.recordsCount', { count: filteredDeletedItems.length })}
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button
+                          className="btn"
+                          disabled={recycleCurrentPage === 1}
+                          onClick={() => setRecycleCurrentPage(prev => Math.max(prev - 1, 1))}
+                          style={{
+                            padding: '6px 12px',
+                            fontSize: '0.85rem',
+                            background: recycleCurrentPage === 1 ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.08)',
+                            color: recycleCurrentPage === 1 ? 'var(--text-muted)' : '#fff',
+                            border: '1px solid var(--glass-border)',
+                            cursor: recycleCurrentPage === 1 ? 'not-allowed' : 'pointer',
+                            opacity: recycleCurrentPage === 1 ? 0.5 : 1
+                          }}
+                        >
+                          ← {t('common.prev', 'Önceki')}
+                        </button>
+                        <button
+                          className="btn"
+                          disabled={recycleCurrentPage === totalPages}
+                          onClick={() => setRecycleCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                          style={{
+                            padding: '6px 12px',
+                            fontSize: '0.85rem',
+                            background: recycleCurrentPage === totalPages ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.08)',
+                            color: recycleCurrentPage === totalPages ? 'var(--text-muted)' : '#fff',
+                            border: '1px solid var(--glass-border)',
+                            cursor: recycleCurrentPage === totalPages ? 'not-allowed' : 'pointer',
+                            opacity: recycleCurrentPage === totalPages ? 0.5 : 1
+                          }}
+                        >
+                          {t('common.next', 'Sonraki')} →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            
+          </div>
+        )}
+
       </div>
+
+      <GuideDrawer 
+        isOpen={isGuideOpen} 
+        onClose={() => setIsGuideOpen(false)} 
+        title={t('guides.recycle.title')} 
+        desc="" 
+        h1={t('guides.recycle.step1.title')} 
+        p1={t('guides.recycle.step1.desc')} 
+        h2={t('guides.recycle.step2.title')} 
+        p2={t('guides.recycle.step2.desc')} 
+        h3={t('guides.recycle.step3.title')} 
+        p3={t('guides.recycle.step3.desc')} 
+      />
 
       <ConfirmationModal 
         {...modalConfig} 

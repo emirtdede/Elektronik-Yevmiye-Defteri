@@ -74,7 +74,22 @@
     "restore_confirm": "¿Está seguro de que desea restaurar la base de datos? ¡Todos tus datos existentes serán eliminados!",
     "restore_invalid_file": "Arrastre un archivo de base de datos SQLite (.sqlite o .db) válido.",
     "system_maintenance": "Mantenimiento del sistema",
-    "logo_uploaded": "Logotipo subido"
+    "logo_uploaded": "Logotipo subido",
+    "parameters": "Parámetros",
+    "regionalSettings": "Regional Format Settings",
+    "customCurrency": "Currency Override",
+    "customDateFormat": "Date Format Override",
+    "customTimeFormat": "Time Format Override",
+    "autoByLanguage": "Automático (por idioma)",
+    "regionalFormatSettings": "Configuración de Formato Regional",
+    "currencyOverride": "Currency Selection",
+    "dateFormatOverride": "Date Format Selection",
+    "timeFormatOverride": "Time Format Selection",
+    "currencySelection": "Selección de moneda",
+    "dateFormatSelection": "Selección de formato de fecha",
+    "timeFormatSelection": "Selección de formato de hora",
+    "time24h": "24 Horas (14:30)",
+    "time12h": "12 Horas AM/PM (02:30 PM)"
   },
   "dashboard": {
     "title": "Gestión de Personal",
@@ -122,14 +137,17 @@
       "add_btn": "Añadir Anticipo",
       "tags_label": "Etiquetas",
       "tags_ph": "Ej: Viaje-Peaje, Personal",
-      "notes_ph": "ej. Anticipo semanal"
+      "notes_ph": "ej. Anticipo semanal",
+      "delete_title": "Delete Advance",
+      "delete_confirm": "Are you sure you want to delete this advance? The system will automatically cancel this amount from the Cash Register as well."
     },
     "summary": {
       "previous_balance": "Saldo Anterior",
       "period_earned": "Ganado",
       "period_advance": "Anticipado",
       "new_balance": "Nuevo Saldo",
-      "carried_balance_report": "Informe de saldo arrastrado"
+      "carried_balance_report": "Informe de saldo arrastrado",
+      "advance_deduction": "Advance Deduction"
     },
     "filter": {
       "start_date": "Fecha de inicio",
@@ -174,7 +192,10 @@
     "help_h2": "2. Informe de saldo arrastrado",
     "help_p2": "Genere informes de extractos filtrados por rango de fechas que calculan automáticamente el saldo acumulado.",
     "help_h3": "3. Conciliación en PDF",
-    "help_p3": "Genere y comparta extractos oficiales en PDF con el logotipo de su empresa."
+    "help_p3": "Genere y comparta extractos oficiales en PDF con el logotipo de su empresa.",
+    "whatsapp_send": "Send via WhatsApp",
+    "whatsapp_no_phone": "Personnel's registered phone number not found.",
+    "whatsapp_message_template": "Dear {{name}}, your account statement between {{startDate}} and {{endDate}}:\n\n- Total Earned: {{earned}}\n- Total Paid/Advance: {{advance}}\n- Remaining Balance: {{balance}}\n\nPresented for your information."
   },
   "cash": {
     "title": "Gestión de Caja",
@@ -206,14 +227,14 @@
     "tags_ph": "ej. Material, Alquiler",
     "search_placeholder": "Buscar en descripciones...",
     "new_transaction": "Nueva transacción de efectivo",
-    "help_title": "Guía de la Caja de Efectivo",
-    "help_desc": "La caja de efectivo se utiliza para registrar todas las entradas y salidas de dinero en su obra.",
-    "help_h1": "1. Entradas de ingresos/gastos",
-    "help_p1": "Registre ingresos (+) y gastos (-). Los anticipos a los trabajadores se deducen automáticamente de la caja.",
-    "help_h2": "2. Estado financiero mensual",
-    "help_p2": "Realice un seguimiento instantáneo de los ingresos totales, gastos totales, costes laborales y cambios netos de efectivo mensuales.",
-    "help_h3": "3. Filtrado y exportación",
-    "help_p3": "Filtre los registros de caja por rango de fechas o tipo de transacción, y descargue informes en Excel o PDF."
+    "help_title": "Cash Register Guide",
+    "help_desc": "Cash Register is used to log all cash inflows and outflows on your construction site.",
+    "help_h1": "1. Income/Expense Entries",
+    "help_p1": "Record incomes (+) and expenses (-). Worker advances are automatically deducted from the register.",
+    "help_h2": "2. Monthly Financial Status",
+    "help_p2": "Track total incomes, total expenses, labor costs, and monthly net cash changes instantly.",
+    "help_h3": "3. Filtering & Export",
+    "help_p3": "Filter cash logs by date range or transaction type, and download reports in Excel or PDF formats."
   },
   "logs": {
     "title": "Registros del Sistema",
@@ -221,7 +242,19 @@
     "level": "Nivel",
     "message": "Mensaje",
     "date": "Fecha",
-    "no_logs": "No se encontraron registros en el rango seleccionado."
+    "no_logs": "No se encontraron registros en el rango seleccionado.",
+    "filter_type": "Tipo de registro",
+    "type_all": "Todos los tipos de registros",
+    "guide": {
+      "title": "Guía de registros del sistema",
+      "intro": "La página de registros del sistema le permite realizar un seguimiento cronológico de las transacciones críticas de la base de datos, los eventos del sistema y los posibles errores.",
+      "levels_title": "1. Niveles y colores de registro",
+      "levels_desc": "Las actividades están codificadas por colores: los registros azules (Info) representan notificaciones normales, los verdes (DB Create) adiciones de datos, los amarillos (DB Update) actualizaciones y los rojos eliminaciones (DB Delete) y errores críticos (Error).",
+      "large_data_title": "2. Datos de registro largos (Base64)",
+      "large_data_desc": "Al actualizar imágenes como logotipos, se guardan códigos Base64 largos. Es normal ver bloques de texto largos; esto confirma que las cargas se registraron correctamente.",
+      "filter_export_title": "3. Búsqueda, filtrado y exportación",
+      "filter_export_desc": "Filtre por fecha, palabra clave o tipo. Descargue registros como Excel, CSV, JSON, Markdown o Texto."
+    }
   },
   "common": {
     "cancel": "Cancel",
@@ -362,14 +395,14 @@
     "active_workspace": "Espacio de trabajo activo",
     "location_unspecified": "Ubicación no especificada",
     "select_workspace": "Seleccionar espacio de trabajo",
-    "help_title": "Guía de Gestión de Obras",
-    "help_desc": "La gestión de obras le permite añadir y gestionar diferentes proyectos o ubicaciones.",
-    "help_h1": "1. Espacio de trabajo activo",
-    "help_p1": "Seleccione un proyecto para establecerlo como activo. Todas las transacciones e informes pertenecerán a este proyecto.",
-    "help_h2": "2. Ubicación y clima",
-    "help_p2": "Especifique una ubicación (ej. 'Istanbul, TR') para recuperar automáticamente las condiciones climáticas diarias.",
-    "help_h3": "3. Búsqueda y paginación",
-    "help_p3": "Busque instantáneamente en las obras de construcción y enumere proyectos de manera eficiente mediante la paginación."
+    "help_title": "Construction Site Guide",
+    "help_desc": "Site Management allows you to add and manage different projects or locations.",
+    "help_h1": "1. Active Workspace",
+    "help_p1": "Select a project to set it as active. All transactions and reports will belong to this project.",
+    "help_h2": "2. Location & Weather",
+    "help_p2": "Specify a location (e.g., 'Istanbul, TR') to automatically retrieve daily weather conditions.",
+    "help_h3": "3. Search & Paginate",
+    "help_p3": "Instantly search across construction sites and list projects efficiently using pagination."
   },
   "filters": {
     "sort": "Orden:",
@@ -410,14 +443,14 @@
   },
   "media": {
     "gallery_title": "📷 Galería de medios de la obra",
-    "help_title": "Guía de la Galería de Medios",
-    "help_desc": "La galería de medios de la obra agrupa todas las fotos subidas a través de los albaranes y el control de calidad.",
-    "help_h1": "1. Línea de tiempo visual",
-    "help_p1": "Explore todas las imágenes de la obra ordenadas cronológicamente de más reciente a más antigua.",
-    "help_h2": "2. Detalles rápidos",
-    "help_p2": "Haga clic en cualquier foto para verla a tamaño completo y ver el albarán o informe de calidad asociado.",
-    "help_h3": "3. Filtros de categoría",
-    "help_p3": "Filtre los medios por tipo (fotos de albaranes frente a fotos de informes de calidad) o busque por notas."
+    "help_title": "Media Gallery Guide",
+    "help_desc": "Site Media Gallery aggregates all photos uploaded through Delivery Notes and Quality Control.",
+    "help_h1": "1. Visual Timeline",
+    "help_p1": "Browse all construction site images sorted chronologically from newest to oldest.",
+    "help_h2": "2. Quick Details",
+    "help_p2": "Click any photo to see it in full size and view the associated delivery note or quality report.",
+    "help_h3": "3. Category Filters",
+    "help_p3": "Filter media by type (Delivery Note photos vs. Quality Control photos) or search by notes."
   },
   "subcontractor": {
     "title": "🚜 Libros de subcontratistas",
@@ -462,20 +495,20 @@
     "upload_mobile_desc": "Connect your phone and computer to the **same WiFi network**, then scan the QR code below with your camera:",
     "delete_title": "Delete Report",
     "delete_confirm": "Are you sure you want to delete this quality control report? This action cannot be undone.",
-    "help_title": "Guía de Control de Calidad",
-    "help_desc": "El módulo de control de calidad se utiliza para registrar problemas estructurales, hallazgos de seguridad e informes de obra.",
-    "help_h1": "1. Estados de los informes",
-    "help_p1": "Registre los informes inicialmente como 'ABIERTO' y actualícelos a 'RESUELTO' una vez solucionado el problema técnico.",
-    "help_h2": "2. Evidencia visual",
-    "help_p2": "Adjunte fotos de los problemas identificados y escriba planes detallados de solución en el área de descripción.",
-    "help_h3": "3. Filtrado",
-    "help_p3": "Filtre los informes por estado de resolución o disponibilidad de foto para realizar un seguimiento de los casos pendientes."
+    "help_title": "Quality Control Guide",
+    "help_desc": "Quality Control module is used to log structural issues, safety findings, and site reports.",
+    "help_h1": "1. Report Statuses",
+    "help_p1": "Log reports as 'OPEN' initially, and update them to 'RESOLVED' once the technical issue is solved.",
+    "help_h2": "2. Visual Evidence",
+    "help_p2": "Attach photos of identified issues and write detailed solution plans in the description area.",
+    "help_h3": "3. Filtering",
+    "help_p3": "Filter reports by resolution status or photo availability to track pending issues."
   },
   "journal": {
     "title": "📓 Diario diario de la obra",
     "worker_count": "Número de personal trabajando",
     "weather": "Estado del clima",
-    "temperature": "Temperatura (°C)",
+    "temperature": "Temperatura",
     "notes": "Notas del diario / Trabajos realizados",
     "notes_ph": "ej. Atado de armaduras de columnas en 2.º piso, vertido de hormigón C30...",
     "save_btn": "Guardar / Actualizar diario",
@@ -493,7 +526,8 @@
     "help_h3": "3. Edit Lock Policy",
     "help_p3": "To maintain historical data integrity, daily journals can only be edited on the day they are created. Older entries are locked.",
     "delete_title": "Delete Journal",
-    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone."
+    "delete_confirm": "Are you sure you want to delete this daily journal entry? This action cannot be undone.",
+    "weatherDesc": "Descripción del Clima"
   },
   "materials": {
     "title": "🚚 Albarán y registro de materiales",
@@ -512,14 +546,14 @@
     "upload_mobile_desc": "Connect your phone and computer to the **same WiFi network**, then scan the QR code with your camera:",
     "delete_title": "Delete Document",
     "delete_confirm": "Are you sure you want to delete this delivery note entry? This action cannot be undone.",
-    "help_title": "Guía de Albaranes de Entrega",
-    "help_desc": "El módulo de albaranes se utiliza para registrar los materiales de construcción entrantes y subir documentos de entrega.",
-    "help_h1": "1. Proveedor y tipo de material",
-    "help_p1": "Registre los nombres de los proveedores, tipos de materiales, unidades, cantidades y números de albarán/recibo.",
-    "help_h2": "2. Fotos de documentos",
-    "help_p2": "Suba documentos escaneados o fotos desde el PC o use el código QR del móvil para crear un archivo digital.",
-    "help_h3": "3. Búsqueda inteligente",
-    "help_p3": "Busque instantáneamente a través de descripciones de materiales, nombres de proveedores o números de albarán."
+    "help_title": "Delivery Note Guide",
+    "help_desc": "Delivery Note module is used to log incoming construction materials and upload delivery documents.",
+    "help_h1": "1. Supplier & Material Type",
+    "help_p1": "Log supplier names, material types, units, quantities, and receipt/delivery note numbers.",
+    "help_h2": "2. Document Photos",
+    "help_p2": "Upload scanned documents or photos from PC or use mobile QR code to build a digital archive.",
+    "help_h3": "3. Smart Search",
+    "help_p3": "Search instantly through material descriptions, supplier names, or delivery note numbers."
   },
   "production": {
     "title": "📐 Cubicaciones y seguimiento de producción",
@@ -529,14 +563,14 @@
     "empty_state": "No production entries recorded for this construction site yet.",
     "delete_title": "Delete Record",
     "delete_confirm": "Are you sure you want to delete this production record? This action cannot be undone.",
-    "help_title": "Guía de Cubicaciones y Producción",
-    "help_desc": "El módulo de cubicaciones se utiliza para rastrear las partidas de construcción, las unidades y el progreso.",
-    "help_h1": "1. Registros de partidas de producción",
-    "help_p1": "Registre partidas de producción diarias o semanales, especificando sus unidades (m², m³, kg, etc.) y cantidades.",
-    "help_h2": "2. Archivo y detalles",
-    "help_p2": "Escriba notas para cada entrada para mantener un archivo cronológico del progreso en diferentes bloques.",
-    "help_h3": "3. Búsqueda y filtros",
-    "help_p3": "Busque en los nombres de las partidas o notas, y fíltralos por rango de fechas o tipo de unidad."
+    "help_title": "Quantity Survey Guide",
+    "help_desc": "Quantity Survey module is used to track construction items, units, and progress.",
+    "help_h1": "1. Production Item Records",
+    "help_p1": "Log daily or weekly production items, specifying their units (m², m³, kg, etc.) and quantities.",
+    "help_h2": "2. Archive & Details",
+    "help_p2": "Write notes for each entry to keep a chronological archive of progress in different blocks.",
+    "help_h3": "3. Search & Filters",
+    "help_p3": "Search through item names or notes, and filter them by date range or unit type."
   },
   "anomalies": {
     "no_anomaly_title": "No System Anomalies",
@@ -549,5 +583,280 @@
     "more_people": "y {{count}} personas más...",
     "no_results": "No results found.",
     "search_no_results": "No results matching the search criteria were found."
+  },
+  "settings.regionalSettings": "Regional Format Settings",
+  "settings.customCurrency": "Currency Override",
+  "settings.customDateFormat": "Date Format Override",
+  "settings.customTimeFormat": "Time Format Override",
+  "settings.autoByLanguage": "Automatic (By Language)",
+  "sidebar.recycleBin": "Recycle Bin",
+  "recycle.title": "Recycle Bin",
+  "recycle.desc": "List deleted records here and restore them back to their original places.",
+  "recycle.type": "Record Type",
+  "recycle.content": "Content / Title",
+  "recycle.deletedAt": "Deleted At",
+  "recycle.restoreSuccess": "Record successfully restored.",
+  "recycle.emptyState": "No deleted records found.",
+  "recycle.itemType.worker": "Personnel Record",
+  "recycle.itemType.transaction": "Cash Transaction",
+  "recycle.itemType.material": "Delivery Note / Material",
+  "recycle.itemType.journal": "Daily Journal",
+  "recycle.itemType.quality": "Quality Control Report",
+  "recycle.itemType.subcontractor": "Subcontractor Ledger Record",
+  "global.restore": "Restore",
+  "recycle.searchPlaceholder": "Search...",
+  "recycle.searchAll": "Search Everywhere",
+  "recycle.allTypes": "All Record Types",
+  "recycle.startDate": "Start Date",
+  "recycle.endDate": "End Date",
+  "recycle.restored": "Restored",
+  "recycle.hideRestored": "Hide Restored",
+  "recycle.showRestored": "Show Restored",
+  "recycle.successTitle": "Success",
+  "common.ok": "OK",
+  "common.error": "Error",
+  "recycle.itemType.project": "Project Record",
+  "recycle.project": "Project / Site",
+  "recycle.allProjects": "All Projects",
+  "recycle.deletedProjectShort": "Deleted",
+  "recycle.guideTitle": "Info",
+  "recycle.guide.title": "Recycle Bin Guide",
+  "recycle.guide.intro": "ShantiyeOS Recycle Bin is a protection system designed to prevent the loss of critical records deleted accidentally.",
+  "recycle.guide.how_it_works_title": "How it Works?",
+  "recycle.guide.how_it_works_desc": "When you delete any record in the system, it is not permanently erased. Instead, it is soft-deleted and listed in this recycle bin.",
+  "recycle.guide.restore_title": "Restoring Data:",
+  "recycle.guide.restore_desc": "Click the \"Restore\" button to recover the record in seconds. Restored items remain in the recycle bin as read-only/passive records for traceability.",
+  "recycle.guide.project_isolation_title": "Project Separation:",
+  "recycle.guide.project_isolation_desc": "Each record displays the project it belongs to. Use the project filter at the top to keep your trash bin organized.",
+  "recycle.guide.date_filter_title": "Date Filters & Search:",
+  "recycle.guide.date_filter_desc": "You can search and filter deleted records by their deletion date, type, or title.",
+  "recycle.restoreStatus.all": "All Records",
+  "recycle.restoreStatus.onlyDeleted": "Only Deleted",
+  "recycle.restoreStatus.onlyRestored": "Only Restored",
+  "recycle.startDateLabel": "Start Date",
+  "recycle.endDateLabel": "End Date",
+  "recycle.dateOrderError": "Start date cannot be after end date.",
+  "sidebar.spotlight": "Spotlight",
+  "settings.parameters": "Parameters",
+  "workers": {
+    "help_title": "Personnel Management Guide",
+    "help_desc": "The Personnel Management panel allows you to track timesheets, earnings, advances, and payment details of your workers.",
+    "help_h1": "1. Add Workers & Excel",
+    "help_p1": "Add individual workers using the top right button or import a batch list by downloading the Excel template.",
+    "help_h2": "2. Group Analysis",
+    "help_p2": "Analyze expenses and worker counts by group category (e.g., Electricians, Ironworkers).",
+    "help_h3": "3. Scorecards & Statements",
+    "help_p3": "Click any worker's name to view their timesheets, calculate new balances, and export detailed PDF statements."
+  },
+  "guides": {
+    "site": {
+      "title": "Guía de Gestión del Sitio",
+      "step1": {
+        "title": "1. Espacio de Trabajo",
+        "desc": "Seleccione un proyecto para activarlo."
+      },
+      "step2": {
+        "title": "2. Ubicación y Clima",
+        "desc": "Especifique una ubicación para el clima automático."
+      },
+      "step3": {
+        "title": "3. Búsqueda",
+        "desc": "Busque instantáneamente entre sitios."
+      }
+    },
+    "personnel": {
+      "title": "Guía del Personal",
+      "step1": {
+        "title": "1. Añadir y Excel",
+        "desc": "Use la plantilla de Excel para carga masiva."
+      },
+      "step2": {
+        "title": "2. Análisis de Grupo",
+        "desc": "Analice gastos según la categoría."
+      },
+      "step3": {
+        "title": "3. Hojas de Tiempo",
+        "desc": "Haga clic para ver la hoja de tiempo."
+      }
+    },
+    "quantity": {
+      "title": "Guía de Producción",
+      "step1": {
+        "title": "1. Registros",
+        "desc": "Registrar la producción diaria."
+      },
+      "step2": {
+        "title": "2. Archivo",
+        "desc": "Escriba notas para un archivo cronológico."
+      },
+      "step3": {
+        "title": "3. Filtros",
+        "desc": "Filtre por rango de fechas."
+      }
+    },
+    "delivery": {
+      "title": "Guía de Albaranes",
+      "step1": {
+        "title": "1. Proveedor y Material",
+        "desc": "Registre proveedores y materiales."
+      },
+      "step2": {
+        "title": "2. Fotos",
+        "desc": "Sube fotos de documentos para el archivo."
+      },
+      "step3": {
+        "title": "3. Búsqueda Inteligente",
+        "desc": "Buscar en albaranes o proveedores."
+      }
+    },
+    "journal": {
+      "title": "Guía del Diario",
+      "step1": {
+        "title": "1. Clima",
+        "desc": "El clima se obtiene automáticamente."
+      },
+      "step2": {
+        "title": "2. Recuento",
+        "desc": "Se calcula automáticamente."
+      },
+      "step3": {
+        "title": "3. Política de Bloqueo",
+        "desc": "Registros antiguos se bloquean."
+      }
+    },
+    "quality": {
+      "title": "Guía de Calidad",
+      "step1": {
+        "title": "1. Estados",
+        "desc": "Actualizar estado cuando esté resuelto."
+      },
+      "step2": {
+        "title": "2. Evidencia Visual",
+        "desc": "Añadir fotos de problemas."
+      },
+      "step3": {
+        "title": "3. Filtrado",
+        "desc": "Filtrar problemas abiertos."
+      }
+    },
+    "subcontractor": {
+      "title": "Guía de Subcontratistas",
+      "step1": {
+        "title": "1. Salario Diario",
+        "desc": "Seguimiento de salarios."
+      },
+      "step2": {
+        "title": "2. Filtrado",
+        "desc": "Buscar en la lista."
+      },
+      "step3": {
+        "title": "3. Actualización",
+        "desc": "Actualice en cualquier momento."
+      }
+    },
+    "media": {
+      "title": "Guía de Medios",
+      "step1": {
+        "title": "1. Cronología Visual",
+        "desc": "Examine imágenes cronológicamente."
+      },
+      "step2": {
+        "title": "2. Detalles Rápidos",
+        "desc": "Haga clic para ver en tamaño completo."
+      },
+      "step3": {
+        "title": "3. Filtros",
+        "desc": "Filtrar por albarán o informes."
+      }
+    },
+    "cash": {
+      "title": "Guía de Caja",
+      "step1": {
+        "title": "1. Ingresos/Gastos",
+        "desc": "Registre ingresos y gastos."
+      },
+      "step2": {
+        "title": "2. Estado Mensual",
+        "desc": "Siga los cambios de efectivo."
+      },
+      "step3": {
+        "title": "3. Exportación",
+        "desc": "Descargar como PDF o Excel."
+      }
+    },
+    "recycle": {
+      "title": "Guía de la Papelera",
+      "step1": {
+        "title": "¿Cómo funciona?",
+        "desc": "Los registros eliminados se enumeran aquí."
+      },
+      "step2": {
+        "title": "Restaurar",
+        "desc": "Use el botón restaurar para recuperar."
+      },
+      "step3": {
+        "title": "Proyectos",
+        "desc": "Filtre por proyecto."
+      }
+    }
+  },
+  "worker": {
+    "idLabel": "ID",
+    "advanceBadge": "ADVANCE"
+  },
+  "recycle": {
+    "desc": "Enumere los registros eliminados aquí y restaurelos.",
+    "search": "Search...",
+    "allRecords": "All Records",
+    "allRecordTypes": "All Record Types",
+    "allProjects": "All Projects",
+    "startDate": "Fecha de inicio",
+    "endDate": "Fecha de fin",
+    "tableRecordType": "Tipo de Registro",
+    "tableProject": "Proyecto / Sitio",
+    "tableContent": "Contenido / Título",
+    "tableDeletedAt": "Eliminado en",
+    "tableAction": "Acción",
+    "title": "Papelera",
+    "guide": {
+      "title": "Papelera",
+      "intro": "Los registros borrados aparecen aquí."
+    },
+    "allRecordsOption": "Todos los registros",
+    "onlyDeleted": "Solo eliminados",
+    "onlyRestored": "Solo restaurados",
+    "allRecordTypesOption": "Todos los tipos de registro",
+    "type": {
+      "personnel": "Registro de Personal",
+      "cash": "Transacción en Efectivo",
+      "delivery": "Albarán / Material",
+      "journal": "Diario",
+      "quality": "Informe de Control de Calidad",
+      "subcontractor": "Libro de Subcontratistas",
+      "project": "Registro del Proyecto"
+    },
+    "allProjectsOption": "Todos los proyectos"
+  },
+  "global": {
+    "spotlight": "Búsqueda: Ctrl + K",
+    "recordsCount": "({{count}} Registros)",
+    "restore": "Restaurar",
+    "restored": "Restaurado"
+  },
+  "sidebar": {
+    "recycleBin": "Papelera",
+    "spotlight": "Búsqueda"
+  },
+  "anomaly": {
+    "noAnomalies": "Sin anomalías del sistema",
+    "allUpToDate": "Todos los saldos financieros y documentos HSE están actualizados."
+  },
+  "empty": {
+    "production": "Aún no se han ingresado registros de producción.",
+    "delivery": "No hay registros de albaranes aún.",
+    "journal": "No hay diarios aún.",
+    "quality": "No hay informes de calidad aún.",
+    "subcontractor": "No hay subcontratistas registrados aún.",
+    "media": "No se encontraron registros de medios."
   }
 }

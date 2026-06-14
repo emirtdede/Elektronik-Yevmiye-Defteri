@@ -51,10 +51,10 @@ const AnomalyPanel = ({ workers, balances }) => {
           <span style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center' }}>🛡️</span>
           <div>
             <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: '600', color: '#10b981' }}>
-              {t('anomalies.no_anomaly_title', 'Sistem Anomalisi Yok')}
+              {t('anomaly.noAnomalies', 'Sistem Anomalisi Bulunmuyor')}
             </h3>
             <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              {t('anomalies.no_anomaly_desc', 'Tüm finansal durumlar ve İSG sertifikaları güncel.')}
+              {t('anomaly.allUpToDate', 'Tüm finansal bakiyeler ve İSG belgeleri günceldir.')}
             </p>
           </div>
         </div>
