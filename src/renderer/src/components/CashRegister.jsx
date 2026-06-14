@@ -15,7 +15,7 @@ const CashRegister = () => {
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [helpOpen, setHelpOpen] = useState(false);
-  const [companyName, setCompanyName] = useState('LALEPERDE');
+  const [companyName, setCompanyName] = useState('');
   const [companyLogo, setCompanyLogo] = useState('');
   
   // Rapor State

@@ -17,7 +17,7 @@ const GroupReportPanel = ({ activeProjectId, workers, balances }) => {
  
   const [startDate, setStartDate] = useState(firstDay);
   const [endDate, setEndDate] = useState(lastDay);
-  const [companyName, setCompanyName] = useState('LALEPERDE');
+  const [companyName, setCompanyName] = useState('');
   const [companyLogo, setCompanyLogo] = useState('');
 
   const handleStartDateChange = (val) => {

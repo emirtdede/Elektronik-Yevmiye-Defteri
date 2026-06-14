@@ -44,7 +44,7 @@ const WorkerProfile = ({ worker, onBack }) => {
   const [filterText, setFilterText] = useState('');
   const [filterType, setFilterType] = useState('Tümü'); // 'Tümü' | 'Puantaj' | 'Avans'
   
-  const [companyName, setCompanyName] = useState('LALEPERDE');
+  const [companyName, setCompanyName] = useState('');
   const [companyLogo, setCompanyLogo] = useState('');
   
   // Form State for Puantaj
@@ -447,9 +447,9 @@ const WorkerProfile = ({ worker, onBack }) => {
     const cardWidth = (pageWidth - 28 - (cardGap * 3)) / 4; 
     
     // Card 1
+    doc.setFillColor(255, 255, 255); // bg-white
     doc.setDrawColor(203, 213, 225); // border-slate-300
     doc.setLineWidth(0.2);
-    doc.setFillColor(255, 255, 255); // bg-white
     doc.rect(14, currentY, cardWidth, 18, 'FD');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
@@ -461,6 +461,9 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.text(`${cReport.devredenBakiye} TL`, 14 + cardWidth/2, currentY + 13, { align: 'center' });
 
     // Card 2
+    doc.setFillColor(255, 255, 255); // bg-white
+    doc.setDrawColor(203, 213, 225); // border-slate-300
+    doc.setLineWidth(0.2);
     doc.rect(14 + cardWidth + cardGap, currentY, cardWidth, 18, 'FD');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
@@ -472,6 +475,9 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.text(`+${cReport.donemHakEdis} TL`, 14 + cardWidth + cardGap + cardWidth/2, currentY + 13, { align: 'center' });
 
     // Card 3
+    doc.setFillColor(255, 255, 255); // bg-white
+    doc.setDrawColor(203, 213, 225); // border-slate-300
+    doc.setLineWidth(0.2);
     doc.rect(14 + (cardWidth + cardGap)*2, currentY, cardWidth, 18, 'FD');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
@@ -482,21 +488,19 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setTextColor(30, 41, 59);
     doc.text(`-${cReport.donemAvans} TL`, 14 + (cardWidth + cardGap)*2 + cardWidth/2, currentY + 13, { align: 'center' });
 
-    // Card 4 (Highlighted Border)
-    doc.setDrawColor(100, 116, 139); // border-slate-500
-    doc.setLineWidth(0.6); // thicker border
+    // Card 4 (Net Bakiye)
     doc.setFillColor(255, 255, 255); // bg-white
+    doc.setDrawColor(203, 213, 225); // border-slate-300
+    doc.setLineWidth(0.2);
     doc.rect(14 + (cardWidth + cardGap)*3, currentY, cardWidth, 18, 'FD');
-    doc.setLineWidth(0.2); // reset
-    
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(71, 85, 105); 
     doc.text('NET BAKIYE', 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 7, { align: 'center' });
-    doc.setFontSize(12); // text-lg
+    doc.setFontSize(10); 
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
-    doc.text(`${cReport.yeniBakiye} TL`, 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 14, { align: 'center' });
+    doc.text(`${cReport.yeniBakiye} TL`, 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 13, { align: 'center' });
     
     currentY += 28;
 
