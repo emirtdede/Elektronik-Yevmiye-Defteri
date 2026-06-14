@@ -36,12 +36,20 @@ export const formatCurrency = (amount, lang = 'tr') => {
 
   const num = Number(amount) || 0;
 
-  return new Intl.NumberFormat(config.locale, {
+  let formatted = new Intl.NumberFormat(config.locale, {
     style: 'currency',
     currency: selectedCurrency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 2
   }).format(num);
+
+  formatted = formatted.replace(/\u202F/g, ' ').replace(/\u00A0/g, ' ');
+
+  if (selectedCurrency === 'TRY') {
+    formatted = formatted.replace('₺', '').trim() + ' ₺';
+  }
+
+  return formatted;
 };
 
 /**

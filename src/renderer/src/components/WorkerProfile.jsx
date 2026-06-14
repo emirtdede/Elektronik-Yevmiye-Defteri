@@ -578,7 +578,7 @@ const WorkerProfile = ({ worker, onBack }) => {
   const isPositive = balance >= 0;
 
   return (
-    <div className="worker-profile">
+    <div className="worker-profile" style={{ fontFamily: "'Inter', 'Noto Sans', 'Arial', sans-serif" }}>
       <div style={{ padding: '2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
           <button className="btn" style={{ marginBottom: 0 }} onClick={onBack}>← {t('worker_profile.back')}</button>
