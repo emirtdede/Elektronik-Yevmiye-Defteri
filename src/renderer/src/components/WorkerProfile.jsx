@@ -337,7 +337,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     window.open(whatsappUrl, '_blank');
   };
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
     const getFormatFromBase64 = (base64) => {
@@ -351,6 +351,15 @@ const WorkerProfile = ({ worker, onBack }) => {
         return ext;
       }
       return 'PNG';
+    };
+
+    const getImageDimensions = (base64) => {
+      return new Promise((resolve) => {
+        const img = new window.Image();
+        img.onload = () => resolve({ w: img.width, h: img.height });
+        img.onerror = () => resolve(null);
+        img.src = base64;
+      });
     };
 
     const trMap = { 'ç':'c', 'ğ':'g', 'ş':'s', 'ö':'o', 'ü':'u', 'ı':'i', 'Ç':'C', 'Ğ':'G', 'Ş':'S', 'Ö':'O', 'Ü':'U', 'İ':'I' };
@@ -368,8 +377,28 @@ const WorkerProfile = ({ worker, onBack }) => {
     // Left Top: Company Logo
     if (companyLogo) {
       try {
-        doc.addImage(companyLogo, getFormatFromBase64(companyLogo), 14, currentY, 40, 20); // Logo width 40, height 20
-        currentY += 25;
+        const dims = await getImageDimensions(companyLogo);
+        if (dims) {
+          const maxHeight = 15;
+          const maxWidth = 50;
+          let drawW = dims.w;
+          let drawH = dims.h;
+          
+          if (drawH > maxHeight) {
+            drawW = drawW * (maxHeight / drawH);
+            drawH = maxHeight;
+          }
+          if (drawW > maxWidth) {
+            drawH = drawH * (maxWidth / drawW);
+            drawW = maxWidth;
+          }
+          
+          doc.addImage(companyLogo, getFormatFromBase64(companyLogo), 14, currentY, drawW, drawH);
+          currentY += 20;
+        } else {
+          doc.addImage(companyLogo, getFormatFromBase64(companyLogo), 14, currentY, 40, 15);
+          currentY += 20;
+        }
       } catch (err) {
         console.error('Error adding logo to PDF', err);
       }
@@ -418,12 +447,13 @@ const WorkerProfile = ({ worker, onBack }) => {
     const cardWidth = (pageWidth - 28 - (cardGap * 3)) / 4; 
     
     // Card 1
-    doc.setDrawColor(226, 232, 240);
-    doc.setFillColor(248, 250, 252);
+    doc.setDrawColor(203, 213, 225); // border-slate-300
+    doc.setLineWidth(0.2);
+    doc.setFillColor(255, 255, 255); // bg-white
     doc.rect(14, currentY, cardWidth, 18, 'FD');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.setTextColor(100, 116, 139);
+    doc.setTextColor(71, 85, 105);
     doc.text('Devreden Bakiye', 14 + cardWidth/2, currentY + 7, { align: 'center' });
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
@@ -434,7 +464,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.rect(14 + cardWidth + cardGap, currentY, cardWidth, 18, 'FD');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.setTextColor(100, 116, 139);
+    doc.setTextColor(71, 85, 105);
     doc.text('Donem Hak Edisi', 14 + cardWidth + cardGap + cardWidth/2, currentY + 7, { align: 'center' });
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
@@ -445,25 +475,28 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.rect(14 + (cardWidth + cardGap)*2, currentY, cardWidth, 18, 'FD');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.setTextColor(100, 116, 139);
+    doc.setTextColor(71, 85, 105);
     doc.text('Donem Avans', 14 + (cardWidth + cardGap)*2 + cardWidth/2, currentY + 7, { align: 'center' });
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
     doc.text(`-${cReport.donemAvans} TL`, 14 + (cardWidth + cardGap)*2 + cardWidth/2, currentY + 13, { align: 'center' });
 
-    // Card 4 (Dark background)
-    doc.setDrawColor(30, 41, 59);
-    doc.setFillColor(30, 41, 59); // bg-slate-800
+    // Card 4 (Highlighted Border)
+    doc.setDrawColor(100, 116, 139); // border-slate-500
+    doc.setLineWidth(0.6); // thicker border
+    doc.setFillColor(255, 255, 255); // bg-white
     doc.rect(14 + (cardWidth + cardGap)*3, currentY, cardWidth, 18, 'FD');
+    doc.setLineWidth(0.2); // reset
+    
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.setTextColor(241, 245, 249); // slate-100
+    doc.setTextColor(71, 85, 105); 
     doc.text('NET BAKIYE', 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 7, { align: 'center' });
-    doc.setFontSize(11);
+    doc.setFontSize(12); // text-lg
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(255, 255, 255);
-    doc.text(`${cReport.yeniBakiye} TL`, 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 13, { align: 'center' });
+    doc.setTextColor(30, 41, 59);
+    doc.text(`${cReport.yeniBakiye} TL`, 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 14, { align: 'center' });
     
     currentY += 28;
 
@@ -512,14 +545,28 @@ const WorkerProfile = ({ worker, onBack }) => {
     const pageHeight = doc.internal.pageSize.height;
     if (currentY + 20 > pageHeight) {
       doc.addPage();
-      currentY = 20;
+      currentY = 30;
+    } else {
+      currentY += 10;
     }
+    
+    // Draw signature lines
+    doc.setDrawColor(148, 163, 184); // slate-400
+    doc.setLineWidth(0.3);
+    
+    // Left signature line
+    doc.line(14, currentY, 64, currentY); 
+    // Right signature line
+    const rightX = pageWidth - 14;
+    doc.line(rightX - 50, currentY, rightX, currentY);
+    
+    currentY += 5;
     
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
     doc.setTextColor(30, 41, 59);
     doc.text('Personel (Ad/Soyad - Imza)', 14, currentY);
-    doc.text('Firma Yetkilisi (Kase/Imza)', pageWidth - 14, currentY, { align: 'right' });
+    doc.text('Firma Yetkilisi (Kase/Imza)', rightX, currentY, { align: 'right' });
     
     doc.save(`${toEn(worker.full_name)}_Hesap_Ekstresi.pdf`);
   };
