@@ -362,44 +362,112 @@ const WorkerProfile = ({ worker, onBack }) => {
       return s;
     };
     
-    // Header
-    let textStartY = 20;
-
+    // 1. HEADER (Flexbox Two Columns)
+    let currentY = 15;
+    
+    // Left Top: Company Logo
     if (companyLogo) {
       try {
-        // Calculate dimensions to fit max height 20 while keeping aspect ratio
-        // We'll just draw it centered above the name or to the left. Let's draw it centered.
-        doc.addImage(companyLogo, getFormatFromBase64(companyLogo), pageWidth / 2 - 15, 10, 30, 15);
-        textStartY = 35;
+        doc.addImage(companyLogo, getFormatFromBase64(companyLogo), 14, currentY, 40, 20); // Logo width 40, height 20
+        currentY += 25;
       } catch (err) {
         console.error('Error adding logo to PDF', err);
       }
     }
-
-    doc.setFontSize(22);
-    doc.setTextColor(30, 58, 138);
-    doc.text(toEn(companyName), pageWidth / 2, textStartY, { align: 'center' });
-    doc.setFontSize(16);
-    doc.setTextColor(0, 0, 0);
-    doc.text('CARI HESAP EKSTRESI', pageWidth / 2, textStartY + 10, { align: 'center' });
-    doc.setFontSize(10);
-    doc.text(`Personel: ${toEn(worker.full_name)}`, 14, textStartY + 25);
-    doc.text(`Tarih Araligi: ${filterStartDate || 'Tumu'} / ${filterEndDate || 'Tumu'}`, 14, textStartY + 30);
     
-    // Summary Box
-    doc.setDrawColor(200, 200, 200);
-    doc.setFillColor(249, 250, 251);
-    doc.rect(14, textStartY + 35, pageWidth - 28, 20, 'FD');
-    doc.setFontSize(10);
-    doc.text(`Devreden Bakiye: ${cReport.devredenBakiye} TL`, 18, textStartY + 42);
-    doc.text(`Donem Hak Edis: +${cReport.donemHakEdis} TL`, 18, textStartY + 49);
-    doc.text(`Donem Avans: -${cReport.donemAvans} TL`, pageWidth / 2, textStartY + 42);
+    // Left Top: Company Name
     doc.setFont('helvetica', 'bold');
-    doc.text(`DONEM SONU NET BAKIYE: ${cReport.yeniBakiye} TL`, pageWidth / 2, textStartY + 49);
+    doc.setFontSize(14);
+    doc.setTextColor(30, 41, 59); // text-slate-800
+    doc.text(toEn(companyName), 14, currentY + 5);
+    
+    // Right Top: Title and Date
+    doc.setFontSize(16);
+    doc.setTextColor(148, 163, 184); // text-slate-400
+    doc.text('CARI HESAP EKSTRESI', pageWidth - 14, currentY - 3, { align: 'right' });
+    
+    doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100, 116, 139); // text-slate-500
+    doc.text(`Tarih Araligi: ${filterStartDate || 'Tumu'} - ${filterEndDate || 'Tumu'}`, pageWidth - 14, currentY + 3, { align: 'right' });
     
-    let currentY = textStartY + 65;
+    currentY += 12;
     
+    // Thin separator line
+    doc.setDrawColor(226, 232, 240); // border-slate-200
+    doc.setLineWidth(0.5);
+    doc.line(14, currentY, pageWidth - 14, currentY);
+    currentY += 8;
+
+    // 2. PERSONNEL INFO & SUMMARY CARDS
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(30, 41, 59);
+    doc.text(`${toEn(worker.full_name)}`, 14, currentY + 4);
+    if (worker.tc_no) {
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`ID/TC: ${worker.tc_no}`, 14, currentY + 9);
+    }
+    
+    currentY += 15;
+    
+    // Grid/Flex Cards (4 columns)
+    const cardGap = 4;
+    const cardWidth = (pageWidth - 28 - (cardGap * 3)) / 4; 
+    
+    // Card 1
+    doc.setDrawColor(226, 232, 240);
+    doc.setFillColor(248, 250, 252);
+    doc.rect(14, currentY, cardWidth, 18, 'FD');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(100, 116, 139);
+    doc.text('Devreden Bakiye', 14 + cardWidth/2, currentY + 7, { align: 'center' });
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(30, 41, 59);
+    doc.text(`${cReport.devredenBakiye} TL`, 14 + cardWidth/2, currentY + 13, { align: 'center' });
+
+    // Card 2
+    doc.rect(14 + cardWidth + cardGap, currentY, cardWidth, 18, 'FD');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(100, 116, 139);
+    doc.text('Donem Hak Edisi', 14 + cardWidth + cardGap + cardWidth/2, currentY + 7, { align: 'center' });
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(30, 41, 59);
+    doc.text(`+${cReport.donemHakEdis} TL`, 14 + cardWidth + cardGap + cardWidth/2, currentY + 13, { align: 'center' });
+
+    // Card 3
+    doc.rect(14 + (cardWidth + cardGap)*2, currentY, cardWidth, 18, 'FD');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(100, 116, 139);
+    doc.text('Donem Avans', 14 + (cardWidth + cardGap)*2 + cardWidth/2, currentY + 7, { align: 'center' });
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(30, 41, 59);
+    doc.text(`-${cReport.donemAvans} TL`, 14 + (cardWidth + cardGap)*2 + cardWidth/2, currentY + 13, { align: 'center' });
+
+    // Card 4 (Dark background)
+    doc.setDrawColor(30, 41, 59);
+    doc.setFillColor(30, 41, 59); // bg-slate-800
+    doc.rect(14 + (cardWidth + cardGap)*3, currentY, cardWidth, 18, 'FD');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(241, 245, 249); // slate-100
+    doc.text('NET BAKIYE', 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 7, { align: 'center' });
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(255, 255, 255);
+    doc.text(`${cReport.yeniBakiye} TL`, 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 13, { align: 'center' });
+    
+    currentY += 28;
+
+    // 3. TABLE
     if (cReport.islemler.length > 0) {
       const tBody = cReport.islemler.map(item => [
         item.date, 
@@ -412,13 +480,46 @@ const WorkerProfile = ({ worker, onBack }) => {
         startY: currentY,
         head: [['Tarih', 'Islem Turu', 'Aciklama', 'Tutar']],
         body: tBody,
-        theme: 'striped',
-        headStyles: { fillColor: [56, 189, 248] },
+        theme: 'plain', 
+        headStyles: { 
+          fillColor: [248, 250, 252], // bg-slate-50
+          textColor: [71, 85, 105],   // text-slate-600
+          fontStyle: 'bold',
+          lineWidth: { bottom: 0.5 },
+          lineColor: [203, 213, 225]  // border-slate-300
+        },
+        bodyStyles: { 
+          textColor: [30, 41, 59],
+          lineWidth: { bottom: 0.1 },
+          lineColor: [241, 245, 249]  // border-slate-100
+        },
+        columnStyles: {
+          3: { halign: 'right' }
+        },
         margin: { left: 14, right: 14 }
       });
+      
+      currentY = doc.lastAutoTable.finalY + 30;
     } else {
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(148, 163, 184);
       doc.text('Bu donemde herhangi bir islem bulunamadi.', 14, currentY);
+      currentY += 30;
     }
+    
+    // 4. SIGNATURE FOOTER
+    const pageHeight = doc.internal.pageSize.height;
+    if (currentY + 20 > pageHeight) {
+      doc.addPage();
+      currentY = 20;
+    }
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(30, 41, 59);
+    doc.text('Personel (Ad/Soyad - Imza)', 14, currentY);
+    doc.text('Firma Yetkilisi (Kase/Imza)', pageWidth - 14, currentY, { align: 'right' });
     
     doc.save(`${toEn(worker.full_name)}_Hesap_Ekstresi.pdf`);
   };
