@@ -31,7 +31,7 @@
 - [x] **Kategori 1 (Veri İzolasyonu & Kritik Hatalar)**: Şantiye bazlı veri sızıntılarını önleme, drawer formunu bulanık modal içine alma, varsayılan çalışma çarpanını koruma ve sistem loglarındaki parametre uyuşmazlığını giderme.
 - [x] **Kategori 2 (UI/UX ve Arayüz Düzenlemeleri)**: Menü sırası değişimi, tarih temizleyici butonları, silme modalı hizalaması, başlık daraltmaları, profil etiketleri, grup bazlı listeleme ve para birimi formatlamaları.
 - [x] **Kategori 3 (Listeleme, Arama ve Sayfalama)**: İSG paneli revizyonu (sekmeleme, ilk 10 kayıt, dikey kaydırma), modül listelerine arama çubuğu ve sayfalama eklenmesi, gereksiz dönem özeti panelinin kaldırılması.
-- [ ] **Kategori 4 (Medya, QR ve Zaman Kısıtlamaları)**: Önizleme panellerini birleştirme ve Lightbox zoom entegrasyonu, QR kod modalı, jurnallerde sadece aynı gün düzenleme kısıtı ve yüklenen görsellerin WebP formatında sıkıştırılması.
+- [x] **Kategori 4 (Medya, QR ve Zaman Kısıtlamaları)**: Önizleme panellerini birleştirme ve Lightbox zoom entegrasyonu, QR kod modalı, jurnallerde sadece aynı gün düzenleme kısıtı ve yüklenen görsellerin WebP formatında sıkıştırılması.
 - [x] **Kategori 5 (PDF ve Diğer Entegrasyonlar)**: Kılavuz ampul ikonları, PDF logo ve filtre onarımları, WhatsApp / E-Posta entegrasyonu ve i18n çevirileri.
 
 ### FAZ 6: ŞANTİYEOS V1.0 STABLE (NİHAİ SÜRÜM YENİLİKLERİ)
