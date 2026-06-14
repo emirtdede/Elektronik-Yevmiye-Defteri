@@ -6,7 +6,7 @@ import { exportToExcel, exportToCSV, exportToJSON } from '../utils/exportUtils';
 import TagInput from './ui/TagInput';
 import ConfirmationModal from './ui/ConfirmationModal';
 import CustomDatePicker from './ui/CustomDatePicker';
-import { formatCurrency, formatDate, getCurrencySymbol } from '../utils/formatUtils';
+import { formatCurrency, formatDate, getCurrencySymbol, formatCurrencySafe } from '../utils/formatUtils';
 import GuideDrawer from './ui/GuideDrawer';
 
 const WorkerProfile = ({ worker, onBack }) => {
@@ -433,14 +433,24 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setFontSize(12);
     doc.setTextColor(30, 41, 59);
     doc.text(`${toEn(worker.full_name)}`, 14, currentY + 4);
+    
+    let infoY = currentY + 9;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(148, 163, 184);
+    
     if (worker.tc_no) {
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-      doc.setTextColor(148, 163, 184);
-      doc.text(`ID/TC: ${worker.tc_no}`, 14, currentY + 9);
+      doc.text(`ID/TC: ${worker.tc_no}`, 14, infoY);
+      infoY += 5;
     }
     
-    currentY += 15;
+    doc.text(`Santiye: ${worker.project ? toEn(worker.project) : toEn(t('global.unspecified', 'Belirtilmemis'))}`, 14, infoY);
+    infoY += 5;
+    doc.text(`Grup: ${worker.group ? toEn(worker.group) : toEn(t('global.unspecified', 'Belirtilmemis'))}`, 14, infoY);
+    infoY += 5;
+    doc.text(`Telefon: ${worker.phone ? toEn(worker.phone) : toEn(t('global.unspecified', 'Belirtilmemis'))}`, 14, infoY);
+    
+    currentY = infoY + 6;
     
     // Grid/Flex Cards (4 columns)
     const cardGap = 4;
@@ -458,7 +468,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
-    doc.text(toEn(formatCurrency(cReport.devredenBakiye, i18n.language)), 14 + cardWidth/2, currentY + 13, { align: 'center' });
+    doc.text(formatCurrencySafe(cReport.devredenBakiye, i18n.language), 14 + cardWidth/2, currentY + 13, { align: 'center' });
 
     // Card 2
     doc.setFillColor(255, 255, 255); // bg-white
@@ -472,7 +482,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
-    doc.text('+' + toEn(formatCurrency(cReport.donemHakEdis, i18n.language)), 14 + cardWidth + cardGap + cardWidth/2, currentY + 13, { align: 'center' });
+    doc.text('+' + formatCurrencySafe(cReport.donemHakEdis, i18n.language), 14 + cardWidth + cardGap + cardWidth/2, currentY + 13, { align: 'center' });
 
     // Card 3
     doc.setFillColor(255, 255, 255); // bg-white
@@ -486,7 +496,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
-    doc.text('-' + toEn(formatCurrency(cReport.donemAvans, i18n.language)), 14 + (cardWidth + cardGap)*2 + cardWidth/2, currentY + 13, { align: 'center' });
+    doc.text('-' + formatCurrencySafe(cReport.donemAvans, i18n.language), 14 + (cardWidth + cardGap)*2 + cardWidth/2, currentY + 13, { align: 'center' });
 
     // Card 4 (Net Bakiye)
     doc.setFillColor(255, 255, 255); // bg-white
@@ -500,7 +510,7 @@ const WorkerProfile = ({ worker, onBack }) => {
     doc.setFontSize(10); 
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
-    doc.text(toEn(formatCurrency(cReport.yeniBakiye, i18n.language)), 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 13, { align: 'center' });
+    doc.text(formatCurrencySafe(cReport.yeniBakiye, i18n.language), 14 + (cardWidth + cardGap)*3 + cardWidth/2, currentY + 13, { align: 'center' });
     
     currentY += 28;
 
@@ -510,7 +520,7 @@ const WorkerProfile = ({ worker, onBack }) => {
         item.date, 
         toEn(item.type), 
         toEn(item.desc), 
-        (item.isIncome ? '+' : '-') + toEn(formatCurrency(item.amount, i18n.language))
+        (item.isIncome ? '+' : '-') + formatCurrencySafe(item.amount, i18n.language)
       ]);
       
       autoTable(doc, {

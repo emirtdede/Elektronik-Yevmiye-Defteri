@@ -192,3 +192,31 @@ export const getCurrencySymbol = (lang = 'tr') => {
   return symbolMap[selectedCurrency] || selectedCurrency;
 };
 
+/**
+ * Formats a number securely for PDF outputs using pure numbers and explicit currency codes.
+ * @param {number} amount - The amount to format.
+ * @param {string} lang - The locale.
+ * @returns {string} The formatted string e.g., "51.937,50 JPY"
+ */
+export const formatCurrencySafe = (amount, lang = 'tr') => {
+  const currencyMap = {
+    tr: 'TRY', en: 'USD', zh: 'CNY', es: 'EUR', fr: 'EUR', de: 'EUR', it: 'EUR', nl: 'EUR', pt: 'EUR',
+    ru: 'RUB', ja: 'JPY', ko: 'KRW', ar: 'SAR', hi: 'INR', sv: 'SEK', no: 'NOK', da: 'DKK', pl: 'PLN', cs: 'CZK'
+  };
+
+  let selectedCurrency = currencyMap[lang] || 'TRY';
+  if (window.regionalSettings && window.regionalSettings.currency && window.regionalSettings.currency !== 'auto') {
+    selectedCurrency = window.regionalSettings.currency;
+  }
+
+  if (amount === undefined || amount === null) return `0,00 ${selectedCurrency}`;
+  
+  const safeNumber = new Intl.NumberFormat('tr-TR', { 
+    minimumFractionDigits: 2, 
+    maximumFractionDigits: 2 
+  }).format(Number(amount) || 0);
+  
+  return `${safeNumber} ${selectedCurrency}`;
+};
+
+
